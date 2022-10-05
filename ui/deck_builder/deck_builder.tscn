@@ -101,8 +101,8 @@ rect_pivot_offset = Vector2( 332, 365 )
 size_flags_horizontal = 2
 size_flags_vertical = 2
 size_flags_stretch_ratio = 0.0
-custom_constants/vseparation = 200
-custom_constants/hseparation = 155
+custom_constants/vseparation = 20
+custom_constants/hseparation = 20
 columns = 6
 
 [node name="Ability" type="Tabs" parent="View/AllView"]
@@ -159,8 +159,8 @@ rect_pivot_offset = Vector2( 332, 365 )
 size_flags_horizontal = 2
 size_flags_vertical = 2
 size_flags_stretch_ratio = 0.0
-custom_constants/vseparation = 200
-custom_constants/hseparation = 155
+custom_constants/vseparation = 20
+custom_constants/hseparation = 20
 columns = 6
 
 [node name="Power" type="Tabs" parent="View/AllView"]
@@ -217,8 +217,8 @@ rect_pivot_offset = Vector2( 332, 365 )
 size_flags_horizontal = 2
 size_flags_vertical = 2
 size_flags_stretch_ratio = 0.0
-custom_constants/vseparation = 200
-custom_constants/hseparation = 155
+custom_constants/vseparation = 20
+custom_constants/hseparation = 20
 columns = 6
 
 [node name="DeckView" type="TabContainer" parent="View"]
@@ -321,8 +321,8 @@ rect_pivot_offset = Vector2( 332, 365 )
 size_flags_horizontal = 2
 size_flags_vertical = 2
 size_flags_stretch_ratio = 0.0
-custom_constants/vseparation = 200
-custom_constants/hseparation = 155
+custom_constants/vseparation = 20
+custom_constants/hseparation = 20
 columns = 4
 
 [node name="Ability" type="Tabs" parent="View/DeckView"]
@@ -420,8 +420,8 @@ rect_pivot_offset = Vector2( 332, 365 )
 size_flags_horizontal = 2
 size_flags_vertical = 2
 size_flags_stretch_ratio = 0.0
-custom_constants/vseparation = 200
-custom_constants/hseparation = 155
+custom_constants/vseparation = 20
+custom_constants/hseparation = 20
 columns = 4
 
 [node name="Power" type="Tabs" parent="View/DeckView"]
