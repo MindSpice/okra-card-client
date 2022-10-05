@@ -1,0 +1,56 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "MarginContainer",
+"class": "Card",
+"language": "GDScript",
+"path": "res://cards/card.gd"
+} ]
+_global_script_class_icons={
+"Card": ""
+}
+
+[application]
+
+config/name="Okra Client"
+run/main_scene="res://ui/login/login.tscn"
+
+[autoload]
+
+CardBase="*res://_singletons/_card_base.gd"
+PlayerInventory="*res://_singletons/_player_inventory.gd"
+Networking="*res://_singletons/_networking.gd"
+
+[display]
+
+window/size/width=1600
+window/size/height=900
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
+
+[gui]
+
+common/drop_mouse_on_gui_input_disabled=true
+
+[network]
+
+ssl/certificates="res://ui/login/okra_space.crt"
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
+vram_compression/import_etc2=false
+environment/default_environment="res://default_env.tres"
