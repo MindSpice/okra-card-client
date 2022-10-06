@@ -26,9 +26,10 @@ run/main_scene="res://ui/login/login.tscn"
 [autoload]
 
 CardBase="*res://_singletons/_card_base.gd"
-PlayerInventory="*res://_singletons/_player_inventory.gd"
+Player="*res://_singletons/_player.gd"
 Networking="*res://_singletons/_networking.gd"
 Util="*res://_singletons/_util.gd"
+Game="*res://_singletons/_game.gd"
 
 [display]
 

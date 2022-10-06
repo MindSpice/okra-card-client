@@ -62,29 +62,38 @@ anchor_top = -0.005
 anchor_right = 0.428
 anchor_bottom = -0.005
 margin_left = -390.2
-margin_top = 0.0700002
-margin_right = 511.8
+margin_top = 0.0699997
+margin_right = 500.8
 margin_bottom = 31.07
-custom_constants/separation = 15
-alignment = 1
+custom_constants/separation = 42
+alignment = 2
 
-[node name="Total" type="Label" parent="View/AllView/Action/Top"]
-margin_left = 407.0
-margin_right = 463.0
+[node name="Card Total" type="Label" parent="View/AllView/Action/Top"]
+margin_left = 323.0
+margin_right = 597.0
 margin_bottom = 30.0
-rect_min_size = Vector2( 15, 30 )
-text = "Cards :"
+rect_min_size = Vector2( 274, 30 )
+text = "Cards: 12"
 align = 1
 valign = 1
 
-[node name="CardCount" type="Label" parent="View/AllView/Action/Top"]
-margin_left = 478.0
-margin_right = 494.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 15, 30 )
-text = "12"
-align = 1
-valign = 1
+[node name="TypeCombo" type="OptionButton" parent="View/AllView/Action/Top"]
+margin_left = 639.0
+margin_right = 740.0
+margin_bottom = 31.0
+rect_min_size = Vector2( 101, 0 )
+text = "All types"
+items = [ "All types", null, false, 0, null, "Melee", null, false, 1, null, "Ranged", null, false, 2, null, "Magic", null, false, 3, null ]
+selected = 0
+
+[node name="LevelCombo" type="OptionButton" parent="View/AllView/Action/Top"]
+margin_left = 782.0
+margin_right = 891.0
+margin_bottom = 31.0
+rect_min_size = Vector2( 109, 0 )
+text = "All Levels"
+items = [ "All Levels", null, false, -1, null, "Level 1", null, false, 1, null, "Level 2", null, false, 2, null, "Level 3", null, false, 3, null, "Level 4", null, false, 4, null ]
+selected = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="View/AllView/Action"]
 margin_top = 34.0
@@ -114,36 +123,6 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="Top" type="HBoxContainer" parent="View/AllView/Ability"]
-anchor_left = 0.428
-anchor_top = -0.005
-anchor_right = 0.428
-anchor_bottom = -0.005
-margin_left = -390.2
-margin_top = 0.0700002
-margin_right = 511.8
-margin_bottom = 31.07
-custom_constants/separation = 15
-alignment = 1
-
-[node name="Total" type="Label" parent="View/AllView/Ability/Top"]
-margin_left = 407.0
-margin_right = 463.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 15, 30 )
-text = "Cards :"
-align = 1
-valign = 1
-
-[node name="CardCount" type="Label" parent="View/AllView/Ability/Top"]
-margin_left = 478.0
-margin_right = 494.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 15, 30 )
-text = "12"
-align = 1
-valign = 1
-
 [node name="ScrollContainer" type="ScrollContainer" parent="View/AllView/Ability"]
 margin_top = 34.0
 margin_right = 892.0
@@ -163,6 +142,36 @@ custom_constants/vseparation = 20
 custom_constants/hseparation = 20
 columns = 6
 
+[node name="Top" type="HBoxContainer" parent="View/AllView/Ability"]
+anchor_left = 0.428
+anchor_top = -0.005
+anchor_right = 0.428
+anchor_bottom = -0.005
+margin_left = -390.2
+margin_top = 0.0699997
+margin_right = 500.8
+margin_bottom = 31.07
+custom_constants/separation = 42
+alignment = 2
+
+[node name="Card Total" type="Label" parent="View/AllView/Ability/Top"]
+margin_left = 180.0
+margin_right = 740.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 560, 30 )
+text = "Cards: 12"
+align = 1
+valign = 1
+
+[node name="LevelCombo" type="OptionButton" parent="View/AllView/Ability/Top"]
+margin_left = 782.0
+margin_right = 891.0
+margin_bottom = 31.0
+rect_min_size = Vector2( 109, 0 )
+text = "All Levels"
+items = [ "All Levels", null, false, 0, null, "Level 1", null, false, 1, null, "Level 2", null, false, 2, null, "Level 3", null, false, 3, null, "Level 4", null, false, 4, null ]
+selected = 0
+
 [node name="Power" type="Tabs" parent="View/AllView"]
 visible = false
 anchor_right = 1.0
@@ -171,36 +180,6 @@ margin_left = 4.0
 margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
-
-[node name="Top" type="HBoxContainer" parent="View/AllView/Power"]
-anchor_left = 0.428
-anchor_top = -0.005
-anchor_right = 0.428
-anchor_bottom = -0.005
-margin_left = -390.2
-margin_top = 0.0700002
-margin_right = 511.8
-margin_bottom = 31.07
-custom_constants/separation = 15
-alignment = 1
-
-[node name="Total" type="Label" parent="View/AllView/Power/Top"]
-margin_left = 407.0
-margin_right = 463.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 15, 30 )
-text = "Cards :"
-align = 1
-valign = 1
-
-[node name="CardCount" type="Label" parent="View/AllView/Power/Top"]
-margin_left = 478.0
-margin_right = 494.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 15, 30 )
-text = "12"
-align = 1
-valign = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="View/AllView/Power"]
 margin_top = 34.0
@@ -220,6 +199,36 @@ size_flags_stretch_ratio = 0.0
 custom_constants/vseparation = 20
 custom_constants/hseparation = 20
 columns = 6
+
+[node name="Top" type="HBoxContainer" parent="View/AllView/Power"]
+anchor_left = 0.428
+anchor_top = -0.005
+anchor_right = 0.428
+anchor_bottom = -0.005
+margin_left = -390.2
+margin_top = 0.0699997
+margin_right = 500.8
+margin_bottom = 31.07
+custom_constants/separation = 42
+alignment = 2
+
+[node name="Card Total" type="Label" parent="View/AllView/Power/Top"]
+margin_left = 180.0
+margin_right = 740.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 560, 30 )
+text = "Cards: 12"
+align = 1
+valign = 1
+
+[node name="LevelCombo" type="OptionButton" parent="View/AllView/Power/Top"]
+margin_left = 782.0
+margin_right = 891.0
+margin_bottom = 31.0
+rect_min_size = Vector2( 109, 0 )
+text = "All Levels"
+items = [ "All Levels", null, false, 0, null, "Level 1", null, false, 1, null, "Level 2", null, false, 2, null, "Level 3", null, false, 3, null, "Level 4", null, false, 4, null ]
+selected = 0
 
 [node name="DeckView" type="TabContainer" parent="View"]
 margin_left = 908.0
@@ -522,3 +531,8 @@ size_flags_stretch_ratio = 0.0
 custom_constants/vseparation = 200
 custom_constants/hseparation = 155
 columns = 4
+
+[connection signal="item_selected" from="View/AllView/Action/Top/TypeCombo" to="." method="_on_Action_Type_Select"]
+[connection signal="item_selected" from="View/AllView/Action/Top/LevelCombo" to="." method="_on_Action_Level_Select"]
+[connection signal="item_selected" from="View/AllView/Ability/Top/LevelCombo" to="." method="_on_Ability_Level_Select"]
+[connection signal="item_selected" from="View/AllView/Power/Top/LevelCombo" to="." method="_on_Power_Level_Select"]
