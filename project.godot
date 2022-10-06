@@ -28,6 +28,7 @@ run/main_scene="res://ui/login/login.tscn"
 CardBase="*res://_singletons/_card_base.gd"
 PlayerInventory="*res://_singletons/_player_inventory.gd"
 Networking="*res://_singletons/_networking.gd"
+Util="*res://_singletons/_util.gd"
 
 [display]
 

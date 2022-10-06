@@ -15,7 +15,7 @@ var response
 func _ready():
 	$HTTPRequest.connect("request_completed", self, "_on_request_completed")
 
-
+# TODO error return for server down
 
 func _on_login_pressed():
 	var login := {
