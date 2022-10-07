@@ -12,11 +12,11 @@ func instance_card(domain : int, card_name : String) -> Node:
 	var card = load(CARD_TEMPLATE).instance()
 	match(domain):
 		Domain.ACTION:
-			card.init(card_name, ACTIONCARDS.get(card_name))
+			card.init(domain, card_name, ACTIONCARDS.get(card_name))
 		Domain.ABILITY:
-			card.init(card_name, ABILITYCARDS.get(card_name))
+			card.init(domain, card_name, ABILITYCARDS.get(card_name))
 		Domain.POWER:
-			card.init(card_name, POWERCARDS.get(card_name))
+			card.init(domain, card_name, POWERCARDS.get(card_name))
 	return card
 	
 	

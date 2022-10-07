@@ -7,10 +7,14 @@ var card_name : String
 var card_type : String
 var card_class : String
 var card_level : int
+var domain : int
+var mouse_on : bool 
+var is_in_deck : bool = false
 
 
-
-func init(name : String, info : Array):
+func init(domain : int, name : String, info : Array):
+	self.domain = domain
+	print(domain)
 	self.info = info
 	card_name = name # TODO this needs to be pass along with the info
 	card_type = info[1]
@@ -19,6 +23,36 @@ func init(name : String, info : Array):
 	$Image.texture = load(str(CardBase.ACTION_RES,name,".jpg"))
 	$Image.scale  = Vector2(.3, .3)
 
+	
 func _ready():
 	pass
 	
+
+func _input(event):
+	$Menu.set_item_disabled(0, true if is_in_deck else false)
+	$Menu.set_item_disabled(1, false if is_in_deck else true)
+	
+	if (event is InputEventMouseButton and event.is_pressed() 
+		and (event.button_index == BUTTON_LEFT or event.button_index == BUTTON_RIGHT)):
+			
+			if not $Menu.is_visible_in_tree() && mouse_on:
+				$Menu.popup(Rect2(get_global_mouse_position().x, get_global_mouse_position().y, 75, 75))
+				
+
+
+func _on_Card_mouse_entered():
+	mouse_on = true
+
+
+func _on_Card_mouse_exited():
+	mouse_on = false
+	
+func get_context() -> Node:
+	return $Menu
+	
+	
+signal context_selected(card , id)
+
+
+func _on_Menu_id_pressed(id):
+	emit_signal("context_selected", self, id)

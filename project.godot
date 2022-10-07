@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "Card",
 "language": "GDScript",
 "path": "res://cards/card.gd"
+}, {
+"base": "Node",
+"class": "DeckBuilder",
+"language": "GDScript",
+"path": "res://ui/deck_builder/deck_builder.gd"
 } ]
 _global_script_class_icons={
-"Card": ""
+"Card": "",
+"DeckBuilder": ""
 }
 
 [application]
@@ -27,9 +33,10 @@ run/main_scene="res://ui/login/login.tscn"
 
 CardBase="*res://_singletons/_card_base.gd"
 Player="*res://_singletons/_player.gd"
-Networking="*res://_singletons/_networking.gd"
+Network="*res://_singletons/_network.gd"
 Util="*res://_singletons/_util.gd"
 Game="*res://_singletons/_game.gd"
+Event="*res://_singletons/_event.gd"
 
 [display]
 

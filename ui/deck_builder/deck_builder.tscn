@@ -68,19 +68,20 @@ margin_bottom = 31.07
 custom_constants/separation = 42
 alignment = 2
 
-[node name="Card Total" type="Label" parent="View/AllView/Action/Top"]
+[node name="CardTotal" type="Label" parent="View/AllView/Action/Top"]
 margin_left = 323.0
 margin_right = 597.0
-margin_bottom = 30.0
+margin_bottom = 33.0
 rect_min_size = Vector2( 274, 30 )
-text = "Cards: 12"
+text = "Cards:
+"
 align = 1
 valign = 1
 
 [node name="TypeCombo" type="OptionButton" parent="View/AllView/Action/Top"]
 margin_left = 639.0
 margin_right = 740.0
-margin_bottom = 31.0
+margin_bottom = 33.0
 rect_min_size = Vector2( 101, 0 )
 text = "All types"
 items = [ "All types", null, false, 0, null, "Melee", null, false, 1, null, "Ranged", null, false, 2, null, "Magic", null, false, 3, null ]
@@ -89,10 +90,10 @@ selected = 0
 [node name="LevelCombo" type="OptionButton" parent="View/AllView/Action/Top"]
 margin_left = 782.0
 margin_right = 891.0
-margin_bottom = 31.0
+margin_bottom = 33.0
 rect_min_size = Vector2( 109, 0 )
 text = "All Levels"
-items = [ "All Levels", null, false, -1, null, "Level 1", null, false, 1, null, "Level 2", null, false, 2, null, "Level 3", null, false, 3, null, "Level 4", null, false, 4, null ]
+items = [ "All Levels", null, false, 0, null, "Level 1", null, false, 1, null, "Level 2", null, false, 2, null, "Level 3", null, false, 3, null, "Level 4", null, false, 4, null ]
 selected = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="View/AllView/Action"]
@@ -154,12 +155,13 @@ margin_bottom = 31.07
 custom_constants/separation = 42
 alignment = 2
 
-[node name="Card Total" type="Label" parent="View/AllView/Ability/Top"]
+[node name="CardTotal" type="Label" parent="View/AllView/Ability/Top"]
 margin_left = 180.0
 margin_right = 740.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 560, 30 )
-text = "Cards: 12"
+text = "Cards:
+"
 align = 1
 valign = 1
 
@@ -212,12 +214,13 @@ margin_bottom = 31.07
 custom_constants/separation = 42
 alignment = 2
 
-[node name="Card Total" type="Label" parent="View/AllView/Power/Top"]
+[node name="CardTotal" type="Label" parent="View/AllView/Power/Top"]
 margin_left = 180.0
 margin_right = 740.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 560, 30 )
-text = "Cards: 12"
+text = "Cards:
+"
 align = 1
 valign = 1
 
@@ -534,5 +537,6 @@ columns = 4
 
 [connection signal="item_selected" from="View/AllView/Action/Top/TypeCombo" to="." method="_on_Action_Type_Select"]
 [connection signal="item_selected" from="View/AllView/Action/Top/LevelCombo" to="." method="_on_Action_Level_Select"]
+[connection signal="gui_input" from="View/AllView/Action/ScrollContainer/CardGrid" to="." method="_onAction_all_gui_input"]
 [connection signal="item_selected" from="View/AllView/Ability/Top/LevelCombo" to="." method="_on_Ability_Level_Select"]
 [connection signal="item_selected" from="View/AllView/Power/Top/LevelCombo" to="." method="_on_Power_Level_Select"]

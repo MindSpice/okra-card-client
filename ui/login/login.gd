@@ -26,14 +26,14 @@ func _on_login_pressed():
 	var query  = JSON.print(login)
 	var headers = ["User-Agent: Godot-Desktop/OkraGame0.1a"]
 	console.text = ""
-	$HTTPRequest.request(Networking.https_auth, headers, true, HTTPClient.METHOD_POST, query)
+	$HTTPRequest.request(Network.https_auth, headers, true, HTTPClient.METHOD_POST, query)
 
 	
 func _on_request_completed(result, response_code, headers, body : PoolByteArray):
 	match response_code:
 		200:
 			console.text = ("Login Successful")
-			Networking.auth_token = body.get_string_from_utf8()
+			Network.auth_token = body.get_string_from_utf8()
 			get_tree().change_scene("res://ui/menu/menu.tscn")
 		404:
 			console.text = ("Invalid Login")
@@ -65,4 +65,4 @@ func _on_b_register_pressed():
 	var query  = JSON.print(reg)
 	var headers = ["User-Agent: Godot-Desktop/OkraGame0.1a"]
 	reg_console.text = ""
-	$HTTPRequest.request(Networking.https_reg, headers, true, HTTPClient.METHOD_POST, query)
+	$HTTPRequest.request(Network.https_reg, headers, true, HTTPClient.METHOD_POST, query)
