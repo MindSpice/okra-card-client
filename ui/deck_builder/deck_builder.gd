@@ -2,182 +2,141 @@ extends Node
 
 class_name DeckBuilder
 
-onready var  action_all_grid : Node = get_node("View/AllView/Action/ScrollContainer/CardGrid")
-onready var  ability_all_grid : Node = get_node("View/AllView/Ability/ScrollContainer/CardGrid")
-onready var  power_all_grid : Node = get_node("View/AllView/Power/ScrollContainer/CardGrid")
-onready var  action_deck_grid : Node = get_node("View/DeckView/Action/ScrollContainer/CardGrid")
-onready var  ability_deck_grid : Node = get_node("View/DeckView/Ability/ScrollContainer/CardGrid")
-onready var  power_deck_grid : Node = get_node("View/DeckView/Power/ScrollContainer/CardGrid")
+onready var _all_grid : Node 
+onready var  _deck_grid : Node 
+onready var inspect_window = preload("res://ui/deck_builder/inspect_card.tscn").instance()
 
-# All card instances (that player owns)
-var action_cards_all : Array
-var ability_cards_all : Array
-var power_cards_all : Array
-
+#Domain of selection
+var _domain : int
+# All free card instances (that player owns)
+var _all_free_cards : Array
 # Deck level
-var action_deck_lvl : int = 0
-var ability_deck_lvl : int = 0
-var power_deck_lvl : int = 0
+var _deck_level : int = 0
+
+
 
 
 func _ready():
-	action_cards_all = CardBase.instance_card_list(Game.Domain.ACTION, Player.action_cards_all)
-	ability_cards_all = CardBase.instance_card_list(Game.Domain.ABILITY, Player.ability_cards_all)
-	power_cards_all = CardBase.instance_card_list(Game.Domain.POWER, Player.power_cards_all)
+#	_all_free_cards =  CardBase.instance_card_list(Game.Domain.ACTION, Player.action_cards_all)
+#	print(_all_free_cards.size())
+#
+#	for card in _all_free_cards:
+#		print(_all_grid)
+#		_all_grid.add_child(card)
+#		card.connect("context_selected", self, "update_deck")
+#	action_cards_all = CardBase.instance_card_list(Game.Domain.ACTION, Player.action_cards_all)
+#	ability_cards_all = CardBase.instance_card_list(Game.Domain.ABILITY, Player.ability_cards_all)
+#	power_cards_all = CardBase.instance_card_list(Game.Domain.POWER, Player.power_cards_all)
+#
+#	for card in action_cards_all:
+#		action_all_grid.add_child(card)
+#		card.connect("context_selected", self, "update_deck")
+#
+#	for card in ability_cards_all:
+#		ability_all_grid.add_child(card)
+#		card.connect("context_selected", self, "update_deck")
+#
+#	for card in power_cards_all:
+#		power_all_grid.add_child(card)
+#		card.connect("context_selected", self, "update_deck")
+#
+#	update_all_count(Game.Domain.ACTION)
+#	update_all_count(Game.Domain.ABILITY)
+#	update_all_count(Game.Domain.POWER)
+#	$View/AllView/Ability.hide()
+	pass
 	
-	for card in action_cards_all:
-		action_all_grid.add_child(card)
+func init(domain : int, free_card_list : Array):
+	_all_free_cards =  CardBase.instance_card_list(Game.Domain.ACTION, free_card_list)
+	_all_grid = get_node("View/AllView/ScrollContainer/CardGrid")
+	_deck_grid = get_node("View/DeckView/ScrollContainer/CardGrid")
+
+	for card in _all_free_cards:
+		_all_grid.add_child(card)
 		card.connect("context_selected", self, "update_deck")
-		
-	for card in ability_cards_all:
-		ability_all_grid.add_child(card)
-		card.connect("context_selected", self, "update_deck")
-		
-	for card in power_cards_all:
-		power_all_grid.add_child(card)
-		card.connect("context_selected", self, "update_deck")
-		
-	update_all_count(Game.Domain.ACTION)
-	update_all_count(Game.Domain.ABILITY)
-	update_all_count(Game.Domain.POWER)
-		
+	
+	if domain != Game.Domain.ACTION:
+		#$View/AllView/Cards/Top/TypeCombo.hide()
+		pass
+	#update_all_count()
 	
 
-	
-
-# TODO add label and updating for deck limits
-# Also add a save check for it
-
-# remember to add back cards to all when saving or swaping from a deck
-
-
-# TODO this can be set to use domain
-
-func get_cards_by_domain(domain : int) -> Array:
-	match (domain):
-		Game.Domain.ACTION:
-			return action_cards_all
-		Game.Domain.ABILITY:
-			return ability_cards_all
-		Game.Domain.POWER:
-			return power_cards_all
-	return []
-	
-func get_deck_grid_by_domain(domain : int) -> Node:
-		match (domain):
-			Game.Domain.ACTION:
-				return action_deck_grid
-			Game.Domain.ABILITY:
-				return ability_deck_grid
-			Game.Domain.POWER:
-				return power_deck_grid
-		return null
-	
-	
-func get_all_grid_by_domain(domain : int) -> Node:
-		match (domain):
-			Game.Domain.ACTION:
-				return action_all_grid
-			Game.Domain.ABILITY:
-				return ability_all_grid
-			Game.Domain.POWER:
-				return power_all_grid
-		return null
-		
-		
 func get_built_deck(domain : int) -> Array:
 	var deck : Array
 	
-	for card in get_deck_grid_by_domain(domain).get_children():
+	for card in _deck_grid.get_children():
 		deck.append(card)
 	return deck
+
+
+func get_deck_type_bound(domain : int):
+	for card in _deck_grid.get_children():
+		return card.card_type
+	return ""
+
+
+func add_to_deck(card : Card):
+	var maxv = Game.get_deck_contraints(_domain).y
+	var limit = Game.get_deck_limit(_domain, _deck_grid.get_child_count() + 1)
+	var type_bound = get_deck_type_bound(_domain)
 	
-	
-func get_deck_lvl(domain : int) -> int:
-	match(domain):
-		Game.Domain.ACTION: return action_deck_lvl
-		Game.Domain.ABILITY: return ability_deck_lvl
-		Game.Domain.POWER: return power_deck_lvl
-	return 0
-	
-	
-func set_deck_level(domain: int, value : int):
-	match(domain):
-		Game.Domain.ACTION: action_deck_lvl += value
-		Game.Domain.ABILITY: ability_deck_lvl += value
-		Game.Domain.POWER: power_deck_lvl  += value
-	
-	
-func add_to_deck(domain : int, card : Card):
-	var all_grid = get_all_grid_by_domain(domain)
-	var deck_grid = get_deck_grid_by_domain(domain)
-	var maxv = Game.get_deck_contraints(domain).y
-	var limit = Game.get_deck_limit(domain, deck_grid.get_child_count() + 1)
-	var existing : Card = deck_grid.get_child(0)
-	if (existing != null):
-		print(existing.domain)
-	
-	if domain == Game.Domain.ACTION and existing != null and card.domain != existing.domain:
+	if _domain == Game.Domain.ACTION and type_bound != "" and card.card_type != type_bound:
 		#Throw Dialog
-		print("domain mismatch")
+		print("type mismatch; deck is of type:", type_bound)
 		return
-	if (deck_grid.get_child_count() >= maxv) or (get_deck_lvl(domain) + card.card_level > limit):
+	if (_deck_grid.get_child_count() >= maxv) or (_deck_level + card.card_level > limit):
 		#Throw dialog
-		print("max count/limit mismatch", "MAX:",maxv," COUNT", deck_grid.get_child_count())
+		print("max count/limit mismatch", "MAX:",maxv," COUNT", _deck_grid.get_child_count())
 		return
 		
-	all_grid.remove_child(card)
-	deck_grid.add_child(card)
-	set_deck_level(domain, card.card_level)
+	_all_grid.remove_child(card)
+	_deck_grid.add_child(card)
+	_deck_level += card.card_level
 	card.is_in_deck = true
-	update_all_count(domain)
-	
-func remove_from_deck(domain: int, card : Card):
-	var all_grid = get_all_grid_by_domain(domain)
-	var deck_grid = get_deck_grid_by_domain(domain)
-	
-	deck_grid.remove_child(card)
-	all_grid.add_child(card)
-	set_deck_level(domain, -card.card_level)
+	update_all_count()
+	update_deck_count()
+
+
+func remove_from_deck(card : Card):
+
+	_deck_grid.remove_child(card)
+	_all_grid.add_child(card)
+	_deck_level -= card.card_level
 	card.is_in_deck = false
-	update_all_count(domain)
-	
-	match (domain):
+	update_all_count()
+	update_deck_count()
+
+
+	# Updates the all card view filter, as to no wrongly show retuned cards
+	match (_domain):
 		Game.Domain.ACTION:
 			update_filtered_view(
-				domain,
-				$"View/AllView/Action/Top/TypeCombo".get_selected_id(), 
-				$"View/AllView/Action/Top/LevelCombo".get_selected_id())
+				get_node("View/AllView/Top/TypeCombo").get_selected_id(), 
+				$"View/AllView/Top/LevelCombo".get_selected_id())
 		Game.Domain.ABILITY:
 			update_filtered_view(
-				domain,
 				0, 
-				$"View/AllView/Ability/Top/LevelCombo".get_selected_id())
+				$"View/AllView/Top/LevelCombo".get_selected_id())
 		Game.Domain.Power:
 			update_filtered_view(
-				domain,
 				0, 
-				$"View/AllView/Power/Top/LevelCombo".get_selected_id())
-
+				$"View/AllView/Top/LevelCombo".get_selected_id())
 
 
 func update_deck(card : Card, id : int):
 	match (id):
-		0: add_to_deck(card.domain, card)
-		1: remove_from_deck(card.domain, card)
+		0: add_to_deck(card)
+		1: remove_from_deck(card)
 		2: 
-			pass
-	
-	var minv : int  = Game.get_deck_contraints(card.domain).x
-	var maxv : int  = Game.get_deck_contraints(card.domain).y
-	
-		
-	
-func update_filtered_view(domain : int, typei : int, level : int):
-	var cards = get_cards_by_domain(domain)
-	var grid = get_all_grid_by_domain(domain)
-	Util.remove_children(grid)
-	
+			$View.add_child(inspect_window)
+			inspect_window.set_card(card)
+			inspect_window.pop_up()
+
+
+func update_filtered_view(typei : int, level : int):
+	Util.remove_children(_all_grid)
+	print("typei:",typei)
+	print("level:",level)
 	var type : String
 	match (typei):
 		0: type = ""
@@ -185,55 +144,28 @@ func update_filtered_view(domain : int, typei : int, level : int):
 		2: type = "RANGED"
 		3: type = "MAGIC"
 		
-	for card in cards:
+	for card in _all_free_cards:
 		if (type != "") and (card.card_type != type):
 			continue
 		if (level != 0) and (card.card_level != level):
 			continue
-		grid.add_child(card)
+		_all_grid.add_child(card)
 		
-	
-func _on_Action_Type_Select(index):
-	update_filtered_view(
-		Game.Domain.ACTION, 
-		index, 
-		$"View/AllView/Action/Top/LevelCombo".get_selected_id())
-	update_all_count(Game.Domain.ACTION)
-	 
-		
-func _on_Action_Level_Select(index):
-	update_filtered_view(
-		Game.Domain.ACTION,
-		$"View/AllView/Action/Top/TypeCombo".get_selected_id(),
-		index)
-	update_all_count(Game.Domain.ACTION)
 
 
-func _on_Ability_Level_Select(index):
-	update_filtered_view(
-		Game.Domain.ABILITY,
-		0,
-		index)
-	update_all_count(Game.Domain.ABILITYT)
+func update_all_count():
+	$View/AllView/CardTotal.text = "All Cards:" + str(_all_grid.get_child_count())
 
 
-func _on_Power_Level_Select(index):
-	update_filtered_view(
-		Game.Domain.POWER,
-		0,
-		index)
-	update_all_count(Game.Domain.POWER)
+func update_deck_count():
+	$View/DeckView/LoadBox/CardTotal.text = "Deck: " +(str(_deck_grid.get_child_count()) + " / " 
+	+ str(Game.get_deck_contraints(_domain).x) + " (Min:" + str(Game.get_deck_contraints(_domain).y) +")")
 
 
+func _on_TypeCombo_item_selected(index):
+	print($View/AllView/Top/LevelCombo.get_index())
+	update_filtered_view(index, $View/AllView/Top/LevelCombo.get_selected_id())
 
-func update_all_count(domain : int):
-	match(domain):
-		Game.Domain.ACTION : 
-			$View/AllView/Action/Top/CardTotal.text = "Cards:" + str(action_all_grid.get_child_count())
-		Game.Domain.ABILITY:
-			$View/AllView/Ability/Top/CardTotal.text = "Cards:" + str(ability_all_grid.get_child_count())
-		Game.Domain.POWER:
-			$View/AllView/Power/Top/CardTotal.text = "Cards:" +  str(ability_all_grid.get_child_count())
-			
-	
-			
+
+func _on_LevelCombo_item_selected(index):
+	update_filtered_view($View/AllView/Top/TypeCombo.get_selected_id(),index)

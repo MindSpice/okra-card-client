@@ -2,7 +2,6 @@ extends Node
 enum DamageClass {SINGLE, MULTI}
 enum ActionType {MELEE, MAGIC, RANGED}
 enum Level {ONE, TWO, THREE, FOUR}
-enum Domain {ACTION, ABILITY, POWER}
 
 const ACTION_RES = "res://cards/images/"
 const CARD_TEMPLATE = "res://cards/card.tscn"
@@ -11,12 +10,17 @@ const CARD_TEMPLATE = "res://cards/card.tscn"
 func instance_card(domain : int, card_name : String) -> Node:
 	var card = load(CARD_TEMPLATE).instance()
 	match(domain):
-		Domain.ACTION:
+		Game.Domain.ACTION:
 			card.init(domain, card_name, ACTIONCARDS.get(card_name))
-		Domain.ABILITY:
+		Game.Domain.ABILITY:
 			card.init(domain, card_name, ABILITYCARDS.get(card_name))
-		Domain.POWER:
+		Game.Domain.POWER:
 			card.init(domain, card_name, POWERCARDS.get(card_name))
+		Game.Domain.PAWN:
+			card.init(domain, card_name, PAWNCARDS.get(card_name))
+		Game.Domain.WEAPON:
+			card.init(domain, card_name, WEAPONCARDS.get(card_name))
+			
 	return card
 	
 	
@@ -24,6 +28,7 @@ func instance_card_list(domain : int, cards : Array) -> Array:
 	var instances : Array
 	for card in cards:
 		instances.append(instance_card(domain, card))
+		
 	return instances
 		
 
@@ -70,5 +75,16 @@ const POWERCARDS = {
 	"TEN" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
 }
 
-	
-	
+const PAWNCARDS = {
+	"PAWN1" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"PAWN2" : ["SINGLE", "RANGED", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"PAWN3" : ["SINGLE", "MAGIC", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
+}
+
+const WEAPONCARDS = {
+	"WEAPON1" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"WEAPON2" : ["SINGLE", "RANGED", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"WEAPON3" : ["SINGLE", "MAGIC", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
+}
+
+

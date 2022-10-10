@@ -1,0 +1,84 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://themes/ttheme.tres" type="Theme" id=1]
+[ext_resource path="res://ui/set_builder/pawn_select.gd" type="Script" id=2]
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0.0335196, 1 )
+colors = PoolColorArray( 0.507813, 0.422516, 0.422516, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture2D" id=1]
+gradient = SubResource( 2 )
+width = 400
+height = 560
+
+[node name="CardSelect" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -392.0
+margin_bottom = -200.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Window" type="WindowDialog" parent="."]
+margin_right = 1200.0
+margin_bottom = 700.0
+
+[node name="Hsplit" type="HSplitContainer" parent="Window"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 0
+split_offset = 750
+dragger_visibility = 1
+
+[node name="Cards" type="Panel" parent="Window/Hsplit"]
+margin_right = 750.0
+margin_bottom = 700.0
+
+[node name="TypeOption" type="OptionButton" parent="Window/Hsplit/Cards"]
+margin_left = 594.0
+margin_top = 3.0
+margin_right = 747.0
+margin_bottom = 24.0
+text = "Type"
+align = 1
+icon_align = 1
+
+[node name="ScrollCont" type="ScrollContainer" parent="Window/Hsplit/Cards"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 25.0
+margin_top = 35.0
+margin_right = -8.0
+margin_bottom = -10.0
+follow_focus = true
+
+[node name="CardGrid" type="GridContainer" parent="Window/Hsplit/Cards/ScrollCont"]
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+columns = 5
+
+[node name="Card" type="Panel" parent="Window/Hsplit"]
+margin_left = 758.0
+margin_right = 1200.0
+margin_bottom = 700.0
+
+[node name="Image" type="TextureRect" parent="Window/Hsplit/Card"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -200.0
+margin_top = 20.0
+margin_right = 200.0
+margin_bottom = 580.0
+texture = SubResource( 1 )
+
+[node name="Select" type="Button" parent="Window/Hsplit/Card"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -200.0
+margin_top = -116.0
+margin_right = 200.0
+margin_bottom = -95.0
+text = "Select"

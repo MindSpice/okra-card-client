@@ -35,6 +35,6 @@ text = "Queue Match"
 margin_top = 27.0
 margin_right = 150.0
 margin_bottom = 48.0
-text = "Deck builder"
+text = "Set Builder"
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Builder" to="." method="_on_Builder_pressed"]

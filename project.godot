@@ -18,10 +18,22 @@ _global_script_classes=[ {
 "class": "DeckBuilder",
 "language": "GDScript",
 "path": "res://ui/deck_builder/deck_builder.gd"
+}, {
+"base": "Node",
+"class": "PawnLoadout",
+"language": "GDScript",
+"path": "res://player/pawn_loadout.gd"
+}, {
+"base": "Reference",
+"class": "PawnSet",
+"language": "GDScript",
+"path": "res://player/pawn_set.gd"
 } ]
 _global_script_class_icons={
 "Card": "",
-"DeckBuilder": ""
+"DeckBuilder": "",
+"PawnLoadout": "",
+"PawnSet": ""
 }
 
 [application]

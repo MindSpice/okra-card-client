@@ -1,20 +1,19 @@
 extends MarginContainer
-class_name Card
 
+class_name Card
 
 var info : Array
 var card_name : String
 var card_type : String
 var card_class : String
 var card_level : int
-var domain : int
+var card_domain : int
 var mouse_on : bool 
 var is_in_deck : bool = false
 
 
 func init(domain : int, name : String, info : Array):
-	self.domain = domain
-	print(domain)
+	card_domain = domain
 	self.info = info
 	card_name = name # TODO this needs to be pass along with the info
 	card_type = info[1]
@@ -26,6 +25,12 @@ func init(domain : int, name : String, info : Array):
 	
 func _ready():
 	pass
+	
+func get_image() -> Texture:
+	return $Image.texture
+	
+func set_scalar(scalar : float):
+	$Image.scale = Vector2(scalar, scalar)
 	
 
 func _input(event):
@@ -54,5 +59,5 @@ func get_context() -> Node:
 signal context_selected(card , id)
 
 
-func _on_Menu_id_pressed(id):
+func _on_context_id_pressed(id):
 	emit_signal("context_selected", self, id)

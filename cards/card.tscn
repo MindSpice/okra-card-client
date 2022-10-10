@@ -17,4 +17,4 @@ items = [ "Add", null, 0, false, false, 0, 0, null, "", false, "Remove", null, 0
 
 [connection signal="mouse_entered" from="." to="." method="_on_Card_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_Card_mouse_exited"]
-[connection signal="id_pressed" from="Menu" to="." method="_on_Menu_id_pressed"]
+[connection signal="index_pressed" from="Menu" to="." method="_on_context_id_pressed"]

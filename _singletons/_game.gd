@@ -9,7 +9,8 @@ const ACTION_LEVEL_MEDIAN : float = 2.5
 const ABILITY_LEVEL_MEDIAN : float = 2.5
 const POWER_LEVEL_MEDIAN : float = 2.5
 
-enum Domain {ACTION, ABILITY, POWER}
+enum Domain {ACTION, ABILITY, POWER, PAWN, WEAPON}
+enum Pawn {PAWN1, PAWN2, PAWN3}
 	
 func get_deck_limit(domain : int, count : int) -> float:
 	match (domain):
