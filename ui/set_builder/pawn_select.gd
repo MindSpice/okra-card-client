@@ -11,16 +11,16 @@ func init(pawn : int, domain : int, cards : Array):
 	_selected_card = null
 	_pawn = pawn
 	_domain = domain
-	Util.free_children(_card_grid)
+	Util.remove_children($Window/Hsplit/Cards/ScrollCont/CardGrid)
+	print("card_grid size" + str(cards.size()))
 	$Window/Hsplit/Card/Image.texture = null
 	
-	var card_instances = CardBase.instance_card_list(domain, cards)
-	_card_grid = $Window/Hsplit/Cards/ScrollCont/CardGrid
-	
-	for card in card_instances:
+
+	print(cards.size())
+	for card in cards:
 		card.enable_select(true)
 		card.connect("card_selected", self, "_select_card")
-		_card_grid.add_child(card)
+		$Window/Hsplit/Cards/ScrollCont/CardGrid.add_child(card)
 
 
 func pop_up():

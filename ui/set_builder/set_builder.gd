@@ -11,18 +11,19 @@ var _power_deck : Array
 var _pawn_loadouts : Array
 
 
-onready var _deck_builder :  = preload("res://ui/deck_builder/deck_builder.tscn")
-onready var _s_select :  = preload("res://ui/set_builder/pawn_select.tscn").instance()
+onready var _deck_builder := preload("res://ui/deck_builder/deck_builder.tscn")
+onready var _s_select := preload("res://ui/set_builder/pawn_select.tscn").instance()
 
 
 
 func _ready():
 
-	_action_cards_free = Player.action_cards_all.duplicate(true)
-	_ability_cards_free = Player.ability_cards_all.duplicate(true)
-	_power_cards_free = Player.power_cards_all.duplicate(true)
-	_pawn_cards_free = Player.pawn_cards_all.duplicate(true)
-	_weapon_cards_free = Player.weapon_cards_all.duplicate(true)
+	_action_cards_free = CardBase.instance_card_list(Game.Domain.ACTION, Player.action_cards_all)
+	_ability_cards_free = CardBase.instance_card_list(Game.Domain.ABILITY, Player.ability_cards_all)
+	_power_cards_free = CardBase.instance_card_list(Game.Domain.POWER, Player.power_cards_all)
+	_pawn_cards_free = CardBase.instance_card_list(Game.Domain.PAWN, Player.pawn_cards_all)
+	_weapon_cards_free = CardBase.instance_card_list(Game.Domain.WEAPON, Player.weapon_cards_all)
+
 	
 	_s_select.connect("_card_relay", self, "_set_single_card_selction")
 	$Panel.add_child(_s_select)
@@ -90,26 +91,25 @@ func _get_all_by_domain(domain : int) -> Array:
 		Game.Domain.WEAPON:
 			return _weapon_cards_free
 	
-	push_error("Wrong Domain")
+	push_warning("Wrong Domain")
 	return []
 
 
 func _remove_from_free(domain : int, card : Card):
 	if card == null:
 		return
-		
-	var all_cards : Array  = _get_all_by_domain(domain)
-	var idx = all_cards.find(card.card_name)
-	all_cards.remove(idx)
 	
+	var all_cards : Array  = _get_all_by_domain(domain)
+	var idx = all_cards.find(card)
+	all_cards.remove(idx)
+
 	
 # Null checks so it can be used indiscriminately without null checks in calling function
 # Not a "best" practice, but lessens boilerplate checks
 func _replace_to_free(domain : int, card : Card):
 	if card == null:
 		return
-	print(card.card_name)
-	_get_all_by_domain(domain).append(card.card_name)
+	_get_all_by_domain(domain).append(card)
 	
 	
 func _set_single_card_selction(pawn_idx : int, domain : int, card : Card):
@@ -117,17 +117,17 @@ func _set_single_card_selction(pawn_idx : int, domain : int, card : Card):
 		return
 		
 	if domain == Game.Domain.PAWN:
-		_replace_to_free(domain, _get_pawn_loadout(pawn_idx).get_pawn_card())
+		_replace_to_free(domain, _get_pawn_loadout(pawn_idx).pawn_card)
 		_remove_from_free(domain, card)
-		_get_pawn_loadout(pawn_idx).set_pawn_card(card)
+		_get_pawn_loadout(pawn_idx).pawn_card = card
 		
 	elif domain == Game.Domain.WEAPON:
-		_replace_to_free(domain, _get_pawn_loadout(pawn_idx).get_weapon_card())
+		_replace_to_free(domain, _get_pawn_loadout(pawn_idx).weapon_card)
 		_remove_from_free(domain, card)
-		_get_pawn_loadout(pawn_idx).set_weapon_card(card)
+		_get_pawn_loadout(pawn_idx).weapon_card = card;
 		
 	else:
-		push_error("Wrong Domain")
+		push_warning("Wrong Domain")
 	
 	_get_card_window(pawn_idx, domain).texture = card.get_image()
 
@@ -136,7 +136,6 @@ func _set_single_card_selction(pawn_idx : int, domain : int, card : Card):
 # These are pass an int that is indexed the same as
 # Game.Pawn enum, ex. 0 = PAWN1, and are thus interchangeable 
 func _on_SelectPawn_pressed(pawn_idx : int):
-	print(_pawn_cards_free)
 	_s_select.init(pawn_idx, Game.Domain.PAWN, _pawn_cards_free)
 	_s_select.pop_up()
 
@@ -152,7 +151,7 @@ func _on_BuildAttack_pressed(pawn_idx : int):
 	db.init(Game.Domain.ACTION, _action_cards_free)
 	$HSplit.hide()
 	$Panel.add_child(db)
-	#todo connect signal
+	
 	
 	
 func _on_BuildAbility_pressed(pawn_idx : int):

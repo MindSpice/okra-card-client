@@ -9,7 +9,6 @@ const CARD_TEMPLATE = preload("res://cards/card.tscn")
 
 func instance_card(domain : int, card_name : String) -> Node:
 	var card = CARD_TEMPLATE.instance()
-	print(card_name)
 	match(domain):
 		Game.Domain.ACTION:
 			card.init(domain, card_name, ACTIONCARDS.get(card_name))

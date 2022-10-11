@@ -22,7 +22,6 @@ func init(domain : int, name : String, info : Array):
 	$Image.texture = load(str(CardBase.ACTION_RES,name,".jpg"))
 	$Image.scale  = Vector2(.3, .3)
 
-	
 func _ready():
 	pass
 	
