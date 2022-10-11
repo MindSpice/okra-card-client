@@ -14,37 +14,36 @@ var _all_free_cards : Array
 var _deck_level : int = 0
 
 
-
-
 func _ready():
 #	_all_free_cards =  CardBase.instance_card_list(Game.Domain.ACTION, Player.action_cards_all)
 #	print(_all_free_cards.size())
-#
+#	_all_grid = get_node("View/AllView/ScrollContainer/CardGrid")
 #	for card in _all_free_cards:
 #		print(_all_grid)
 #		_all_grid.add_child(card)
 #		card.connect("context_selected", self, "update_deck")
-#	action_cards_all = CardBase.instance_card_list(Game.Domain.ACTION, Player.action_cards_all)
-#	ability_cards_all = CardBase.instance_card_list(Game.Domain.ABILITY, Player.ability_cards_all)
-#	power_cards_all = CardBase.instance_card_list(Game.Domain.POWER, Player.power_cards_all)
+#	_all_free_cards = CardBase.instance_card_list(Game.Domain.ACTION, Player.action_cards_all)
+##	ability_cards_all = CardBase.instance_card_list(Game.Domain.ABILITY, Player.ability_cards_all)
+##	power_cards_all = CardBase.instance_card_list(Game.Domain.POWER, Player.power_cards_all)
 #
-#	for card in action_cards_all:
-#		action_all_grid.add_child(card)
+#	for card in _all_free_cards:
+#		_all_grid.add_child(card)
 #		card.connect("context_selected", self, "update_deck")
-#
-#	for card in ability_cards_all:
-#		ability_all_grid.add_child(card)
-#		card.connect("context_selected", self, "update_deck")
-#
-#	for card in power_cards_all:
-#		power_all_grid.add_child(card)
-#		card.connect("context_selected", self, "update_deck")
-#
-#	update_all_count(Game.Domain.ACTION)
-#	update_all_count(Game.Domain.ABILITY)
-#	update_all_count(Game.Domain.POWER)
-#	$View/AllView/Ability.hide()
+##
+	# for card in ability_cards_all:
+	# 	ability_all_grid.add_child(card)
+	# 	card.connect("context_selected", self, "update_deck")
+
+	# for card in power_cards_all:
+	# 	power_all_grid.add_child(card)
+	# 	card.connect("context_selected", self, "update_deck")
+
+	# update_all_count(Game.Domain.ACTION)
+	# update_all_count(Game.Domain.ABILITY)
+	# update_all_count(Game.Domain.POWER)
+	# $View/AllView/Ability.hide()
 	pass
+	
 	
 func init(domain : int, free_card_list : Array):
 	_all_free_cards =  CardBase.instance_card_list(Game.Domain.ACTION, free_card_list)
@@ -54,14 +53,15 @@ func init(domain : int, free_card_list : Array):
 	for card in _all_free_cards:
 		_all_grid.add_child(card)
 		card.connect("context_selected", self, "update_deck")
+		#test
 	
 	if domain != Game.Domain.ACTION:
-		#$View/AllView/Cards/Top/TypeCombo.hide()
+		$View/AllView/Cards/Top/TypeCombo.hide()
 		pass
 	#update_all_count()
 	
 
-func get_built_deck(domain : int) -> Array:
+func get_built_deck() -> Array:
 	var deck : Array
 	
 	for card in _deck_grid.get_children():
@@ -69,7 +69,7 @@ func get_built_deck(domain : int) -> Array:
 	return deck
 
 
-func get_deck_type_bound(domain : int):
+func get_deck_type_bound():
 	for card in _deck_grid.get_children():
 		return card.card_type
 	return ""
@@ -78,7 +78,7 @@ func get_deck_type_bound(domain : int):
 func add_to_deck(card : Card):
 	var maxv = Game.get_deck_contraints(_domain).y
 	var limit = Game.get_deck_limit(_domain, _deck_grid.get_child_count() + 1)
-	var type_bound = get_deck_type_bound(_domain)
+	var type_bound = get_deck_type_bound()
 	
 	if _domain == Game.Domain.ACTION and type_bound != "" and card.card_type != type_bound:
 		#Throw Dialog
@@ -128,9 +128,10 @@ func update_deck(card : Card, id : int):
 		0: add_to_deck(card)
 		1: remove_from_deck(card)
 		2: 
-			$View.add_child(inspect_window)
+			$Panel.add_child(inspect_window)
 			inspect_window.set_card(card)
 			inspect_window.pop_up()
+			
 
 
 func update_filtered_view(typei : int, level : int):
@@ -144,13 +145,13 @@ func update_filtered_view(typei : int, level : int):
 		2: type = "RANGED"
 		3: type = "MAGIC"
 		
+		
 	for card in _all_free_cards:
 		if (type != "") and (card.card_type != type):
 			continue
 		if (level != 0) and (card.card_level != level):
 			continue
 		_all_grid.add_child(card)
-		
 
 
 func update_all_count():
@@ -169,3 +170,6 @@ func _on_TypeCombo_item_selected(index):
 
 func _on_LevelCombo_item_selected(index):
 	update_filtered_view($View/AllView/Top/TypeCombo.get_selected_id(),index)
+	
+
+	

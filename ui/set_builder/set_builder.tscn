@@ -5,7 +5,7 @@
 [ext_resource path="res://ui/set_builder/set_builder.gd" type="Script" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.168627, 0.180392, 0.180392, 1 )
+bg_color = Color( 0.203922, 0.196078, 0.196078, 1 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 14
@@ -53,6 +53,7 @@ rect_min_size = Vector2( 796, 444 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 6.0
+rect_min_size = Vector2( 790, 444 )
 
 [node name="HBox" type="HBoxContainer" parent="HSplit/VSplit/Pawn1/VBox"]
 margin_right = 790.0
@@ -100,6 +101,7 @@ margin_top = 19.0
 margin_right = 230.0
 margin_bottom = 355.0
 rect_min_size = Vector2( 230, 336 )
+expand = true
 
 [node name="SelectPawn" type="Button" parent="HSplit/VSplit/Pawn1/VBox/HBox2/VBox"]
 margin_top = 359.0
@@ -124,6 +126,7 @@ margin_top = 19.0
 margin_right = 230.0
 margin_bottom = 355.0
 rect_min_size = Vector2( 230, 336 )
+expand = true
 
 [node name="SelectWeapon" type="Button" parent="HSplit/VSplit/Pawn1/VBox/HBox2/VBox2"]
 margin_top = 359.0
@@ -234,6 +237,7 @@ rect_min_size = Vector2( 796, 444 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 6.0
+rect_min_size = Vector2( 790, 444 )
 
 [node name="HBox" type="HBoxContainer" parent="HSplit/VSplit/Pawn3/VBox"]
 margin_right = 790.0
@@ -281,6 +285,7 @@ margin_top = 19.0
 margin_right = 230.0
 margin_bottom = 355.0
 rect_min_size = Vector2( 230, 336 )
+expand = true
 
 [node name="SelectPawn" type="Button" parent="HSplit/VSplit/Pawn3/VBox/HBox2/VBox"]
 margin_top = 359.0
@@ -305,6 +310,7 @@ margin_top = 19.0
 margin_right = 230.0
 margin_bottom = 355.0
 rect_min_size = Vector2( 230, 336 )
+expand = true
 
 [node name="SelectWeapon" type="Button" parent="HSplit/VSplit/Pawn3/VBox/HBox2/VBox2"]
 margin_top = 359.0
@@ -420,6 +426,7 @@ rect_min_size = Vector2( 796, 444 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 6.0
+rect_min_size = Vector2( 790, 444 )
 
 [node name="HBox" type="HBoxContainer" parent="HSplit/VSplit2/Pawn2/VBox"]
 margin_right = 790.0
@@ -467,6 +474,7 @@ margin_top = 19.0
 margin_right = 230.0
 margin_bottom = 355.0
 rect_min_size = Vector2( 230, 336 )
+expand = true
 
 [node name="SelectPawn" type="Button" parent="HSplit/VSplit2/Pawn2/VBox/HBox2/VBox"]
 margin_top = 359.0
@@ -491,6 +499,7 @@ margin_top = 19.0
 margin_right = 230.0
 margin_bottom = 355.0
 rect_min_size = Vector2( 230, 336 )
+expand = true
 
 [node name="SelectWeapon" type="Button" parent="HSplit/VSplit2/Pawn2/VBox/HBox2/VBox2"]
 margin_top = 359.0

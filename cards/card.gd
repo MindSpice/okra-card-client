@@ -10,7 +10,7 @@ var card_level : int
 var card_domain : int
 var mouse_on : bool 
 var is_in_deck : bool = false
-
+var disable_context : bool = false
 
 func init(domain : int, name : String, info : Array):
 	card_domain = domain
@@ -32,18 +32,26 @@ func get_image() -> Texture:
 func set_scalar(scalar : float):
 	$Image.scale = Vector2(scalar, scalar)
 	
-
+	
 func _input(event):
+
 	$Menu.set_item_disabled(0, true if is_in_deck else false)
 	$Menu.set_item_disabled(1, false if is_in_deck else true)
-	
+
 	if (event is InputEventMouseButton and event.is_pressed() 
-		and (event.button_index == BUTTON_LEFT or event.button_index == BUTTON_RIGHT)):
-			
+			and (event.button_index == BUTTON_LEFT or event.button_index == BUTTON_RIGHT)):
+
+		if not disable_context:
 			if not $Menu.is_visible_in_tree() && mouse_on:
 				$Menu.popup(Rect2(get_global_mouse_position().x, get_global_mouse_position().y, 75, 75))
-				
+		else:
+			if (mouse_on):
+				emit_signal("card_selected", self)
 
+
+func enable_select(flag : bool):
+	disable_context = flag
+	
 
 func _on_Card_mouse_entered():
 	mouse_on = true
@@ -54,6 +62,9 @@ func _on_Card_mouse_exited():
 	
 func get_context() -> Node:
 	return $Menu
+	
+	
+signal card_selected(card)
 	
 	
 signal context_selected(card , id)

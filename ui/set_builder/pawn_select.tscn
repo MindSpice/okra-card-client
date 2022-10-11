@@ -82,3 +82,5 @@ margin_top = -116.0
 margin_right = 200.0
 margin_bottom = -95.0
 text = "Select"
+
+[connection signal="pressed" from="Window/Hsplit/Card/Select" to="." method="_on_select_pressed"]

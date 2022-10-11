@@ -4,11 +4,12 @@ enum ActionType {MELEE, MAGIC, RANGED}
 enum Level {ONE, TWO, THREE, FOUR}
 
 const ACTION_RES = "res://cards/images/"
-const CARD_TEMPLATE = "res://cards/card.tscn"
+const CARD_TEMPLATE = preload("res://cards/card.tscn")
 
 
 func instance_card(domain : int, card_name : String) -> Node:
-	var card = load(CARD_TEMPLATE).instance()
+	var card = CARD_TEMPLATE.instance()
+	print(card_name)
 	match(domain):
 		Game.Domain.ACTION:
 			card.init(domain, card_name, ACTIONCARDS.get(card_name))
@@ -30,6 +31,21 @@ func instance_card_list(domain : int, cards : Array) -> Array:
 		instances.append(instance_card(domain, card))
 		
 	return instances
+	
+func get_card_dict_by_domain(domain : int) -> Dictionary:
+	match(domain):
+		Game.Domain.ACTION:
+			return ACTIONCARDS
+		Game.Domain.ABILITY:
+			return ABILITYCARDS
+		Game.Domain.POWER:
+			return POWERCARDS
+		Game.Domain.PAWN:
+			return PAWNCARDS
+		Game.Domain.WEAPON:
+			return WEAPONCARDS
+		
+	return {}
 		
 
 
