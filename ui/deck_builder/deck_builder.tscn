@@ -167,4 +167,6 @@ icon_align = 1
 
 [connection signal="item_selected" from="View/AllView/Top/TypeCombo" to="." method="_on_TypeCombo_item_selected"]
 [connection signal="item_selected" from="View/AllView/Top/LevelCombo" to="." method="_on_LevelCombo_item_selected"]
-[connection signal="gui_input" from="View/AllView/ScrollContainer/CardGrid" to="." method="_onAction_all_gui_input"]
+[connection signal="pressed" from="View/DeckView/Save" to="." method="_on_Save_pressed"]
+[connection signal="pressed" from="View/DeckView/HBox/Reset" to="." method="_on_Reset_pressed"]
+[connection signal="pressed" from="View/DeckView/HBox/Close" to="." method="_on_Close_pressed"]

@@ -2,71 +2,45 @@ extends Node
 
 class_name DeckBuilder
 
-onready var _all_grid : Node 
-onready var  _deck_grid : Node 
+onready var _all_grid : Node
+onready var  _deck_grid : Node
 onready var inspect_window = preload("res://ui/deck_builder/inspect_card.tscn").instance()
 
 #Domain of selection
 var _domain : int
-# All free card instances (that player owns)
+var _pawn : int
 var _all_free_cards : Array
-# Deck level
 var _deck_level : int = 0
 
 
-func _ready():
-#	_all_free_cards =  CardBase.instance_card_list(Game.Domain.ACTION, Player.action_cards_all)
-#	print(_all_free_cards.size())
-#	_all_grid = get_node("View/AllView/ScrollContainer/CardGrid")
-#	for card in _all_free_cards:
-#		print(_all_grid)
-#		_all_grid.add_child(card)
-#		card.connect("context_selected", self, "update_deck")
-#	_all_free_cards = CardBase.instance_card_list(Game.Domain.ACTION, Player.action_cards_all)
-##	ability_cards_all = CardBase.instance_card_list(Game.Domain.ABILITY, Player.ability_cards_all)
-##	power_cards_all = CardBase.instance_card_list(Game.Domain.POWER, Player.power_cards_all)
-#
-#	for card in _all_free_cards:
-#		_all_grid.add_child(card)
-#		card.connect("context_selected", self, "update_deck")
-##
-	# for card in ability_cards_all:
-	# 	ability_all_grid.add_child(card)
-	# 	card.connect("context_selected", self, "update_deck")
 
-	# for card in power_cards_all:
-	# 	power_all_grid.add_child(card)
-	# 	card.connect("context_selected", self, "update_deck")
-
-	# update_all_count(Game.Domain.ACTION)
-	# update_all_count(Game.Domain.ABILITY)
-	# update_all_count(Game.Domain.POWER)
-	# $View/AllView/Ability.hide()
-	pass
 	
-	
-func init(domain : int, free_card_list : Array):
-	_all_free_cards =  CardBase.instance_card_list(Game.Domain.ACTION, free_card_list)
-	_all_grid = get_node("View/AllView/ScrollContainer/CardGrid")
-	_deck_grid = get_node("View/DeckView/ScrollContainer/CardGrid")
+func init(pawn : int, domain : int, free_card_list : Array, curr_deck_list : Array):
+	_all_grid = $View/AllView/ScrollContainer/CardGrid
+	_deck_grid = $View/DeckView/ScrollContainer/CardGrid
+	_domain = domain
+	_deck_level = CardBase.get_cards_level(curr_deck_list)
+	Util.remove_children(_all_grid)
+	Util.remove_children(_deck_grid)
+	_all_free_cards = free_card_list
 
 	for card in _all_free_cards:
 		_all_grid.add_child(card)
-		card.connect("context_selected", self, "update_deck")
-		#test
+		card.is_in_deck = false
 	
+	for card in curr_deck_list:
+		_deck_grid.add_child(card)
+		card.is_in_deck = true
+
 	if domain != Game.Domain.ACTION:
-		$View/AllView/Cards/Top/TypeCombo.hide()
-		pass
-	#update_all_count()
+		$View/AllView/Top/TypeCombo.hide()
+	update_all_count()
+	update_deck_count()
 	
 
 func get_built_deck() -> Array:
-	var deck : Array
+	return _deck_grid.get_children()
 	
-	for card in _deck_grid.get_children():
-		deck.append(card)
-	return deck
 
 
 func get_deck_type_bound():
@@ -82,11 +56,12 @@ func add_to_deck(card : Card):
 	
 	if _domain == Game.Domain.ACTION and type_bound != "" and card.card_type != type_bound:
 		#Throw Dialog
-		print("type mismatch; deck is of type:", type_bound)
+		push_warning(str("Type Mis-Match, Deck Type Is:", type_bound))
 		return
 	if (_deck_grid.get_child_count() >= maxv) or (_deck_level + card.card_level > limit):
 		#Throw dialog
-		print("max count/limit mismatch", "MAX:",maxv," COUNT", _deck_grid.get_child_count())
+		push_warning(str("Max Count/Limit | ", "MAX: ",maxv," COUNT: ", 
+			_deck_grid.get_child_count(), "DECK_LVL: ", limit, "MAX_LVL", limit))
 		return
 		
 	_all_grid.remove_child(card)
@@ -111,16 +86,16 @@ func remove_from_deck(card : Card):
 	match (_domain):
 		Game.Domain.ACTION:
 			update_filtered_view(
-				get_node("View/AllView/Top/TypeCombo").get_selected_id(), 
-				$"View/AllView/Top/LevelCombo".get_selected_id())
+				$View/AllView/Top/TypeCombo.get_selected_id(), 
+				$View/AllView/Top/LevelCombo.get_selected_id())
 		Game.Domain.ABILITY:
 			update_filtered_view(
 				0, 
-				$"View/AllView/Top/LevelCombo".get_selected_id())
+				$View/AllView/Top/LevelCombo.get_selected_id())
 		Game.Domain.Power:
 			update_filtered_view(
 				0, 
-				$"View/AllView/Top/LevelCombo".get_selected_id())
+				$View/AllView/Top/LevelCombo.get_selected_id())
 
 
 func update_deck(card : Card, id : int):
@@ -136,8 +111,6 @@ func update_deck(card : Card, id : int):
 
 func update_filtered_view(typei : int, level : int):
 	Util.remove_children(_all_grid)
-	print("typei:",typei)
-	print("level:",level)
 	var type : String
 	match (typei):
 		0: type = ""
@@ -160,7 +133,7 @@ func update_all_count():
 
 func update_deck_count():
 	$View/DeckView/LoadBox/CardTotal.text = "Deck: " +(str(_deck_grid.get_child_count()) + " / " 
-	+ str(Game.get_deck_contraints(_domain).x) + " (Min:" + str(Game.get_deck_contraints(_domain).y) +")")
+	+ str(Game.get_deck_contraints(_domain).y) + " (Min:" + str(Game.get_deck_contraints(_domain).x) +")")
 
 
 func _on_TypeCombo_item_selected(index):
@@ -172,4 +145,35 @@ func _on_LevelCombo_item_selected(index):
 	update_filtered_view($View/AllView/Top/TypeCombo.get_selected_id(),index)
 	
 
+
+func _on_Save_pressed() -> void:
+	if (_deck_grid.get_child_count() < Game.get_deck_contraints(_domain).y
+		or _deck_grid.get_child_count() > Game.get_deck_contraints(_domain).x):
+			##Throw dialog here
+			pass
+	emit_signal("save",
+		 _pawn, _domain,
+		_deck_grid.get_children() if _deck_grid.get_child_count() > 0 else [], 
+		_all_grid.get_children() if _all_grid.get_child_count() > 0 else [])
+	Util.remove_children(_all_grid)
+	Util.remove_children(_deck_grid)
+
+
+func _on_Reset_pressed() -> void:
+	for card in _deck_grid.get_children():
+		_all_grid.add_child(card)
+		_deck_grid.remove_child(card)
+		update_filtered_view(
+			$View/AllView/Top/TypeCombo.get_selected_id(), 
+			$View/AllView/Top/LevelCombo.get_selected_id())
+
+
+func _on_Close_pressed() -> void:
+	Util.remove_children(_all_grid)
+	Util.remove_children(_deck_grid)
+	emit_signal("closed", _domain, _all_grid.get_children() if _all_grid.get_child_count() > 0 else [])
 	
+	   
+signal closed(domain, free)
+
+signal save (pawn, domain, deck, free)

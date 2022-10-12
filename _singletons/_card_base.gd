@@ -46,7 +46,11 @@ func get_card_dict_by_domain(domain : int) -> Dictionary:
 		
 	return {}
 		
-
+func get_cards_level(card_list : Array) -> int:
+	var level : int = 0
+	for card in card_list:
+		level += card.card_level
+	return level
 
 
 # TODO find a better representation

@@ -22,24 +22,26 @@ func init(domain : int, name : String, info : Array):
 	$Image.texture = load(str(CardBase.ACTION_RES,name,".jpg"))
 	$Image.scale  = Vector2(.3, .3)
 
+
 func _ready():
 	pass
 	
+	
 func get_image() -> Texture:
 	return $Image.texture
+	
 	
 func set_scalar(scalar : float):
 	$Image.scale = Vector2(scalar, scalar)
 	
 	
 func _input(event):
-
 	$Menu.set_item_disabled(0, true if is_in_deck else false)
 	$Menu.set_item_disabled(1, false if is_in_deck else true)
 
 	if (event is InputEventMouseButton and event.is_pressed() 
 			and (event.button_index == BUTTON_LEFT or event.button_index == BUTTON_RIGHT)):
-
+				
 		if not disable_context:
 			if not $Menu.is_visible_in_tree() && mouse_on:
 				$Menu.popup(Rect2(get_global_mouse_position().x, get_global_mouse_position().y, 75, 75))

@@ -6,7 +6,6 @@ var _pawn : int
 var _domain : int
 
 
-
 func init(pawn : int, domain : int, cards : Array):
 	_selected_card = null
 	_pawn = pawn
