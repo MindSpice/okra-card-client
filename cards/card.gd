@@ -2,7 +2,7 @@ extends MarginContainer
 
 class_name Card
 
-var info : Array
+var card_info : Array
 var card_name : String
 var card_type : String
 var card_class : String
@@ -14,7 +14,7 @@ var disable_context : bool = false
 
 func init(domain : int, name : String, info : Array):
 	card_domain = domain
-	self.info = info
+	card_info = info
 	card_name = name # TODO this needs to be pass along with the info
 	card_type = info[1]
 	card_class = info[0]
@@ -48,6 +48,7 @@ func _input(event):
 		else:
 			if (mouse_on):
 				emit_signal("card_selected", self)
+				
 
 
 func enable_select(flag : bool):

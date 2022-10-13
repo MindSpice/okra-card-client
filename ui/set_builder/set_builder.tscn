@@ -837,14 +837,14 @@ rect_min_size = Vector2( 0, 28 )
 text = "Power Deck"
 align = 1
 
-[node name="PowerBox" type="HBoxContainer" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings"]
+[node name="PowerDeck" type="HBoxContainer" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings"]
 margin_top = 78.0
 margin_right = 347.0
 margin_bottom = 103.0
 custom_constants/separation = 10
 alignment = 1
 
-[node name="PowerDeck" type="LineEdit" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerBox"]
+[node name="DeckName" type="LineEdit" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerDeck"]
 margin_left = 5.0
 margin_right = 279.0
 margin_bottom = 25.0
@@ -853,7 +853,7 @@ text = "Empty"
 align = 1
 editable = false
 
-[node name="BuildPower" type="Button" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerBox"]
+[node name="BuildPower" type="Button" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerDeck"]
 margin_left = 289.0
 margin_right = 341.0
 margin_bottom = 25.0
@@ -997,4 +997,5 @@ text = "Back To Menu"
 [connection signal="pressed" from="HSplit/VSplit2/Pawn2/VBox/HBox2/VBox2/SelectWeapon" to="." method="_on_SelectWeapon_pressed" binds= [ 1 ]]
 [connection signal="pressed" from="HSplit/VSplit2/Pawn2/VBox/HBox2/PawnDeck/AttackDeck/BuildAttack" to="." method="_on_Build_pressed" binds= [ 1, 0 ]]
 [connection signal="pressed" from="HSplit/VSplit2/Pawn2/VBox/HBox2/PawnDeck/AbilityDeck/BuildAbility" to="." method="_on_Build_pressed" binds= [ 1, 1 ]]
+[connection signal="pressed" from="HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerDeck/BuildPower" to="." method="_on_Build_pressed" binds= [ -1, 2 ]]
 [connection signal="pressed" from="HSplit/VSplit2/SetInfo/HBox2/ToMenu" to="." method="_on_To_Menu_pressed"]

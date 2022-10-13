@@ -72,20 +72,20 @@ items = [ "All Levels", null, false, 0, null, "Level 1", null, false, 1, null, "
 selected = 0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="View/AllView"]
-margin_left = 1.0
 margin_top = 45.0
-margin_right = 899.0
+margin_right = 892.0
 margin_bottom = 825.0
-rect_min_size = Vector2( 896, 780 )
+rect_min_size = Vector2( 880, 700 )
 scroll_horizontal_enabled = false
 
 [node name="CardGrid" type="GridContainer" parent="View/AllView/ScrollContainer"]
-margin_right = 898.0
-margin_bottom = 780.0
-rect_min_size = Vector2( 898, 780 )
+margin_right = 880.0
+margin_bottom = 820.0
+rect_min_size = Vector2( 880, 820 )
 rect_pivot_offset = Vector2( 332, 365 )
-size_flags_horizontal = 2
-size_flags_vertical = 2
+rect_clip_content = true
+size_flags_horizontal = 0
+size_flags_vertical = 0
 size_flags_stretch_ratio = 0.0
 custom_constants/vseparation = 20
 custom_constants/hseparation = 20
@@ -151,12 +151,7 @@ margin_top = -40.0
 margin_right = -7.0
 margin_bottom = -7.0
 custom_constants/separation = 20
-
-[node name="Reset" type="Button" parent="View/DeckView/HBox"]
-margin_right = 52.0
-margin_bottom = 33.0
-text = "Reset"
-icon_align = 1
+alignment = 2
 
 [node name="Close" type="Button" parent="View/DeckView/HBox"]
 margin_left = 72.0
@@ -168,5 +163,4 @@ icon_align = 1
 [connection signal="item_selected" from="View/AllView/Top/TypeCombo" to="." method="_on_TypeCombo_item_selected"]
 [connection signal="item_selected" from="View/AllView/Top/LevelCombo" to="." method="_on_LevelCombo_item_selected"]
 [connection signal="pressed" from="View/DeckView/Save" to="." method="_on_Save_pressed"]
-[connection signal="pressed" from="View/DeckView/HBox/Reset" to="." method="_on_Reset_pressed"]
 [connection signal="pressed" from="View/DeckView/HBox/Close" to="." method="_on_Close_pressed"]

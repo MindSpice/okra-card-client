@@ -26,6 +26,7 @@ func _ready():
 	_s_select.connect("_card_relay", self, "_set_single_card_selction")
 	$Panel.add_child(_s_select)
 	_deck_builder.connect("closed", self, "_on_deck_builder_close")
+	_deck_builder.connect("save", self, "_on_deck_builder_save")
 	
 	for i in 3:
 		_pawn_loadouts.append(PawnLoadout.new())
@@ -35,7 +36,11 @@ func _ready():
 		
 	for card in _ability_cards_free:
 		card.connect("context_selected", _deck_builder, "update_deck")
-
+		
+	for card in _power_cards_free:
+		card.connect("context_selected", _deck_builder, "update_deck")
+		
+	
 
 func _set_pawn_loadout(pawn_idx : int, pawn_loadout : PawnLoadout):
 	match(pawn_idx):
@@ -126,11 +131,32 @@ func _set_single_card_selction(pawn_idx : int, domain : int, card : Card) -> voi
 		
 	else:
 		push_error("Wrong Domain")
-	
+		
 	_get_card_window(pawn_idx, domain).texture = card.get_image()
 
 
-# These are pass an int that is indexed the same as
+func _set_deck_label(pawn_idx : int, domain : int, string : String):
+	match(pawn_idx):
+		Game.Pawn.PAWN1:
+			if domain == Game.Domain.ACTION:
+				$HSplit/VSplit/Pawn1/VBox/HBox2/PawnDeck/AttackDeck/DeckName.text = string
+			else:
+				$HSplit/VSplit/Pawn1/VBox/HBox2/PawnDeck/AbilityDeck/DeckName.text = string
+		Game.Pawn.PAWN2:
+			if domain == Game.Domain.ACTION:
+				$HSplit/VSplit2/Pawn2/VBox/HBox2/PawnDeck/AttackDeck/DeckName.text = string
+			else:
+				$HSplit/VSplit2/Pawn2/VBox/HBox2/PawnDeck/AbilityDeck/DeckName.text = string
+		Game.Pawn.PAWN3:
+			if domain == Game.Domain.ACTION:
+				$HSplit/VSplit/Pawn3/VBox/HBox2/PawnDeck/AttackDeck/DeckName.text = string
+			else:
+				$HSplit/VSplit/Pawn3/VBox/HBox2/PawnDeck/AbilityDeck/DeckName.text = string
+		-1:
+			$HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerDeck/DeckName.text = string
+
+
+# These are passing an int that is indexed the same as
 # Game.Pawn enum, ex. 0 = PAWN1, and are thus interchangeable 
 func _on_SelectPawn_pressed(pawn_idx : int) -> void:
 	_s_select.init(pawn_idx, Game.Domain.PAWN, _pawn_cards_free)
@@ -146,40 +172,36 @@ func _on_Build_pressed(pawn_idx : int, domain : int) -> void:
 	_deck_builder.init(
 		pawn_idx, 
 		domain, 
-		_action_cards_free.duplicate(),
-		_pawn_loadouts[pawn_idx].get_deck(domain).duplicate())
-	_get_all_by_domain(domain).clear()
-	
+		_get_all_by_domain(domain),
+		_power_deck if domain == Game.Domain.POWER 
+			else _pawn_loadouts[pawn_idx].get_deck(domain))
+		
 	$HSplit.hide()
 	$Panel.add_child(_deck_builder)
-
-
-func _on_BuildAbility_pressed(pawn_idx : int) -> void:
-	pass
-
+	
 
 func _on_To_Menu_pressed():
 	get_tree().change_scene("res://ui/menu/menu.tscn")
 
 
-func _on_deck_builder_close(domain : int, free : Array) -> void:
-	_get_all_by_domain(domain).append_array(free)
+func _on_deck_builder_close(domain: int, free : Array) -> void:
+	Util.merge_non_duplicates(_get_all_by_domain(domain), free)  #Can directly merge? If ain't broke dont fix it :P
 	$Panel.remove_child(_deck_builder)
 	$HSplit.show()
-
-# TODO 
-
-# FIx the array swapping
-
-
 
 
 func _on_deck_builder_save(pawn_idx : int, domain : int, deck : Array, free : Array) -> void:
-	_pawn_loadouts[pawn_idx].set_deck(domain, deck)
-	_get_all_by_domain(domain).append_array(free)
+	if pawn_idx == -1:
+		_power_deck = deck
+	else:
+		_pawn_loadouts[pawn_idx].set_deck(domain, deck)
+	#Util.erase_all(_get_all_by_domain(domain), deck)
+	Util.merge_non_duplicates(_get_all_by_domain(domain), free)  #Can directly merge? If ain't broke dont fix it :P
+	_set_deck_label(pawn_idx, domain, "Deck Saved")
 	$Panel.remove_child(_deck_builder)
 	$HSplit.show()
-
+	
+	
 
 func _on_BuildAttack_pressed(extra_arg_0: int, extra_arg_1: int) -> void:
 	pass # Replace with function body.

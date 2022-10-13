@@ -1,10 +1,10 @@
 extends Reference
 
 class_name PawnSet
-
+var set_name : String
 var pawn_loadouts : Dictionary
-var power_cards : Array
-var perferred_potions : Array
+var power_deck : Array
+var preferred_potions : Array
 
 
 func get_pawn_loadout(pawn_idx : int) -> PawnLoadout:
@@ -23,7 +23,17 @@ func is_valid() -> bool:
 		if pawn.is_valid == false:
 			return false
 	
-	if power_cards.size() > Game.POWER_MAX or power_cards.size() < Game.POWER_MIN:
+	if power_deck.size() > Game.POWER_MAX or power_deck.size() < Game.POWER_MIN:
 		return false	
 		
 	return true
+	
+func get_as_dict() -> Dictionary:
+	return {
+		"set_name" : set_name,
+		"power_deck" : power_deck,
+		"preferred_potions" : preferred_potions,
+		"PAWN1" : pawn_loadouts[0].get_as_dict(),
+		"PAWN2" : pawn_loadouts[1].get_as_dict(),
+		"PAWN3" : pawn_loadouts[2].get_as_dict(),
+	}

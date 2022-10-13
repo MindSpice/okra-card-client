@@ -35,4 +35,12 @@ func set_deck(domain : int, deck : Array) -> void:
 		ability_deck = deck
 
 
+func get_as_dict() -> Dictionary:
+	return {
+		"pawn_card" : pawn_card,
+		"weapon_card" : weapon_card,
+		"action_deck" : action_deck,
+		"ability_deck" : ability_deck
+	}
+
 

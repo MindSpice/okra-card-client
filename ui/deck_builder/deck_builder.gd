@@ -13,27 +13,33 @@ var _all_free_cards : Array
 var _deck_level : int = 0
 
 
-
-	
-func init(pawn : int, domain : int, free_card_list : Array, curr_deck_list : Array):
+func init(pawn : int, domain : int, free_card_list : Array, curr_deck : Array):
 	_all_grid = $View/AllView/ScrollContainer/CardGrid
 	_deck_grid = $View/DeckView/ScrollContainer/CardGrid
+	_pawn = pawn
 	_domain = domain
-	_deck_level = CardBase.get_cards_level(curr_deck_list)
-	Util.remove_children(_all_grid)
-	Util.remove_children(_deck_grid)
+	_deck_level = CardBase.get_cards_level(curr_deck)
 	_all_free_cards = free_card_list
 
 	for card in _all_free_cards:
 		_all_grid.add_child(card)
 		card.is_in_deck = false
 	
-	for card in curr_deck_list:
+	for card in curr_deck:
 		_deck_grid.add_child(card)
 		card.is_in_deck = true
 
 	if domain != Game.Domain.ACTION:
 		$View/AllView/Top/TypeCombo.hide()
+		$View/AllView/Top/TypeCombo.select(0)
+	else:
+		$View/AllView/Top/TypeCombo.show()
+		$View/AllView/Top/TypeCombo.select(get_type_int(curr_deck[0].card_type) if curr_deck.size() > 0 else 0)
+		
+	$View/AllView/Top/LevelCombo.select(0)
+	update_filtered_view(
+		$View/AllView/Top/TypeCombo.get_selected_id(), 
+		$View/AllView/Top/LevelCombo.get_selected_id())	
 	update_all_count()
 	update_deck_count()
 	
@@ -41,7 +47,6 @@ func init(pawn : int, domain : int, free_card_list : Array, curr_deck_list : Arr
 func get_built_deck() -> Array:
 	return _deck_grid.get_children()
 	
-
 
 func get_deck_type_bound():
 	for card in _deck_grid.get_children():
@@ -58,45 +63,58 @@ func add_to_deck(card : Card):
 		#Throw Dialog
 		push_warning(str("Type Mis-Match, Deck Type Is:", type_bound))
 		return
+		
 	if (_deck_grid.get_child_count() >= maxv) or (_deck_level + card.card_level > limit):
 		#Throw dialog
 		push_warning(str("Max Count/Limit | ", "MAX: ",maxv," COUNT: ", 
 			_deck_grid.get_child_count(), "DECK_LVL: ", limit, "MAX_LVL", limit))
 		return
-		
-	_all_grid.remove_child(card)
+
+	_all_grid.remove_child(card) # !!! Removal MUST come first on node swaps
 	_deck_grid.add_child(card)
+	_all_free_cards.erase(card)
 	_deck_level += card.card_level
 	card.is_in_deck = true
+	
+	if (_domain == Game.Domain.ACTION) :
+		$View/AllView/Top/TypeCombo.select(get_type_int(card.card_type))
+		update_filtered_view(
+			get_type_int(card.card_type),
+			$View/AllView/Top/LevelCombo.get_selected_id())
+			
 	update_all_count()
 	update_deck_count()
 
 
 func remove_from_deck(card : Card):
-
+	_all_free_cards.append(card)
 	_deck_grid.remove_child(card)
-	_all_grid.add_child(card)
 	_deck_level -= card.card_level
 	card.is_in_deck = false
+	
+	update_filtered_view(
+		$View/AllView/Top/TypeCombo.get_selected_id(), 
+		$View/AllView/Top/LevelCombo.get_selected_id())
 	update_all_count()
 	update_deck_count()
-
-
+	
 	# Updates the all card view filter, as to no wrongly show retuned cards
-	match (_domain):
-		Game.Domain.ACTION:
-			update_filtered_view(
-				$View/AllView/Top/TypeCombo.get_selected_id(), 
-				$View/AllView/Top/LevelCombo.get_selected_id())
-		Game.Domain.ABILITY:
-			update_filtered_view(
-				0, 
-				$View/AllView/Top/LevelCombo.get_selected_id())
-		Game.Domain.Power:
-			update_filtered_view(
-				0, 
-				$View/AllView/Top/LevelCombo.get_selected_id())
+#	match (_domain):
+#		Game.Domain.ACTION:
+#			update_filtered_view(
+#				$View/AllView/Top/TypeCombo.get_selected_id(), 
+#				$View/AllView/Top/LevelCombo.get_selected_id())
+#		Game.Domain.ABILITY:
+#			update_filtered_view(
+#				0, 
+#				$View/AllView/Top/LevelCombo.get_selected_id())
+#		Game.Domain.Power:
+#			update_filtered_view(
+#				0, 
+#				$View/AllView/Top/LevelCombo.get_selected_id())
 
+
+#func ()
 
 func update_deck(card : Card, id : int):
 	match (id):
@@ -118,13 +136,18 @@ func update_filtered_view(typei : int, level : int):
 		2: type = "RANGED"
 		3: type = "MAGIC"
 		
-		
 	for card in _all_free_cards:
 		if (type != "") and (card.card_type != type):
 			continue
 		if (level != 0) and (card.card_level != level):
 			continue
 		_all_grid.add_child(card)
+		
+func get_type_int(type : String) -> int:
+	if type == "MELEE": return 1
+	if type == "RANGED": return 2
+	if type == "MAGIC": return 3
+	return 0
 
 
 func update_all_count():
@@ -143,37 +166,40 @@ func _on_TypeCombo_item_selected(index):
 
 func _on_LevelCombo_item_selected(index):
 	update_filtered_view($View/AllView/Top/TypeCombo.get_selected_id(),index)
-	
 
 
 func _on_Save_pressed() -> void:
 	if (_deck_grid.get_child_count() < Game.get_deck_contraints(_domain).y
 		or _deck_grid.get_child_count() > Game.get_deck_contraints(_domain).x):
-			##Throw dialog here
+			push_warning("Save Constaints Mis-Match")
 			pass
 	emit_signal("save",
-		 _pawn, _domain,
+		 _pawn, 
+		_domain,
 		_deck_grid.get_children() if _deck_grid.get_child_count() > 0 else [], 
 		_all_grid.get_children() if _all_grid.get_child_count() > 0 else [])
 	Util.remove_children(_all_grid)
 	Util.remove_children(_deck_grid)
 
 
-func _on_Reset_pressed() -> void:
-	for card in _deck_grid.get_children():
-		_all_grid.add_child(card)
-		_deck_grid.remove_child(card)
-		update_filtered_view(
-			$View/AllView/Top/TypeCombo.get_selected_id(), 
-			$View/AllView/Top/LevelCombo.get_selected_id())
+# Unused
+#func _on_Reset_pressed() -> void:
+#	for card in _deck_grid.get_children():
+#		_all_free_cards.append(card)
+#		_deck_grid.remove_child(card)
+#		_deck_level = 0
+#		card.is_in_deck = false
+#		update_filtered_view(
+#			$View/AllView/Top/TypeCombo.get_selected_id(), 
+#			$View/AllView/Top/LevelCombo.get_selected_id())
 
 
 func _on_Close_pressed() -> void:
+	emit_signal("closed", _domain, _deck_grid.get_children())
 	Util.remove_children(_all_grid)
 	Util.remove_children(_deck_grid)
-	emit_signal("closed", _domain, _all_grid.get_children() if _all_grid.get_child_count() > 0 else [])
+	
 	
 	   
 signal closed(domain, free)
-
 signal save (pawn, domain, deck, free)
