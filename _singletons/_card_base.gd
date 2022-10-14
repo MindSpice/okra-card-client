@@ -51,7 +51,13 @@ func get_cards_level(card_list : Array) -> int:
 	for card in card_list:
 		level += card.card_level
 	return level
-
+	
+	
+func card_nodes_as_names (card_nodes : Array) -> Array:
+	var card_names : Array
+	for card in card_nodes:
+		card_names.append(card.card_name)
+	return card_names
 
 # TODO find a better representation
 # export from back into into csv and maintain indexing?

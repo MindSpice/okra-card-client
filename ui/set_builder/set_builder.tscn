@@ -926,12 +926,14 @@ margin_right = 347.0
 margin_bottom = 217.0
 custom_constants/separation = 7
 
-[node name="ExistingSets" type="OptionButton" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox"]
+[node name="SavedSets" type="OptionButton" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox"]
 margin_right = 296.0
 margin_bottom = 21.0
 rect_min_size = Vector2( 296, 0 )
-text = "Load Existing Set"
+text = "Select Saved Set"
 align = 1
+items = [ "Select Saved Set", null, false, -1, null ]
+selected = 0
 
 [node name="Load" type="Button" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox"]
 margin_left = 303.0
@@ -998,5 +1000,6 @@ text = "Back To Menu"
 [connection signal="pressed" from="HSplit/VSplit2/Pawn2/VBox/HBox2/PawnDeck/AttackDeck/BuildAttack" to="." method="_on_Build_pressed" binds= [ 1, 0 ]]
 [connection signal="pressed" from="HSplit/VSplit2/Pawn2/VBox/HBox2/PawnDeck/AbilityDeck/BuildAbility" to="." method="_on_Build_pressed" binds= [ 1, 1 ]]
 [connection signal="pressed" from="HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerDeck/BuildPower" to="." method="_on_Build_pressed" binds= [ -1, 2 ]]
+[connection signal="pressed" from="HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/Load" to="." method="_on_Load_pressed"]
 [connection signal="pressed" from="HSplit/VSplit2/SetInfo/HBox/DeckSettings/HBox/Save" to="." method="_on_Save_pressed"]
 [connection signal="pressed" from="HSplit/VSplit2/SetInfo/HBox2/ToMenu" to="." method="_on_To_Menu_pressed"]

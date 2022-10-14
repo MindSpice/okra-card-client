@@ -5,26 +5,21 @@ var _ability_cards_free : Array
 var _power_cards_free : Array
 var _pawn_cards_free : Array
 var _weapon_cards_free : Array
+var _saved_pawn_sets : Array # Shares index with Player.pawn_sets & OptionBox
 var _pawn_set : PawnSet
+
 
 onready var _deck_builder := preload("res://ui/deck_builder/deck_builder.tscn").instance()
 onready var _s_select := preload("res://ui/set_builder/pawn_select.tscn").instance()
 
 
 func _ready():
-
-	_action_cards_free = CardBase.instance_card_list(Game.Domain.ACTION, Player.action_cards_all)
-	_ability_cards_free = CardBase.instance_card_list(Game.Domain.ABILITY, Player.ability_cards_all)
-	_power_cards_free = CardBase.instance_card_list(Game.Domain.POWER, Player.power_cards_all)
-	_pawn_cards_free = CardBase.instance_card_list(Game.Domain.PAWN, Player.pawn_cards_all)
-	_weapon_cards_free = CardBase.instance_card_list(Game.Domain.WEAPON, Player.weapon_cards_all)
-
-	_s_select.connect("_card_relay", self, "_set_single_card_selction")
+	_load_cards_all()
 	$Panel.add_child(_s_select)
+	_s_select.connect("_card_relay", self, "_set_single_card_selction")
 	_deck_builder.connect("closed", self, "_on_deck_builder_close")
 	_deck_builder.connect("save", self, "_on_deck_builder_save")
 	
-		
 	for card in _action_cards_free:
 		card.connect("context_selected", _deck_builder, "update_deck")
 		
@@ -34,9 +29,32 @@ func _ready():
 	for card in _power_cards_free:
 		card.connect("context_selected", _deck_builder, "update_deck")
 		
-	_pawn_set = PawnSet.new()
+	for i in range(0, Player.pawn_sets.size()):
+		_saved_pawn_sets.append(Player.pawn_sets[i].get("set_name"))
+		$HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.add_item(
+			Player.pawn_sets[i].get("set_name", i))
 		
+	_pawn_set = PawnSet.new()
+
 	
+	
+	
+func _load_cards_all() -> void:
+	_action_cards_free = CardBase.instance_card_list(Game.Domain.ACTION, Player.action_cards_all)
+	_ability_cards_free = CardBase.instance_card_list(Game.Domain.ABILITY, Player.ability_cards_all)
+	_power_cards_free = CardBase.instance_card_list(Game.Domain.POWER, Player.power_cards_all)
+	_pawn_cards_free = CardBase.instance_card_list(Game.Domain.PAWN, Player.pawn_cards_all)
+	_weapon_cards_free = CardBase.instance_card_list(Game.Domain.WEAPON, Player.weapon_cards_all)
+	
+func _clear_cards_all() -> void:
+	_pawn_set.clean_up()
+	Util.free_array(_pawn_cards_free)
+	Util.free_array(_weapon_cards_free)
+	Util.free_array(_action_cards_free)
+	Util.free_array(_ability_cards_free)
+	Util.free_array(_power_cards_free)
+
+
 
 func _set_pawn_loadout(pawn_idx : int, pawn_loadout : PawnLoadout):
 	match(pawn_idx):
@@ -150,6 +168,15 @@ func _set_deck_label(pawn_idx : int, domain : int, string : String):
 				$HSplit/VSplit/Pawn3/VBox/HBox2/PawnDeck/AbilityDeck/DeckName.text = string
 		-1:
 			$HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerDeck/DeckName.text = string
+			
+func _set_label_all(string : String):
+	$HSplit/VSplit/Pawn1/VBox/HBox2/PawnDeck/AttackDeck/DeckName.text = string
+	$HSplit/VSplit/Pawn1/VBox/HBox2/PawnDeck/AbilityDeck/DeckName.text = string
+	$HSplit/VSplit2/Pawn2/VBox/HBox2/PawnDeck/AttackDeck/DeckName.text = string
+	$HSplit/VSplit2/Pawn2/VBox/HBox2/PawnDeck/AbilityDeck/DeckName.text = string
+	$HSplit/VSplit/Pawn3/VBox/HBox2/PawnDeck/AttackDeck/DeckName.text = string
+	$HSplit/VSplit/Pawn3/VBox/HBox2/PawnDeck/AbilityDeck/DeckName.text = string
+	$HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerDeck/DeckName.text = string
 
 
 # These are passing an int that is indexed the same as
@@ -205,11 +232,6 @@ func _on_deck_builder_save(pawn_idx : int, domain : int, deck : Array, free : Ar
 	_set_deck_label(pawn_idx, domain, "Deck Saved")
 	$Panel.remove_child(_deck_builder)
 	$HSplit.show()
-	
-	
-
-func _on_BuildAttack_pressed(extra_arg_0: int, extra_arg_1: int) -> void:
-	pass # Replace with function body.
 
 
 func _on_Save_pressed() -> void:
@@ -217,3 +239,36 @@ func _on_Save_pressed() -> void:
 	_pawn_set.preferred_potions = ["POTION1", "POTION2", "POTION3"]
 	print(to_json(_pawn_set.get_as_dict()))
 	pass
+
+
+func _on_Load_pressed() -> void:
+	var set_idx = $HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.get_selected_id()
+	if set_idx <0:
+		return
+		
+	_clear_cards_all()
+	_pawn_set.load(Player.pawn_sets[set_idx])
+	_set_label_all("Deck Saved")	
+	
+	for domain in Game.Domain.values():
+		print(domain)
+		print(Game.Domain.ACTION)
+		var free_cards :Array
+		free_cards.append(
+			Util.erase_all(
+				Player.get_owned_by_domain(domain),
+				 _pawn_set.get_all_card_names(domain)))
+		
+		_get_all_by_domain(domain).append_array(
+			CardBase.instance_card_list(domain, free_cards))
+			
+	for pawn_idx in Game.Pawn:
+		_get_card_window(pawn_idx, Game.Domain.PAWN).texture = _pawn_set.pawn_loadouts[pawn_idx].pawn_card.get_image()
+		_get_card_window(pawn_idx, Game.Domain.WEAPON).texture = _pawn_set.pawn_loadouts[pawn_idx].weapon_card.get_image()
+			
+
+	
+	
+	
+	
+	

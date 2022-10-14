@@ -48,6 +48,7 @@ func _on_request_completed(result, response_code, headers, body : PoolByteArray)
 func _on_create_account_pressed():
 	$CenterContainer/WindowDialog.popup_centered()
 	
+	
 func _on_b_register_pressed():
 	if not reg_pass.text == $CenterContainer/WindowDialog/VBoxContainer/pass_confirm.text:
 		reg_console.text = "Password Mis-Match"

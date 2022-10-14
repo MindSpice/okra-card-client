@@ -8,6 +8,12 @@ var action_deck : Array = []
 var ability_deck : Array = []
 
 
+func load(loadout : Dictionary):
+	pawn_card = CardBase.instance_card(Game.Domain.PAWN, loadout.get("pawn_card"))
+	weapon_card = CardBase.instance_card(Game.Domain.WEAPON, loadout.get("weapon_card"))
+	action_deck = CardBase.instance_card_list(Game.Domain.ACTION, loadout.get("action_deck"))
+	ability_deck = CardBase.instance_card_list(Game.Domain.ABILITY, loadout.get("ability_deck"))
+
 func is_valid() -> bool:
 	if pawn_card == null or weapon_card == null:
 		return false
@@ -36,25 +42,20 @@ func set_deck(domain : int, deck : Array) -> void:
 
 
 func get_as_dict() -> Dictionary:
-	var act_deck_names : Array
-	var abl_deck_names : Array
-	
-	for card in action_deck:
-		act_deck_names.append(card.card_name)
-		
-	for card in ability_deck:
-		abl_deck_names.append(card.card_name)
-		
 	return {
 		"pawn_card" : pawn_card.card_name,
 		"weapon_card" : weapon_card.card_name,
-		"action_deck" : act_deck_names,
-		"ability_deck" : abl_deck_names
+		"action_deck" : CardBase.card_nodes_as_names(action_deck),
+		"ability_deck" : CardBase.card_nodes_as_names(ability_deck)
 	} 
 
 func clean_up() -> void:
-	pawn_card.queue_free()
-	weapon_card.queue_free()
+	if pawn_card != null:
+		pawn_card.queue_free()
+		
+	if weapon_card != null:
+		weapon_card.queue_free()
+		
 	Util.free_array(action_deck)
 	Util.free_array(ability_deck)
 	
