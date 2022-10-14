@@ -12,6 +12,11 @@ var _pawn : int
 var _all_free_cards : Array
 var _deck_level : int = 0
 
+func _ready() -> void:
+	$Panel.add_child(inspect_window)
+
+
+
 
 func init(pawn : int, domain : int, free_card_list : Array, curr_deck : Array):
 	_all_grid = $View/AllView/ScrollContainer/CardGrid
@@ -121,7 +126,6 @@ func update_deck(card : Card, id : int):
 		0: add_to_deck(card)
 		1: remove_from_deck(card)
 		2: 
-			$Panel.add_child(inspect_window)
 			inspect_window.set_card(card)
 			inspect_window.pop_up()
 			
@@ -203,3 +207,4 @@ func _on_Close_pressed() -> void:
 	   
 signal closed(domain, free)
 signal save (pawn, domain, deck, free)
+

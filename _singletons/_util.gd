@@ -18,6 +18,10 @@ func free_children(root_node : Node) -> void:
 	
 	for child in root_node.get_children():
 		child.queue_free()
+		
+func free_array(array : Array):
+		for item in array:
+			item.queue_free()
 
 
 func merge_children_to_array (array : Array, root_node : Node) -> void:

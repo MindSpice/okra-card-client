@@ -36,11 +36,26 @@ func set_deck(domain : int, deck : Array) -> void:
 
 
 func get_as_dict() -> Dictionary:
+	var act_deck_names : Array
+	var abl_deck_names : Array
+	
+	for card in action_deck:
+		act_deck_names.append(card.card_name)
+		
+	for card in ability_deck:
+		abl_deck_names.append(card.card_name)
+		
 	return {
-		"pawn_card" : pawn_card,
-		"weapon_card" : weapon_card,
-		"action_deck" : action_deck,
-		"ability_deck" : ability_deck
-	}
+		"pawn_card" : pawn_card.card_name,
+		"weapon_card" : weapon_card.card_name,
+		"action_deck" : act_deck_names,
+		"ability_deck" : abl_deck_names
+	} 
 
+func clean_up() -> void:
+	pawn_card.queue_free()
+	weapon_card.queue_free()
+	Util.free_array(action_deck)
+	Util.free_array(ability_deck)
+	
 

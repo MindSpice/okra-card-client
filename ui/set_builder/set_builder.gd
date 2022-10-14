@@ -5,11 +5,7 @@ var _ability_cards_free : Array
 var _power_cards_free : Array
 var _pawn_cards_free : Array
 var _weapon_cards_free : Array
-
-var _set_name : String
-var _power_deck : Array
-var _pawn_loadouts : Array
-
+var _pawn_set : PawnSet
 
 onready var _deck_builder := preload("res://ui/deck_builder/deck_builder.tscn").instance()
 onready var _s_select := preload("res://ui/set_builder/pawn_select.tscn").instance()
@@ -28,8 +24,6 @@ func _ready():
 	_deck_builder.connect("closed", self, "_on_deck_builder_close")
 	_deck_builder.connect("save", self, "_on_deck_builder_save")
 	
-	for i in 3:
-		_pawn_loadouts.append(PawnLoadout.new())
 		
 	for card in _action_cards_free:
 		card.connect("context_selected", _deck_builder, "update_deck")
@@ -40,26 +34,28 @@ func _ready():
 	for card in _power_cards_free:
 		card.connect("context_selected", _deck_builder, "update_deck")
 		
+	_pawn_set = PawnSet.new()
+		
 	
 
 func _set_pawn_loadout(pawn_idx : int, pawn_loadout : PawnLoadout):
 	match(pawn_idx):
 		Game.Pawn.PAWN1:
-			_pawn_loadouts[0] = pawn_loadout
+			_pawn_set.pawn_loadouts[0] = pawn_loadout
 		Game.Pawn.PAWN2:
-			_pawn_loadouts[1] = pawn_loadout
+			_pawn_set.pawn_loadouts[1] = pawn_loadout
 		Game.Pawn.PAWN3:
-			_pawn_loadouts[2] = pawn_loadout
+			_pawn_set.pawn_loadouts[2] = pawn_loadout
 
 
 func _get_pawn_loadout(pawn_idx : int) -> PawnLoadout:
 	match(pawn_idx):
 		Game.Pawn.PAWN1:
-			return _pawn_loadouts[0]
+			return _pawn_set.pawn_loadouts[0]
 		Game.Pawn.PAWN2:
-			return _pawn_loadouts[1]
+			return _pawn_set.pawn_loadouts[1]
 		Game.Pawn.PAWN3:
-			return _pawn_loadouts[2]
+			return _pawn_set.pawn_loadouts[2]
 	push_error("Wrong Pawn Index")
 	return null
 
@@ -173,14 +169,23 @@ func _on_Build_pressed(pawn_idx : int, domain : int) -> void:
 		pawn_idx, 
 		domain, 
 		_get_all_by_domain(domain),
-		_power_deck if domain == Game.Domain.POWER 
-			else _pawn_loadouts[pawn_idx].get_deck(domain))
+		_pawn_set.power_deck if domain == Game.Domain.POWER 
+			else _get_pawn_loadout(pawn_idx).get_deck(domain))
 		
 	$HSplit.hide()
 	$Panel.add_child(_deck_builder)
 	
 
 func _on_To_Menu_pressed():
+#	$HSplit.queue_free()
+#	$Panel.queue_free()
+	Util.free_array(_pawn_cards_free)
+	Util.free_array(_action_cards_free)
+	Util.free_array(_weapon_cards_free)
+	Util.free_array(_ability_cards_free)
+	Util.free_array(_power_cards_free)
+	_pawn_set.clean_up()
+	_deck_builder.queue_free()
 	get_tree().change_scene("res://ui/menu/menu.tscn")
 
 
@@ -192,9 +197,9 @@ func _on_deck_builder_close(domain: int, free : Array) -> void:
 
 func _on_deck_builder_save(pawn_idx : int, domain : int, deck : Array, free : Array) -> void:
 	if pawn_idx == -1:
-		_power_deck = deck
+		_pawn_set.power_deck = deck
 	else:
-		_pawn_loadouts[pawn_idx].set_deck(domain, deck)
+		_get_pawn_loadout(pawn_idx).set_deck(domain, deck)
 	#Util.erase_all(_get_all_by_domain(domain), deck)
 	Util.merge_non_duplicates(_get_all_by_domain(domain), free)  #Can directly merge? If ain't broke dont fix it :P
 	_set_deck_label(pawn_idx, domain, "Deck Saved")
@@ -205,3 +210,10 @@ func _on_deck_builder_save(pawn_idx : int, domain : int, deck : Array, free : Ar
 
 func _on_BuildAttack_pressed(extra_arg_0: int, extra_arg_1: int) -> void:
 	pass # Replace with function body.
+
+
+func _on_Save_pressed() -> void:
+	_pawn_set.set_name = "Test_Set"
+	_pawn_set.preferred_potions = ["POTION1", "POTION2", "POTION3"]
+	print(to_json(_pawn_set.get_as_dict()))
+	pass
