@@ -59,15 +59,68 @@ func get_all_card_names(domain :int) -> Array:
 		
 	var cards : Array
 	
-	for pl in pawn_loadouts:
-		match(domain):
-			Game.Domain.PAWN:
+	
+	match(domain):
+		Game.Domain.PAWN:
+			for pl in pawn_loadouts:
 				cards.append(pl.pawn_card.card_name)
-			Game.Domain.WEAPON:
+		Game.Domain.WEAPON:
+			for pl in pawn_loadouts:
 				cards.append(pl.weapon_card.card_name)
-			Game.Domain.ACTION:
+		Game.Domain.ACTION:
+			for pl in pawn_loadouts:
 				cards.append_array(CardBase.card_nodes_as_names(pl.action_deck))
-			Game.Domain.ABILITY:
+		Game.Domain.ABILITY:
+			for pl in pawn_loadouts:
 				cards.append_array(CardBase.card_nodes_as_names(pl.ability_deck))
 
 	return cards
+	
+	
+# Horrible O(N^4) function, really wish I could use streams
+# Can't think of a better way atm, could be made N^3 keeping index and not using erase
+# But thats even more lines..... Not a big deal since array sizes are so small..I guess
+func remove_invalids(domain : int, invalids : Array) -> void:
+	if domain == Game.Domain.POWER:
+		for invalid in invalids:
+			for card in power_deck:
+				if card.card_name == invalid:
+					card.queue_free()
+					power_deck.erase(card)
+					break
+	match (domain):
+		Game.Domain.PAWN:
+			for invalid in invalids:
+				for pl in pawn_loadouts:
+					if pl.pawn_card == null:
+						 break
+					if pl.pawn_card.card_name == invalid:
+						pl.pawn_card.queue_free()
+						pl.pawn_card = null
+						break
+		Game.Domain.WEAPON:
+			for invalid in invalids:
+				for pl in pawn_loadouts:
+					if pl.weapon_card == null:
+						break
+					if pl.weapon_card.card_name == invalid:
+						pl.weapon_card.queue_free()
+						pl.weapon_card = null
+						break
+		Game.Domain.ACTION:
+			for invalid in invalids:
+				for pl in pawn_loadouts:
+					for card in pl.action_deck:
+						if card.card_name == invalid:
+							pl.action_deck.erase(card)
+							card.queue_free()
+							break
+		Game.Domain.ABILITY:
+			for invalid in invalids:
+				for pl in pawn_loadouts:
+					for card in pl.ability_deck:
+						if card.card_name == invalid:
+							pl.ability_deck.erase(card)
+							card.queue_free()
+							break
+

@@ -21,7 +21,6 @@ func init(pawn : int, domain : int, cards : Array):
 		card.connect("card_selected", self, "_select_card")
 		$Window/Hsplit/Cards/ScrollCont/CardGrid.add_child(card)
 
-
 func pop_up():
 	$Window.popup_centered()
 

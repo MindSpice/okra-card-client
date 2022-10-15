@@ -164,7 +164,6 @@ func update_deck_count():
 
 
 func _on_TypeCombo_item_selected(index):
-	print($View/AllView/Top/LevelCombo.get_index())
 	update_filtered_view(index, $View/AllView/Top/LevelCombo.get_selected_id())
 
 

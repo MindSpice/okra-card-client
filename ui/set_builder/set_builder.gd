@@ -34,7 +34,7 @@ func _ready():
 	for i in range(0, Player.pawn_sets.size()):
 		_saved_pawn_sets.append(Player.pawn_sets[i].get("set_name"))
 		$HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.add_item(
-			Player.pawn_sets[i].get("set_name", i))
+			Player.pawn_sets[i].get("set_name"))
 		
 	_pawn_set = PawnSet.new()
 
@@ -193,7 +193,6 @@ func _on_SelectWeapon_pressed(pawn_idx : int) -> void:
 
 
 func _on_Build_pressed(pawn_idx : int, domain : int) -> void:
-	print(_get_all_by_domain(domain))
 	_deck_builder.init(
 		pawn_idx, 
 		domain, 
@@ -240,6 +239,7 @@ func _on_deck_builder_save(pawn_idx : int, domain : int, deck : Array, free : Ar
 
 
 func _on_Save_pressed() -> void:
+	$HSplit/VSplit/Pawn1/VBox/HBox2/VBox/PawnCard.texture = null
 	_pawn_set.set_name = "Test_Set"
 	_pawn_set.preferred_potions = ["POTION1", "POTION2", "POTION3"]
 	print(to_json(_pawn_set.get_as_dict()))
@@ -247,21 +247,54 @@ func _on_Save_pressed() -> void:
 
 
 func _on_Load_pressed() -> void:
-	var set_idx = $HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.get_selected_id()
+	# Have to subtract one since option box doesn't honor the set -1 id for selection
+	var set_idx = $HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.get_selected() - 1
 	if set_idx < 0:
 		return
 		
 	_clear_cards_all()
 	_pawn_set.load(Player.pawn_sets[set_idx])
-	_set_label_all("Deck Saved")	
+	_set_label_all("Deck Saved")
 	
 	for domain in Game.Domain.values():
 		var free_cards :Array = Player.get_owned_by_domain(domain)
 		Util.erase_all(free_cards, _pawn_set.get_all_card_names(domain))
 		_get_all_by_domain(domain).append_array(CardBase.instance_card_list(domain, free_cards))
 			
+	_validate_set_load(_pawn_set)
+	
 	for pawn_idx in Game.Pawn.values():
-		_get_card_window(pawn_idx, Game.Domain.PAWN).texture = _pawn_set.pawn_loadouts[pawn_idx].pawn_card.get_image()
-		_get_card_window(pawn_idx, Game.Domain.WEAPON).texture = _pawn_set.pawn_loadouts[pawn_idx].weapon_card.get_image()
+		if _pawn_set.pawn_loadouts[pawn_idx].pawn_card != null:
+			(_get_card_window(pawn_idx, Game.Domain.PAWN).texture 
+				= _pawn_set.pawn_loadouts[pawn_idx].pawn_card.get_image())
+		else:
+			_get_card_window(pawn_idx, Game.Domain.PAWN).texture = null
+				
+		if _pawn_set.pawn_loadouts[pawn_idx].weapon_card != null:
+			(_get_card_window(pawn_idx, Game.Domain.WEAPON).texture 
+				= _pawn_set.pawn_loadouts[pawn_idx].weapon_card.get_image())
+		else:
+			_get_card_window(pawn_idx, Game.Domain.PAWN).texture = null
+	
+	
+	
+func _validate_set_load(set : PawnSet) -> bool:
+	var invalid_cards : Dictionary
+	
+	for domain in Game.Domain.values():
+		print(Player.get_owned_by_domain(domain))
+		var invalid = Game.validate_deck(domain, set.get_all_card_names(domain))
+		if not invalid.empty():
+			invalid_cards[domain] = invalid
+	if not invalid_cards.empty():
+		# TODO message dialog listing invalids
+		push_warning(str("Invalid Pawn Set, Don't Own Cards Contained", invalid_cards))
+	for domain in invalid_cards.keys():
+		set.remove_invalids(domain, invalid_cards.get(domain))
 			
+	return invalid_cards.empty()
+	
+	
+	
+	
 

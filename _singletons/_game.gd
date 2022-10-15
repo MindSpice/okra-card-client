@@ -41,6 +41,20 @@ func get_deck_contraints(domain : int) -> Vector2:
 		Domain.POWER:
 			return Vector2(POWER_MIN, POWER_MAX)
 	return Vector2(0,0)
+	
+
+func validate_deck(domain : int, set_deck : Array) -> Array:
+	var all_cards : Array = Player.get_owned_by_domain(domain).duplicate(true)
+	var invalid_cards : Array
+	
+	for card in set_deck:
+		if all_cards.find(card) == -1:
+			invalid_cards.append(card)
+			
+	return invalid_cards
+
+	
+	
 
 
 		
