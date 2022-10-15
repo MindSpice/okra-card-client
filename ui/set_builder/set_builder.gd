@@ -16,6 +16,8 @@ onready var _s_select := preload("res://ui/set_builder/pawn_select.tscn").instan
 func _ready():
 	_load_cards_all()
 	$Panel.add_child(_s_select)
+	$Panel.add_child(_deck_builder)
+	_deck_builder.hide()
 	_s_select.connect("_card_relay", self, "_set_single_card_selction")
 	_deck_builder.connect("closed", self, "_on_deck_builder_close")
 	_deck_builder.connect("save", self, "_on_deck_builder_save")
@@ -36,16 +38,15 @@ func _ready():
 		
 	_pawn_set = PawnSet.new()
 
-	
-	
-	
+
 func _load_cards_all() -> void:
 	_action_cards_free = CardBase.instance_card_list(Game.Domain.ACTION, Player.action_cards_all)
 	_ability_cards_free = CardBase.instance_card_list(Game.Domain.ABILITY, Player.ability_cards_all)
 	_power_cards_free = CardBase.instance_card_list(Game.Domain.POWER, Player.power_cards_all)
 	_pawn_cards_free = CardBase.instance_card_list(Game.Domain.PAWN, Player.pawn_cards_all)
 	_weapon_cards_free = CardBase.instance_card_list(Game.Domain.WEAPON, Player.weapon_cards_all)
-	
+
+
 func _clear_cards_all() -> void:
 	_pawn_set.clean_up()
 	Util.free_array(_pawn_cards_free)
@@ -192,6 +193,7 @@ func _on_SelectWeapon_pressed(pawn_idx : int) -> void:
 
 
 func _on_Build_pressed(pawn_idx : int, domain : int) -> void:
+	print(_get_all_by_domain(domain))
 	_deck_builder.init(
 		pawn_idx, 
 		domain, 
@@ -200,7 +202,8 @@ func _on_Build_pressed(pawn_idx : int, domain : int) -> void:
 			else _get_pawn_loadout(pawn_idx).get_deck(domain))
 		
 	$HSplit.hide()
-	$Panel.add_child(_deck_builder)
+	_deck_builder.show()
+	#$Panel.add_child(_deck_builder)	# TODO maybe add at start and hide?
 	
 
 func _on_To_Menu_pressed():
@@ -218,7 +221,8 @@ func _on_To_Menu_pressed():
 
 func _on_deck_builder_close(domain: int, free : Array) -> void:
 	Util.merge_non_duplicates(_get_all_by_domain(domain), free)  #Can directly merge? If ain't broke dont fix it :P
-	$Panel.remove_child(_deck_builder)
+	#$Panel.remove_child(_deck_builder)
+	_deck_builder.hide()
 	$HSplit.show()
 
 
@@ -230,7 +234,8 @@ func _on_deck_builder_save(pawn_idx : int, domain : int, deck : Array, free : Ar
 	#Util.erase_all(_get_all_by_domain(domain), deck)
 	Util.merge_non_duplicates(_get_all_by_domain(domain), free)  #Can directly merge? If ain't broke dont fix it :P
 	_set_deck_label(pawn_idx, domain, "Deck Saved")
-	$Panel.remove_child(_deck_builder)
+	#$Panel.remove_child(_deck_builder)
+	_deck_builder.hide()
 	$HSplit.show()
 
 
@@ -243,7 +248,7 @@ func _on_Save_pressed() -> void:
 
 func _on_Load_pressed() -> void:
 	var set_idx = $HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.get_selected_id()
-	if set_idx <0:
+	if set_idx < 0:
 		return
 		
 	_clear_cards_all()
@@ -251,24 +256,12 @@ func _on_Load_pressed() -> void:
 	_set_label_all("Deck Saved")	
 	
 	for domain in Game.Domain.values():
-		print(domain)
-		print(Game.Domain.ACTION)
-		var free_cards :Array
-		free_cards.append(
-			Util.erase_all(
-				Player.get_owned_by_domain(domain),
-				 _pawn_set.get_all_card_names(domain)))
-		
-		_get_all_by_domain(domain).append_array(
-			CardBase.instance_card_list(domain, free_cards))
+		var free_cards :Array = Player.get_owned_by_domain(domain)
+		Util.erase_all(free_cards, _pawn_set.get_all_card_names(domain))
+		_get_all_by_domain(domain).append_array(CardBase.instance_card_list(domain, free_cards))
 			
-	for pawn_idx in Game.Pawn:
+	for pawn_idx in Game.Pawn.values():
 		_get_card_window(pawn_idx, Game.Domain.PAWN).texture = _pawn_set.pawn_loadouts[pawn_idx].pawn_card.get_image()
 		_get_card_window(pawn_idx, Game.Domain.WEAPON).texture = _pawn_set.pawn_loadouts[pawn_idx].weapon_card.get_image()
 			
 
-	
-	
-	
-	
-	

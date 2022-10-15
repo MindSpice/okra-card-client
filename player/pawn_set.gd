@@ -54,17 +54,20 @@ func clean_up() -> void:
 	
 	
 func get_all_card_names(domain :int) -> Array:
+	if domain == Game.Domain.POWER:
+		return CardBase.card_nodes_as_names(power_deck)
+		
 	var cards : Array
+	
 	for pl in pawn_loadouts:
 		match(domain):
 			Game.Domain.PAWN:
 				cards.append(pl.pawn_card.card_name)
 			Game.Domain.WEAPON:
-				cards.append(pl.weapon_card._card_name)
+				cards.append(pl.weapon_card.card_name)
 			Game.Domain.ACTION:
 				cards.append_array(CardBase.card_nodes_as_names(pl.action_deck))
 			Game.Domain.ABILITY:
 				cards.append_array(CardBase.card_nodes_as_names(pl.ability_deck))
-			Game.Domain.POWER:
-				cards.append_array(CardBase.card_nodes_as_names(pl.power_deck))
+
 	return cards

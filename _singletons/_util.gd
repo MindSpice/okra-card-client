@@ -22,6 +22,7 @@ func free_children(root_node : Node) -> void:
 func free_array(array : Array):
 		for item in array:
 			item.queue_free()
+		array.clear()
 
 
 func merge_children_to_array (array : Array, root_node : Node) -> void:
@@ -42,3 +43,11 @@ func merge_non_duplicates(base : Array, merge : Array):
 func erase_all(target_array : Array, array : Array) -> void:
 	for item in array:
 		target_array.erase(item)
+
+#func free_matches_from (target_array : Array, array : Array) -> void:
+#	for item in array:
+#		var idx = target_array.find(item)
+#		var target = target_array[idx]
+#		if target != null:
+#			target_array.remove(idx)
+#			target.queue_free()
