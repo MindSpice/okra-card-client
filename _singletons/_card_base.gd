@@ -112,4 +112,13 @@ const WEAPONCARDS = {
 	"WEAPON3" : ["SINGLE", "MAGIC", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
 }
 
+const POTIONS = {
+	"POTION1" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"POTION2" : ["SINGLE", "RANGED", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"POTION3" : ["SINGLE", "MAGIC", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"POTION4" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"POTION5" : ["SINGLE", "RANGED", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"POTION6" : ["SINGLE", "MAGIC", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
+}
+
 

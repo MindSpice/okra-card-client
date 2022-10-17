@@ -37,4 +37,5 @@ margin_right = 150.0
 margin_bottom = 48.0
 text = "Set Builder"
 
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Queue" to="." method="_on_Queue_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Builder" to="." method="_on_Builder_pressed"]

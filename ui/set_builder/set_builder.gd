@@ -5,13 +5,13 @@ var _ability_cards_free : Array
 var _power_cards_free : Array
 var _pawn_cards_free : Array
 var _weapon_cards_free : Array
-var _saved_pawn_sets : Array # Shares index with Player.pawn_sets & OptionBox
+var _saved_pawn_sets : Array 
+var _potion_options : Array
 var _pawn_set : PawnSet
 
 
 onready var _deck_builder := preload("res://ui/deck_builder/deck_builder.tscn").instance()
 onready var _s_select := preload("res://ui/set_builder/pawn_select.tscn").instance()
-
 
 func _ready():
 	_load_cards_all()
@@ -35,6 +35,15 @@ func _ready():
 		_saved_pawn_sets.append(Player.pawn_sets[i].get("set_name"))
 		$HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.add_item(
 			Player.pawn_sets[i].get("set_name"))
+			
+	for node in $HSplit/VSplit2/SetInfo/HBox/Potions.get_children():
+		if node is OptionButton:
+			_potion_options.append(node)
+			node.add_item("None")
+			for potion in CardBase.POTIONS.keys():
+				node.add_item(potion)
+	 
+	print(_potion_options.size())
 		
 	_pawn_set = PawnSet.new()
 
@@ -54,7 +63,7 @@ func _clear_cards_all() -> void:
 	Util.free_array(_action_cards_free)
 	Util.free_array(_ability_cards_free)
 	Util.free_array(_power_cards_free)
-
+	
 
 
 func _set_pawn_loadout(pawn_idx : int, pawn_loadout : PawnLoadout):
@@ -239,9 +248,20 @@ func _on_deck_builder_save(pawn_idx : int, domain : int, deck : Array, free : Ar
 
 
 func _on_Save_pressed() -> void:
+	#
+	#			TODO
+	#
+	#
+	#
 	$HSplit/VSplit/Pawn1/VBox/HBox2/VBox/PawnCard.texture = null
 	_pawn_set.set_name = "Test_Set"
-	_pawn_set.preferred_potions = ["POTION1", "POTION2", "POTION3"]
+	
+	_pawn_set.preferred_potions.clear()
+	
+	for option in _potion_options:
+		if option.get_selected_id() != 0:
+			_pawn_set.preferred_potions.append(option.get_item_text(option.get_selected_id()))
+				
 	print(to_json(_pawn_set.get_as_dict()))
 	pass
 
@@ -260,8 +280,17 @@ func _on_Load_pressed() -> void:
 		var free_cards :Array = Player.get_owned_by_domain(domain)
 		Util.erase_all(free_cards, _pawn_set.get_all_card_names(domain))
 		_get_all_by_domain(domain).append_array(CardBase.instance_card_list(domain, free_cards))
-			
-	_validate_set_load(_pawn_set)
+	
+	var valid := Game.validate_set(_pawn_set)
+	
+	if valid.get("valid") == false:
+		#TODO throw dialog
+		pass
+		
+	for i in range(0, _pawn_set.preferred_potions.size()):
+		for j in range(1, _potion_options[i].get_item_count()):
+			if _potion_options[i].get_item_text(j) ==  _pawn_set.preferred_potions[i]:
+				_potion_options[i].select(j)
 	
 	for pawn_idx in Game.Pawn.values():
 		if _pawn_set.pawn_loadouts[pawn_idx].pawn_card != null:
@@ -276,25 +305,3 @@ func _on_Load_pressed() -> void:
 		else:
 			_get_card_window(pawn_idx, Game.Domain.PAWN).texture = null
 	
-	
-	
-func _validate_set_load(set : PawnSet) -> bool:
-	var invalid_cards : Dictionary
-	
-	for domain in Game.Domain.values():
-		print(Player.get_owned_by_domain(domain))
-		var invalid = Game.validate_deck(domain, set.get_all_card_names(domain))
-		if not invalid.empty():
-			invalid_cards[domain] = invalid
-	if not invalid_cards.empty():
-		# TODO message dialog listing invalids
-		push_warning(str("Invalid Pawn Set, Don't Own Cards Contained", invalid_cards))
-	for domain in invalid_cards.keys():
-		set.remove_invalids(domain, invalid_cards.get(domain))
-			
-	return invalid_cards.empty()
-	
-	
-	
-	
-
