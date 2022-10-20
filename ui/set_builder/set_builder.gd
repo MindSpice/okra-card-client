@@ -1,5 +1,6 @@
 extends Control
 
+# TODO? IDK why I started this with multiple arrays, can be a dictionary with enum keys
 var _action_cards_free : Array
 var _ability_cards_free : Array
 var _power_cards_free : Array
@@ -21,16 +22,8 @@ func _ready():
 	_s_select.connect("_card_relay", self, "_set_single_card_selction")
 	_deck_builder.connect("closed", self, "_on_deck_builder_close")
 	_deck_builder.connect("save", self, "_on_deck_builder_save")
-	
-	for card in _action_cards_free:
-		card.connect("context_selected", _deck_builder, "update_deck")
-		
-	for card in _ability_cards_free:
-		card.connect("context_selected", _deck_builder, "update_deck")
-		
-	for card in _power_cards_free:
-		card.connect("context_selected", _deck_builder, "update_deck")
-		
+	_add_card_context()
+
 	for i in range(0, Player.pawn_sets.size()):
 		_saved_pawn_sets.append(Player.pawn_sets[i].get("set_name"))
 		$HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.add_item(
@@ -63,6 +56,16 @@ func _clear_cards_all() -> void:
 	Util.free_array(_action_cards_free)
 	Util.free_array(_ability_cards_free)
 	Util.free_array(_power_cards_free)
+	
+func _add_card_context() -> void:
+	for card in _action_cards_free:
+		card.connect("context_selected", _deck_builder, "update_deck")
+		
+	for card in _ability_cards_free:
+		card.connect("context_selected", _deck_builder, "update_deck")
+		
+	for card in _power_cards_free:
+		card.connect("context_selected", _deck_builder, "update_deck")
 	
 
 
@@ -267,25 +270,28 @@ func _on_Save_pressed() -> void:
 
 
 func _on_Load_pressed() -> void:
-	# Have to subtract one since option box doesn't honor the set -1 id for selection
+	# Have to subtract one since option box doesn't honor the set -1 id for per selected text
 	var set_idx = $HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.get_selected() - 1
 	if set_idx < 0:
 		return
+		
 		
 	_clear_cards_all()
 	_pawn_set.load(Player.pawn_sets[set_idx])
 	_set_label_all("Deck Saved")
 	
 	for domain in Game.Domain.values():
-		var free_cards :Array = Player.get_owned_by_domain(domain)
+		var free_cards : Array = Player.get_owned_by_domain(domain)
 		Util.erase_all(free_cards, _pawn_set.get_all_card_names(domain))
 		_get_all_by_domain(domain).append_array(CardBase.instance_card_list(domain, free_cards))
 	
-	var valid := Game.validate_set(_pawn_set)
+	var set_validation := Game.validate_set(_pawn_set)
 	
-	if valid.get("valid") == false:
+	if set_validation.get("valid") == false:
 		#TODO throw dialog
 		pass
+		
+	_add_card_context()
 		
 	for i in range(0, _pawn_set.preferred_potions.size()):
 		for j in range(1, _potion_options[i].get_item_count()):

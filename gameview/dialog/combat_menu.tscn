@@ -1,0 +1,293 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://themes/ttheme.tres" type="Theme" id=1]
+[ext_resource path="res://gameview/dialog/CombatMenuStat.tres" type="DynamicFont" id=2]
+[ext_resource path="res://gameview/dialog/cm_sep.tres" type="StyleBox" id=3]
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.145098, 0.207843, 0.239216, 0.831373 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.0196078, 0.329412, 0.427451, 0.427451 )
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Panel
+"
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.172549, 0.443137, 0.54902, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.027451, 0.12549, 0.172549, 0.807843 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.392157, 0.396078, 0.65098, 0.121569 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.0313726, 0.176471, 0.25098, 0.784314 )
+border_color = Color( 0.0196078, 0.329412, 0.427451, 0.427451 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxLine" id=6]
+color = Color( 0.0196078, 0.329412, 0.427451, 0.427451 )
+
+[node name="CombatMenu" type="Panel"]
+margin_right = 280.0
+margin_bottom = 128.0
+rect_pivot_offset = Vector2( 0, 128 )
+theme = ExtResource( 1 )
+custom_styles/panel = SubResource( 3 )
+script = SubResource( 2 )
+
+[node name="InputBox" type="VBoxContainer" parent="."]
+margin_left = 5.0
+margin_top = 4.0
+margin_right = 111.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 104, 0 )
+alignment = 1
+
+[node name="LightAttack" type="Button" parent="InputBox"]
+margin_top = 2.0
+margin_right = 106.0
+margin_bottom = 22.0
+rect_min_size = Vector2( 104, 20 )
+focus_mode = 0
+theme = ExtResource( 1 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 8 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 4 )
+shortcut_in_tooltip = false
+enabled_focus_mode = 0
+text = "Light Attack"
+
+[node name="HeavyAttack" type="Button" parent="InputBox"]
+margin_top = 26.0
+margin_right = 106.0
+margin_bottom = 46.0
+rect_min_size = Vector2( 104, 20 )
+focus_mode = 0
+theme = ExtResource( 1 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 8 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 4 )
+shortcut_in_tooltip = false
+enabled_focus_mode = 0
+text = "Heavy Attack"
+
+[node name="PlayCard" type="Button" parent="InputBox"]
+margin_top = 50.0
+margin_right = 106.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 104, 20 )
+focus_mode = 0
+theme = ExtResource( 1 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 8 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 4 )
+shortcut_in_tooltip = false
+enabled_focus_mode = 0
+text = "Play Card"
+
+[node name="Potion" type="Button" parent="InputBox"]
+margin_top = 74.0
+margin_right = 106.0
+margin_bottom = 94.0
+rect_min_size = Vector2( 104, 20 )
+focus_mode = 0
+theme = ExtResource( 1 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 8 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 4 )
+shortcut_in_tooltip = false
+enabled_focus_mode = 0
+text = "Potion"
+
+[node name="SkipTurn" type="Button" parent="InputBox"]
+margin_top = 98.0
+margin_right = 106.0
+margin_bottom = 118.0
+rect_min_size = Vector2( 104, 20 )
+focus_mode = 0
+theme = ExtResource( 1 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 8 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 4 )
+shortcut_in_tooltip = false
+enabled_focus_mode = 0
+text = "Skip Turn"
+
+[node name="VSeparator" type="VSeparator" parent="."]
+margin_left = 114.06
+margin_right = 118.06
+margin_bottom = 126.0
+custom_styles/separator = ExtResource( 3 )
+
+[node name="Stats1" type="VBoxContainer" parent="."]
+margin_left = 128.0
+margin_top = 6.0
+margin_right = 192.0
+margin_bottom = 64.0
+custom_constants/separation = 1
+
+[node name="HP" type="Label" parent="Stats1"]
+margin_right = 64.0
+margin_bottom = 13.0
+custom_fonts/font = ExtResource( 2 )
+text = "HP: 1000"
+
+[node name="DP" type="Label" parent="Stats1"]
+margin_top = 14.0
+margin_right = 64.0
+margin_bottom = 27.0
+custom_fonts/font = ExtResource( 2 )
+text = "DP: 1000"
+
+[node name="SP" type="Label" parent="Stats1"]
+margin_top = 28.0
+margin_right = 64.0
+margin_bottom = 41.0
+custom_fonts/font = ExtResource( 2 )
+text = "SP: 1000"
+
+[node name="MP" type="Label" parent="Stats1"]
+margin_top = 42.0
+margin_right = 64.0
+margin_bottom = 55.0
+custom_fonts/font = ExtResource( 2 )
+text = "MP: 1000"
+
+[node name="Stats2" type="VBoxContainer" parent="."]
+margin_left = 208.0
+margin_top = 6.0
+margin_right = 276.0
+margin_bottom = 64.0
+custom_constants/separation = 1
+
+[node name="WP" type="Label" parent="Stats2"]
+margin_right = 68.0
+margin_bottom = 13.0
+custom_fonts/font = ExtResource( 2 )
+text = "WP: 1000"
+
+[node name="LUCK" type="Label" parent="Stats2"]
+margin_top = 14.0
+margin_right = 68.0
+margin_bottom = 27.0
+custom_fonts/font = ExtResource( 2 )
+text = "LUCK: 10"
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_left = 117.0
+margin_top = 63.2509
+margin_right = 279.0
+margin_bottom = 67.2509
+custom_styles/separator = SubResource( 6 )
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+margin_left = 125.0
+margin_top = 68.0
+margin_right = 279.0
+margin_bottom = 125.0
+
+[node name="StatusEffects" type="GridContainer" parent="ScrollContainer"]
+margin_right = 138.0
+margin_bottom = 57.0
+custom_constants/vseparation = -2
+custom_constants/hseparation = 12
+columns = 2
+
+[node name="Label" type="Label" parent="ScrollContainer/StatusEffects"]
+margin_right = 63.0
+margin_bottom = 13.0
+custom_fonts/font = ExtResource( 2 )
+text = "Confusion"
+
+[node name="Label2" type="Label" parent="ScrollContainer/StatusEffects"]
+margin_left = 75.0
+margin_right = 138.0
+margin_bottom = 13.0
+custom_fonts/font = ExtResource( 2 )
+text = "Confusion"
+
+[node name="Label3" type="Label" parent="ScrollContainer/StatusEffects"]
+margin_top = 11.0
+margin_right = 63.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 2 )
+text = "Confusion"
+
+[node name="Label4" type="Label" parent="ScrollContainer/StatusEffects"]
+margin_left = 75.0
+margin_top = 11.0
+margin_right = 138.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 2 )
+text = "Confusion"
+
+[node name="Label5" type="Label" parent="ScrollContainer/StatusEffects"]
+margin_top = 22.0
+margin_right = 63.0
+margin_bottom = 35.0
+custom_fonts/font = ExtResource( 2 )
+text = "Confusion"
+
+[node name="Label6" type="Label" parent="ScrollContainer/StatusEffects"]
+margin_left = 75.0
+margin_top = 22.0
+margin_right = 138.0
+margin_bottom = 35.0
+custom_fonts/font = ExtResource( 2 )
+text = "Confusion"
+
+[node name="Label7" type="Label" parent="ScrollContainer/StatusEffects"]
+margin_top = 33.0
+margin_right = 63.0
+margin_bottom = 46.0
+custom_fonts/font = ExtResource( 2 )
+text = "Confusion"
+
+[node name="Label8" type="Label" parent="ScrollContainer/StatusEffects"]
+margin_left = 75.0
+margin_top = 33.0
+margin_right = 138.0
+margin_bottom = 46.0
+custom_fonts/font = ExtResource( 2 )
+text = "Confusion"
+
+[node name="Label9" type="Label" parent="ScrollContainer/StatusEffects"]
+margin_top = 44.0
+margin_right = 63.0
+margin_bottom = 57.0
+custom_fonts/font = ExtResource( 2 )
+text = "Confusion"
+
+[node name="Label10" type="Label" parent="ScrollContainer/StatusEffects"]
+margin_left = 75.0
+margin_top = 44.0
+margin_right = 138.0
+margin_bottom = 57.0
+custom_fonts/font = ExtResource( 2 )
+text = "Confusion"

@@ -1,11 +1,12 @@
 extends KinematicBody2D
 
 onready var sprite : Sprite = $Sprite
-onready var collison_box : CollisionShape2D = $CollisionBox
+onready var detection_box : Area2D = $DetectionBox
 onready var animation_player : AnimationPlayer = $AnimationPlayer
 
 var pawn_idx : int
 var home_pos: Vector2
+
 var is_player : bool
 var is_dead : bool
 var state : int
@@ -19,7 +20,6 @@ var target_pawn : int
 
 func _ready():
 	self.hide()
-	$CollisionBox.queue_free()
 
 #TODO later make a pawn factor and init with animation + sprite, or make seperate scenes?
 # Need to make modular to some extent, componentize attack etc.
@@ -27,13 +27,12 @@ func init(pawn_idx: int, is_player : bool) -> void:
 	home_pos = Game.P_PAWN_POS[pawn_idx] if is_player else Game.E_PAWN_POS[pawn_idx]
 	position = home_pos
 	self.is_player = is_player
-	$DetectionBox.is_player = is_player
-	$DetectionBox.pawn_idx = pawn_idx
+	detection_box.is_player = is_player
+	detection_box.pawn_idx = pawn_idx
 	
 	sprite.scale = Vector2(-1.5, 1.5) if is_player else Vector2(1.5, 1.5)
 	
 	if is_player: 
-		collison_box.position.x = 40
 		$DetectionBox/Area.position.x = 40
 	self.show()
 	state = Game.PState.IDLE
@@ -41,33 +40,35 @@ func init(pawn_idx: int, is_player : bool) -> void:
 
 
 func _process(delta: float) -> void:
-		match(state):
-			Game.PState.IDLE:
-				animation_player.play("Idle")
-				
-			Game.PState.LUNGE:
-				animation_player.play("Lunge")
-				velocity = position.direction_to(target_pos) * speed
-				
-				if position.direction_to(target_pos).x < 15:
-					velocity = move_and_slide(velocity)
-				else:
-					state = Game.PState.RESET
-					
-			Game.PState.ATTACK:
-				animation_player.play("Attack")
-				
-			Game.PState.DEFEND:
-				animation_player.play("Block")
-				
-			Game.PState.RESET:
-				animation_player.play("Idle")
-				velocity = position.direction_to(home_pos) * speed
-				if abs(position.x - home_pos.x) > 5:
-					velocity = move_and_slide(velocity)
+	pass
 	
 func _physics_process(delta: float) -> void:
-	pass
+	match(state):
+		Game.PState.IDLE:
+			animation_player.play("Idle")
+			
+		Game.PState.LUNGE:
+			animation_player.play("Lunge")
+			velocity = position.direction_to(target_pos) * speed
+			
+			if position.direction_to(target_pos).x < 15:
+				velocity = move_and_slide(velocity)
+			else:
+				state = Game.PState.RESET
+				
+		Game.PState.ATTACK:
+			animation_player.play("Attack")
+			
+		Game.PState.DEFEND:
+			animation_player.play("Block")
+			
+		Game.PState.RESET:
+			animation_player.play("Idle")
+			velocity = position.direction_to(home_pos) * speed
+			if abs(position.x - home_pos.x) > 5:
+				velocity = move_and_slide(velocity)
+			else:
+				state = Game.PState.IDLE
 				
 func lunge(pawn_idx : int):
 	state = Game.PState.LUNGE
@@ -75,16 +76,14 @@ func lunge(pawn_idx : int):
 	target_pawn = pawn_idx
 	
 	
-
-
 func _on_DetectionBox_entered(area: Area2D) -> void:
 	
 	if is_player == area.is_player:
 		return
 	
-	if state != Game.PState.IDLE and area.pawn_idx != target_pawn:
-		print("not target")
-		return
+#	if state != Game.PState.IDLE and area.pawn_idx != target_pawn:
+#		print("not target")
+#		return
 	
 	if state == Game.PState.IDLE:
 		state = Game.PState.DEFEND

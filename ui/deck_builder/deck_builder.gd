@@ -16,8 +16,6 @@ func _ready() -> void:
 	$Panel.add_child(inspect_window)
 
 
-
-
 func init(pawn : int, domain : int, free_card_list : Array, curr_deck : Array):
 	_all_grid = $View/AllView/ScrollContainer/CardGrid
 	_deck_grid = $View/DeckView/ScrollContainer/CardGrid
@@ -102,24 +100,7 @@ func remove_from_deck(card : Card):
 		$View/AllView/Top/LevelCombo.get_selected_id())
 	update_all_count()
 	update_deck_count()
-	
-	# Updates the all card view filter, as to no wrongly show retuned cards
-#	match (_domain):
-#		Game.Domain.ACTION:
-#			update_filtered_view(
-#				$View/AllView/Top/TypeCombo.get_selected_id(), 
-#				$View/AllView/Top/LevelCombo.get_selected_id())
-#		Game.Domain.ABILITY:
-#			update_filtered_view(
-#				0, 
-#				$View/AllView/Top/LevelCombo.get_selected_id())
-#		Game.Domain.Power:
-#			update_filtered_view(
-#				0, 
-#				$View/AllView/Top/LevelCombo.get_selected_id())
 
-
-#func ()
 
 func update_deck(card : Card, id : int):
 	match (id):

@@ -932,7 +932,7 @@ margin_bottom = 21.0
 rect_min_size = Vector2( 296, 0 )
 text = "Select Saved Set"
 align = 1
-items = [ "Select Saved Set", null, false, -1, null ]
+items = [ "Select Saved Set", null, false, 0, null ]
 selected = 0
 
 [node name="Load" type="Button" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox"]

@@ -19,7 +19,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/deck_builder/deck_builder.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "PawnLoadout",
 "language": "GDScript",
 "path": "res://player/pawn_loadout.gd"

@@ -5,11 +5,11 @@
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.145098, 0.207843, 0.239216, 0.831373 )
-border_width_left = 4
-border_width_bottom = 4
-border_color = Color( 0.0196078, 0.329412, 0.427451, 0.662745 )
-border_blend = true
-corner_radius_bottom_left = 10
+border_width_left = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.0196078, 0.329412, 0.427451, 0.427451 )
+corner_radius_bottom_left = 15
 
 [node name="GameView" type="Node2D"]
 script = ExtResource( 2 )
@@ -26,26 +26,27 @@ stretch_mode = 3
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 follow_viewport_enable = true
 
-[node name="PlayerPanel4" type="Panel" parent="CanvasLayer"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -460.0
-margin_bottom = 168.0
-custom_styles/panel = SubResource( 1 )
-
-[node name="PlayerPanel5" type="Panel" parent="CanvasLayer"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -1600.0
-margin_right = -1140.0
-margin_bottom = 168.0
-custom_styles/panel = SubResource( 1 )
-
 [node name="Button" type="Button" parent="CanvasLayer"]
 margin_left = 828.0
 margin_top = 348.0
 margin_right = 932.0
 margin_bottom = 396.0
 text = "Test"
+
+[node name="TopPanel" type="PanelContainer" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -250.0
+margin_right = 250.0
+margin_bottom = 140.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="PlayerCards" type="PanelContainer" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 442.0
+margin_right = 806.0
+margin_bottom = 360.0
+custom_styles/panel = SubResource( 1 )
 
 [connection signal="pressed" from="CanvasLayer/Button" to="." method="_on_Button_pressed"]

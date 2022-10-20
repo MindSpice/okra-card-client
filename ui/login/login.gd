@@ -33,6 +33,7 @@ func _on_request_completed(result, response_code, headers, body : PoolByteArray)
 	match response_code:
 		200:
 			console.text = ("Login Successful")
+			print(body.get_string_from_utf8())
 			Network.auth_token = body.get_string_from_utf8()
 			get_tree().change_scene("res://ui/menu/menu.tscn")
 		404:
