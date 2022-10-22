@@ -41,7 +41,7 @@ func set_stats(stat_map : Dictionary) -> void:
 	stats = stat_map
 	
 func set_status_effect(effects : Array) -> void:
-	e
+	pass
 	
 	
 

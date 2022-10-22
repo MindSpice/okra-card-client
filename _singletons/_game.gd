@@ -11,30 +11,28 @@ const ABILITY_LEVEL_MEDIAN : float = 2.5
 const POWER_LEVEL_MEDIAN : float = 2.5
 const P_PAWN_POS = [Vector2(1150, 850), Vector2(1050, 700), Vector2(1150,550)]
 const E_PAWN_POS = [Vector2(400, 850), Vector2(500, 700), Vector2(400,550)]
-#const P_PAWN_POS = [Vector2(1050, 850), Vector2(925, 750), Vector2(1050,650)]
-#const E_PAWN_POS = [Vector2(125, 845), Vector2(250, 745), Vector2(125,645)]
-#const P_PAWN_POS = [Vector2(1050, 650), Vector2(925, 550), Vector2(1050,450)]
-#const E_PAWN_POS = [Vector2(125, 645), Vector2(250, 545), Vector2(125,445)]
-
 
 enum Domain {
 	ACTION, 
 	ABILITY, 
 	POWER, 
 	PAWN, 
-	WEAPON}
+	WEAPON
+	}
 	
 enum Pawn {
 	PAWN1, 
 	PAWN2, 
-	PAWN3}
+	PAWN3
+	}
 	
 enum PState {
 	IDLE, 
 	LUNGE,
 	ATTACK, 
 	DEFEND, 
-	RESET}
+	RESET
+	}
 	
 enum PlayerAction {
 	ATTACK_LIGHT, 
@@ -44,7 +42,9 @@ enum PlayerAction {
 	ABILITY_CARD, 
 	POTION, 
 	END_TURN, 
-	SKIP_PAWN}
+	SKIP_PAWN
+	}
+
 
 func get_deck_limit(domain : int, count : int) -> float:
 	match (domain):

@@ -1,6 +1,4 @@
 extends Control
-var url_auth = "https://127.0.0.1:443/auth"
-var url_reg = "https://127.0.0.1:443/register"
 
 onready var user_field = get_node("CenterContainer/VBoxContainer/user_in")
 onready var pass_field = get_node("CenterContainer/VBoxContainer/pass_in")
@@ -18,6 +16,7 @@ func _ready():
 # TODO error return for server down
 
 func _on_login_pressed():
+	print("here")
 	var login := {
 	"username" : user_field.text,
 	"password" : pass_field.text.sha256_text()
@@ -26,8 +25,8 @@ func _on_login_pressed():
 	var query  = JSON.print(login)
 	var headers = ["User-Agent: Godot-Desktop/OkraGame0.1a"]
 	console.text = ""
-	$HTTPRequest.request(Network.https_auth, headers, true, HTTPClient.METHOD_POST, query)
-
+	var err = $HTTPRequest.request(Network.https_auth, headers, true, HTTPClient.METHOD_POST, query)
+	
 	
 func _on_request_completed(result, response_code, headers, body : PoolByteArray):
 	match response_code:

@@ -20,6 +20,56 @@ _global_script_classes=[ {
 "path": "res://ui/deck_builder/deck_builder.gd"
 }, {
 "base": "Reference",
+"class": "NetEffect",
+"language": "GDScript",
+"path": "res://networking/incoming/net_effect.gd"
+}, {
+"base": "Reference",
+"class": "NetGameAction",
+"language": "GDScript",
+"path": "res://networking/outgoing/net_game_action.gd"
+}, {
+"base": "Reference",
+"class": "NetGameOver",
+"language": "GDScript",
+"path": "res://networking/incoming/net_game_over.gd"
+}, {
+"base": "Reference",
+"class": "NetInsight",
+"language": "GDScript",
+"path": "res://networking/incoming/net_insight.gd"
+}, {
+"base": "Reference",
+"class": "NetLobbyMsg",
+"language": "GDScript",
+"path": "res://networking/outgoing/net_lobby_msg.gd"
+}, {
+"base": "Reference",
+"class": "NetMsg",
+"language": "GDScript",
+"path": "res://networking/incoming/net_msg.gd"
+}, {
+"base": "Reference",
+"class": "NetStat",
+"language": "GDScript",
+"path": "res://networking/incoming/net_stat.gd"
+}, {
+"base": "Reference",
+"class": "NetTurnResponse",
+"language": "GDScript",
+"path": "res://networking/incoming/net_turn_response.gd"
+}, {
+"base": "Reference",
+"class": "NetTurnUpdate",
+"language": "GDScript",
+"path": "res://networking/incoming/net_turn_update.gd"
+}, {
+"base": "Reference",
+"class": "Netdead",
+"language": "GDScript",
+"path": "res://networking/incoming/net_dead.gd"
+}, {
+"base": "Reference",
 "class": "PawnLoadout",
 "language": "GDScript",
 "path": "res://player/pawn_loadout.gd"
@@ -32,6 +82,16 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "Card": "",
 "DeckBuilder": "",
+"NetEffect": "",
+"NetGameAction": "",
+"NetGameOver": "",
+"NetInsight": "",
+"NetLobbyMsg": "",
+"NetMsg": "",
+"NetStat": "",
+"NetTurnResponse": "",
+"NetTurnUpdate": "",
+"Netdead": "",
 "PawnLoadout": "",
 "PawnSet": ""
 }
@@ -45,10 +105,10 @@ run/main_scene="res://ui/login/login.tscn"
 
 CardBase="*res://_singletons/_card_base.gd"
 Player="*res://_singletons/_player.gd"
-Network="*res://_singletons/_network.gd"
-Util="*res://_singletons/_util.gd"
 Game="*res://_singletons/_game.gd"
+Util="*res://_singletons/_util.gd"
 Event="*res://_singletons/_event.gd"
+Network="*res://_singletons/_network.gd"
 
 [display]
 
