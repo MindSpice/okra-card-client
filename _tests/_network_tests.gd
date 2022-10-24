@@ -11,13 +11,27 @@ func _ready():
 
 	
 func send():
-	var err = Network.send("HI")
-	print(err)
+	var nga := NetGameAction.new(
+		"ATTACK_HEAVY", 
+		Network.conv_pawn_out(Game.Pawn.PAWN1), 
+		Network.conv_pawn_out(Game.Pawn.PAWN3), 
+		"")
+	var nlq := NetLobbyQueue.new(
+		true,
+		"set1"
+	)
+		
+	#Network.send(nlq)
+	Network.send(nga)
 
+
+func re_auth(username: String, password : String) -> int:
+	return - 1
+	
 
 func showmsg(msg : Dictionary):
 	print(msg)
-	match (Network.msg_in_type(msg.get("msg_type"))):
+	match (Network.conv_msg_in(msg.get("msg_type"))):
 		
 		Network.MsgIn.DEAD:
 			msgs.append(NetDead.new(msg))
@@ -41,12 +55,5 @@ func showmsg(msg : Dictionary):
 		Network.MsgIn.TURN_UPDATE:
 			msgs.append(NetTurnUpdate.new(msg))
 			
-			
-	
-		
-			
-
-		
-			
-func discon() :
+func disconnect() :
 	print ("wss disconnected")

@@ -11,8 +11,7 @@ var power_card : String
 var effects : Array
 
 func _init(msg : Dictionary) :
-	insight_type = Network.insight_type.get(msg.get("insight_type"))
-	pawn_index = Network.conv_pawn_in(msg.get("pawn_index"))
+	insight_type = Network.insight_type.get(msg.get("insight_type")) # TODO use func for this
 	
 	if insight_type == Network.InsightType.STAT :
 		stats = msg.get("stats")

@@ -114,6 +114,8 @@ func validate_set(set : PawnSet) -> Dictionary:
 	
 	return rtn
 	
+
+	
 	
 
 
