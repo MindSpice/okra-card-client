@@ -54,6 +54,7 @@ func showmsg(msg : Dictionary):
 			
 		Network.MsgIn.TURN_UPDATE:
 			msgs.append(NetTurnUpdate.new(msg))
+
+		Network.MsgIn.CARD_UPDATE:
+			msgs.append(NetCardUpdate.new(msg))
 			
-func disconnect() :
-	print ("wss disconnected")

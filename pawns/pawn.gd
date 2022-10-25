@@ -4,18 +4,26 @@ onready var sprite : Sprite = $Sprite
 onready var detection_box : Area2D = $DetectionBox
 onready var animation_player : AnimationPlayer = $AnimationPlayer
 
+# For internal move/amination calculations
 var pawn_idx : int
 var home_pos: Vector2
-
 var is_player : bool
 var is_dead : bool
 var state : int
-
 var speed : int = 1000
 var velocity : Vector2 = Vector2.ZERO
-
 var target_pos : Vector2
 var target_pawn : int
+
+# Stats
+var stats : StatMap
+var effects : Array
+
+# Cards
+var action_card_1 : Card
+var action_card_2 : Card
+var ability_card : Card
+var power_card : Card
 
 
 func _ready():
@@ -97,3 +105,7 @@ func _on_attack_end() -> void:
 	
 func _on_block_end() -> void:
 	state = Game.PState.IDLE
+	
+func _set_dead():
+	is_dead = true;
+	#death animation

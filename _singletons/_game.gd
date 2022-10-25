@@ -45,6 +45,24 @@ enum PlayerAction {
 	SKIP_PAWN
 	}
 
+enum StatType{
+	HP,
+	DP,
+	SP,
+	MP,
+	WILLPOWER,
+	LUCK
+}
+
+enum CardSlot {
+	PAWN_CARD,
+	WEAPON_CARD,
+	ACTION_CARD_1,
+	ACTION_CARD_2,
+	ABILITY_CARD,
+	POWER_CARD
+}
+
 
 func get_deck_limit(domain : int, count : int) -> float:
 	match (domain):

@@ -77,7 +77,8 @@ enum MsgIn {
 	EFFECT,
 	STAT_UPDATE,
 	TURN_RESPONSE
-	REJOIN
+	REJOIN,
+	CARD_UPDATE
 }
 
 enum InsightType {
@@ -94,7 +95,8 @@ const _n_msg_in = {
 	"EFFECT"	    : MsgIn.EFFECT,
 	"STAT_UPDATE"   : MsgIn.STAT_UPDATE,
 	"TURN_RESPONSE" : MsgIn.TURN_RESPONSE,
-	"REJOIN" 		: MsgIn.REJOIN
+	"REJOIN" 		: MsgIn.REJOIN,
+	"CARD_UPDATE"	: MsgIn.CARD_UPDATE
 }
 
 const _pawn_in = {
@@ -126,6 +128,24 @@ const _insight_type = {
 	"STAT" 		: InsightType.STAT
 }
 
+const _stat_type = {
+		"HP"		: Game.StatType.HP,
+		"DP" 		: Game.StatType.DP,
+		"SP"		: Game.StatType.SP,
+		"MP" 		: Game.StatType.MP,
+		"WILLPOWER"	: Game.StatType.WILLPOWER,
+		"LUCK" 		: Game.StatType.LUCK		
+	}
+
+const _card_slot = {
+	"pawn_card"		: Game.CardSlot.PAWN_CARD,
+	"weapon_card"	: Game.CardSlot.WEAPON_CARD,
+	"action_card_1"	: Game.CardSlot.ACTION_CARD_1,
+	"action_card_2"	: Game.CardSlot.ACTION_CARD_2,
+	"ability_card"	: Game.CardSlot.ABILITY_CARD,
+	"power_card"	: Game.CardSlot.POWER_CARD
+}
+
 
 func conv_msg_in(msg_type : String) -> int:
 	return _n_msg_in.get(msg_type)
@@ -150,3 +170,18 @@ func conv_player_action(player_action : int) -> String:
 	return _player_action.get(player_action)
 
 
+func conv_stat_dict(stat_dict : Dictionary) -> Dictionary:
+	var rtn_dict : Dictionary
+	for stat in stat_dict:
+		rtn_dict[_stat_type.get(stat)] = stat_dict.get(stat)
+		
+	return rtn_dict
+
+
+func conv_card_hand(card_hand : Dictionary) -> Dictionary:
+	var rtn_dict : Dictionary
+	for card in card_hand:
+		rtn_dict[_card_slot.get(card)] = card_hand.get(card)
+
+	return rtn_dict
+	
