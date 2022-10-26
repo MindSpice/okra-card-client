@@ -174,7 +174,6 @@ func conv_stat_dict(stat_dict : Dictionary) -> Dictionary:
 	var rtn_dict : Dictionary
 	for stat in stat_dict:
 		rtn_dict[_stat_type.get(stat)] = stat_dict.get(stat)
-		
 	return rtn_dict
 
 
@@ -182,6 +181,12 @@ func conv_card_hand(card_hand : Dictionary) -> Dictionary:
 	var rtn_dict : Dictionary
 	for card in card_hand:
 		rtn_dict[_card_slot.get(card)] = card_hand.get(card)
+	return rtn_dict
 
+func conv_effect_arr(effects : Array) -> Dictionary:
+	var rtn_dict : Dictionary
+	for effect in effects:
+		var e = Game._effect_type.get(effect)
+		rtn_dict[e[0]] = e[1]
 	return rtn_dict
 	

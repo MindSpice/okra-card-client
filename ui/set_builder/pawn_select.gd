@@ -11,11 +11,8 @@ func init(pawn : int, domain : int, cards : Array):
 	_pawn = pawn
 	_domain = domain
 	Util.remove_children($Window/Hsplit/Cards/ScrollCont/CardGrid)
-	print("card_grid size" + str(cards.size()))
 	$Window/Hsplit/Card/Image.texture = null
 	
-
-	print(cards.size())
 	for card in cards:
 		card.enable_select(true)
 		card.connect("card_selected", self, "_select_card")
