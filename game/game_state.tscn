@@ -1,0 +1,65 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://backgrounds/medow_full.png" type="Texture" id=1]
+[ext_resource path="res://game/game_state.gd" type="Script" id=2]
+[ext_resource path="res://game/gui.gd" type="Script" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.145098, 0.207843, 0.239216, 0.831373 )
+border_width_left = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.0196078, 0.329412, 0.427451, 0.427451 )
+corner_radius_bottom_left = 15
+
+[node name="GameView" type="Node2D"]
+position = Vector2( -512, 896 )
+script = ExtResource( 2 )
+
+[node name="Background" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 3
+
+[node name="PawnSort" type="YSort" parent="."]
+
+[node name="GUI" type="CanvasLayer" parent="."]
+follow_viewport_enable = true
+script = ExtResource( 3 )
+
+[node name="Button" type="Button" parent="GUI"]
+margin_left = 828.0
+margin_top = 348.0
+margin_right = 932.0
+margin_bottom = 396.0
+text = "Test"
+
+[node name="TopPanel" type="PanelContainer" parent="GUI"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -250.0
+margin_right = 250.0
+margin_bottom = 140.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="PlayerCards" type="PanelContainer" parent="GUI"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 384.0
+margin_right = 804.0
+margin_bottom = 360.0
+rect_pivot_offset = Vector2( 344, 80 )
+custom_styles/panel = SubResource( 1 )
+
+[node name="PlayerCards2" type="PanelContainer" parent="GUI"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -800.0
+margin_right = -380.0
+margin_bottom = 360.0
+rect_pivot_offset = Vector2( 344, 80 )
+custom_styles/panel = SubResource( 1 )
+
+[connection signal="pressed" from="GUI/Button" to="." method="_on_Button_pressed"]
