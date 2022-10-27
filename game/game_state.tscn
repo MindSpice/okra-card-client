@@ -19,11 +19,16 @@ script = ExtResource( 2 )
 [node name="Background" type="TextureRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 512.0
+margin_top = -896.0
+margin_right = 512.0
+margin_bottom = -896.0
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 3
 
 [node name="PawnSort" type="YSort" parent="."]
+position = Vector2( 512, -888 )
 
 [node name="GUI" type="CanvasLayer" parent="."]
 follow_viewport_enable = true

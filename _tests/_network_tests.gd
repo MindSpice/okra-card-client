@@ -12,7 +12,7 @@ func _ready():
 	
 func send():
 	var nga := NetGameAction.new(
-		"ATTACK_HEAVY", 
+		Game.PlayerAction.ATTACK_HEAVY, 
 		Network.conv_pawn_out(Game.Pawn.PAWN1), 
 		Network.conv_pawn_out(Game.Pawn.PAWN3), 
 		"")

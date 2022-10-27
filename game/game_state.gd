@@ -129,6 +129,7 @@ func _on_turn_update(turn : NetTurnUpdate):
 	if turn.is_player:
 		is_player_turn = true
 		turn_active_pawns = turn.active_pawns
+		
 
 func _on_card_update(cards : NetCardUpdate):
 	pass

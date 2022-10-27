@@ -5,12 +5,11 @@ class_name NetGameAction
 var data : Dictionary
 
 
-func _init(action : String, player_pawn : String, target_pawn : String, potion: String) -> void:
-	data["action"] = action
-	data["player_pawn"] = player_pawn
-	data["target_pawn"] = target_pawn
+# make potion enum idk
+func _init(action : int, player_pawn : int, target_pawn : int, potion: String) -> void:
+	data["action"] = Network.conv_player_action_out(action)
+	data["player_pawn"] = Network.conv_pawn_out(player_pawn)
+	data["target_pawn"] = Network.conv_pawn_out(target_pawn)
 	if (potion != ""):
 		data["potion"] = potion
 	
-	
-

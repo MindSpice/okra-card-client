@@ -1,11 +1,15 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://themes/ttheme.tres" type="Theme" id=1]
 [ext_resource path="res://game/dialog/CombatMenuStat.tres" type="DynamicFont" id=2]
-[ext_resource path="res://game/dialog/cm_sep.tres" type="StyleBox" id=3]
-[ext_resource path="res://game/dialog/combat_menu_style.tres" type="StyleBox" id=5]
+[ext_resource path="res://themes/cm_sep.tres" type="StyleBox" id=3]
+[ext_resource path="res://game/dialog/combat_menu.gd" type="Script" id=4]
+[ext_resource path="res://themes/combat_menu_style.tres" type="StyleBox" id=5]
 [ext_resource path="res://fonts/Modeseven-L3n5.ttf" type="DynamicFontData" id=6]
-[ext_resource path="res://game/dialog/z.tres" type="StyleBox" id=7]
+[ext_resource path="res://themes/z.tres" type="StyleBox" id=7]
+[ext_resource path="res://game/dialog/card_select.gd" type="Script" id=8]
+[ext_resource path="res://game/dialog/input_box.gd" type="Script" id=9]
+[ext_resource path="res://game/dialog/card_input.gd" type="Script" id=11]
 
 [sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.172549, 0.443137, 0.54902, 1 )
@@ -62,6 +66,7 @@ margin_bottom = 128.0
 rect_pivot_offset = Vector2( 0, 128 )
 theme = ExtResource( 1 )
 custom_styles/panel = ExtResource( 5 )
+script = ExtResource( 4 )
 
 [node name="InputBox" type="VBoxContainer" parent="."]
 margin_left = 5.0
@@ -70,6 +75,7 @@ margin_right = 111.0
 margin_bottom = 124.0
 rect_min_size = Vector2( 104, 0 )
 alignment = 1
+script = ExtResource( 9 )
 
 [node name="LightAttack" type="Button" parent="InputBox"]
 margin_top = 2.0
@@ -83,6 +89,7 @@ custom_styles/pressed = SubResource( 8 )
 custom_styles/disabled = SubResource( 7 )
 custom_styles/normal = SubResource( 4 )
 shortcut_in_tooltip = false
+action_mode = 0
 enabled_focus_mode = 0
 text = "Light Attack"
 
@@ -98,6 +105,7 @@ custom_styles/pressed = SubResource( 8 )
 custom_styles/disabled = SubResource( 7 )
 custom_styles/normal = SubResource( 4 )
 shortcut_in_tooltip = false
+action_mode = 0
 enabled_focus_mode = 0
 text = "Heavy Attack"
 
@@ -113,6 +121,7 @@ custom_styles/pressed = SubResource( 8 )
 custom_styles/disabled = SubResource( 7 )
 custom_styles/normal = SubResource( 4 )
 shortcut_in_tooltip = false
+action_mode = 0
 enabled_focus_mode = 0
 text = "Play Card"
 
@@ -128,6 +137,7 @@ custom_styles/pressed = SubResource( 8 )
 custom_styles/disabled = SubResource( 7 )
 custom_styles/normal = SubResource( 4 )
 shortcut_in_tooltip = false
+action_mode = 0
 enabled_focus_mode = 0
 text = "Potion"
 
@@ -143,6 +153,7 @@ custom_styles/pressed = SubResource( 8 )
 custom_styles/disabled = SubResource( 7 )
 custom_styles/normal = SubResource( 4 )
 shortcut_in_tooltip = false
+action_mode = 0
 enabled_focus_mode = 0
 text = "Skip Turn"
 
@@ -224,11 +235,13 @@ custom_constants/vseparation = 0
 columns = 2
 
 [node name="CardSelect" type="Panel" parent="."]
+visible = false
 margin_right = 280.0
 margin_bottom = 128.0
 rect_min_size = Vector2( 280, 128 )
 input_pass_on_modal_close_click = false
 custom_styles/panel = SubResource( 14 )
+script = ExtResource( 8 )
 
 [node name="HBox" type="HBoxContainer" parent="CardSelect"]
 anchor_left = 0.5
@@ -245,24 +258,30 @@ custom_constants/separation = 12
 margin_right = 79.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
 input_pass_on_modal_close_click = false
 expand = true
+script = ExtResource( 11 )
 
 [node name="Action2" type="TextureRect" parent="CardSelect/HBox"]
 margin_left = 91.0
 margin_right = 170.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
 input_pass_on_modal_close_click = false
 expand = true
+script = ExtResource( 11 )
 
 [node name="Ability" type="TextureRect" parent="CardSelect/HBox"]
 margin_left = 182.0
 margin_right = 261.0
 margin_bottom = 110.0
 rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
 input_pass_on_modal_close_click = false
 expand = true
+script = ExtResource( 11 )
 
 [node name="Exit" type="Button" parent="CardSelect"]
 margin_left = 263.0

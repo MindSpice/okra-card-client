@@ -2,6 +2,11 @@ extends Panel
 
 var _e_label_red = load("res://game/dialog/effect_label_red.tscn")
 var _e_label_green = load("res://game/dialog/effect_label_green.tscn")
+onready var _action_card_1 := $CardSelect/HBox/Action1
+onready var _action_card_2 := $CardSelect/HBox/Action2
+onready var _ability_card := $CardSelect/HBox/Ability
+onready var _input_box := $InputBox
+onready var _card_select := $CardSelect/
 
 
 onready var _stat_box = {
@@ -13,7 +18,7 @@ onready var _stat_box = {
 	Game.StatType.LUCK 		: $Stats2/LUCK
 }
 
-
+var tcard := CardBase.instance_card(Game.Domain.ACTION, "ONE")
 func _ready():
 	$InputBox/LightAttack.connect("pressed", self, "_on_light_attack")
 	$InputBox/HeavyAttack.connect("pressed", self, "_on_heavy_attack")
@@ -22,17 +27,16 @@ func _ready():
 	$InputBox/SkipTurn.connect("pressed", self, "_on_skip_turn")
 	$CardSelect/Exit.connect("pressed", self, "_on_select_exit")
 
-	$CardSelect/HBox/Action1.card_slot = Game.PlayerAction.ACTION_CARD_1
-	$CardSelect/HBox/Action1.connect("selected", self, "_on_card_select")
+	_action_card_1.card_slot = Game.PlayerAction.ACTION_CARD_1
+	_action_card_1.connect("selected", self, "_on_card_select")
+	_action_card_1.texture = tcard.get_image()
+	
 
-	$CardSelect/HBox/Action2.card_slot = Game.PlayerAction.ACTION_CARD_2
-	$CardSelect/HBox/Action2.connect("selected", self, "_on_card_select")
+	_action_card_2.card_slot = Game.PlayerAction.ACTION_CARD_2
+	_action_card_2.connect("selected", self, "_on_card_select")
 
-	$CardSelect/HBox/Ability.card_slot = Game.PlayerAction.ABILITY_CARD
-	$CardSelect/HBox/Ability.connect("selected", self, "_on_card_select")
-
-
-
+	ability_card.card_slot = Game.PlayerAction.ABILITY_CARD
+	ability_card.connect("selected", self, "_on_card_select")
 	
 
 
@@ -66,66 +70,87 @@ func set_effects(effects : Array):
 		$ScrollContainer/StatusEffects.add_child(label)
 
 
-func disable_card(card_slot : int):
-	match(card_slot):
+func disable_action(action : int):
+	match(action):
 		Game.PlayerAction.ACTION_CARD_1:
-			$CardSelect/HBox/Action1.texture = null
-			$CardSelect/HBox/Action1.enabled = false
+			_action_card_1.texture = null
+			_action_card_1.enabled = false	
 		Game.PlayerAction.ACTION_CARD_2:
-			$CardSelect/HBox/Action2.texture = null
-			$CardSelect/HBox/Action2.enabled = false
+			_action_card_2.texture = null
+			_action_card_2.enabled = false
 		Game.PlayerAction.ABILITY_CARD:
-			$CardSelect/HBox/Ability.texture = null
-			$CardSelect/HBox/Ability.enabled = false
+			_ability_card.texture = null
+			_ability_card.enabled = false
+		Game.PlayerAction.ATTACK_LIGHT:
+			_input_box.set_disabled_single(action)
+		Game.PlayerAction.ATTACK_HEAVY:
+			_input_box.set_disabled_single(action)
+
+
+func disable_all_actions(disabled :bool):
+	_input_box.set_disabled_all(disabled)
+
 
 # TODO add code to disable input for buttons if stats are not enough
 
 func set_card(card_slot : int, card: Card):
 	match(card_slot):
 		Game.PlayerAction.ACTION_CARD_1:
-			$CardSelect/HBox/Action1.texture = card.get_image()
-			$CardSelect/HBox/Action1.enabled = true
+			_action_card_1.texture = null
+			_action_card_1.texture = card.get_image()
+			_action_card_1.enabled = true
 		Game.PlayerAction.ACTION_CARD_2:
-			$CardSelect/HBox/Action2.texture = card.get_image()
-			$CardSelect/HBox/Action2.enabled = true
+			_action_card_2.texture = null
+			_action_card_2texture = card.get_image()
+			_action_card_2.enabled = true
 		Game.PlayerAction.ABILITY_CARD:
-			$CardSelect/HBox/Ability.texture = card.get_image()
-			$CardSelect/HBox/Ability.enabled = true
+			_ability_card.texture = null
+			_ability_card.texture = card.get_image()
+			_ability_card.enabled = true
 
 
 
 # Signal Binds
 
 func _on_light_attack():
+	_menu.disable_all_actions(true)
 	emit_signal("action_input", Game.PlayerAction.ATTACK_LIGHT)
 
 
 func _on_heavy_attack():
+	_menu.disable_all_actions(true)
 	emit_signal("action_input", Game.PlayerAction.ATTACK_HEAVY)
 
 
 func _on_play_card():
-	$CardSelect.set_hidden(false)
+	_menu.disable_all_actions(true)
+	_card_select.set_hidden(false)
+	_input_box.set_hidden(true)
 
 func _on_potion():
+	_menu.disable_all_actions(true)
 	emit_signal("action_input", Game.PlayerAction.POTION)
 	
 
 func _on_skip_turn():
+	_menu.disable_all_actions(true)
 	emit_signal("action_input", Game.PlayerAction.SKIP_PAWN)
 
 
 func _on_select_exit():
-	$CardSelect.set_hidden(true)
-
+	_card_select.set_hidden(true)
+	_input_box.set_hidden(false)
 
 
 func _on_card_select(card_slot : int):
 	emit_signal("action_input", card_slot)
-	$CardSelect.set_hidden(true)
+	card_select.set_hidden(true)
+	_input_box.set_hidden(false)
 
 
-signal action_input(action)
+signal action_input(action, target_pawn)
+
+signal potion_input(potion, target_pawn)
 			
 
 

@@ -111,7 +111,7 @@ const _pawn_out = {
 	Game.Pawn.PAWN3 : "PAWN3"
 }
 
-const _player_action = {
+const _player_action_out = {
 	Game.PlayerAction.ATTACK_LIGHT  : "ATTACK_LIGHT", 
 	Game.PlayerAction.ATTACK_HEAVY  : "ATTACK_HEAVY", 
 	Game.PlayerAction.ACTION_CARD_1 : "ACTION_CARD_1", 
@@ -120,6 +120,17 @@ const _player_action = {
 	Game.PlayerAction.POTION 		: "POTION", 
 	Game.PlayerAction.END_TURN 		: "END_TURN", 
 	Game.PlayerAction.SKIP_PAWN 	: "SKIP_PAWN"
+}
+
+const _player_action_in = {
+	"ATTACK_LIGHT" 		: Game.PlayerAction.ATTACK_LIGHT,
+	"ATTACK_HEAVY" 		: Game.PlayerAction.ATTACK_HEAVY,
+	"ACTION_CARD_1" 	: Game.PlayerAction.ACTION_CARD_1,
+	"ACTION_CARD_2" 	: Game.PlayerAction.ACTION_CARD_2 ,
+	"ABILITY_CARD" 		: Game.PlayerAction.ABILITY_CARD,
+	"POTION" 			: Game.PlayerAction.POTION ,
+	"END_TURN"			: Game.PlayerAction.END_TURN,
+	"SKIP_PAWN"			: Game.PlayerAction.SKIP_PAWN
 }
 
 const _insight_type = {
@@ -166,8 +177,12 @@ func conv_pawn_out(pawn : int) -> String:
 	return  _pawn_out.get(pawn)	
 
 
-func conv_player_action(player_action : int) -> String:
-	return _player_action.get(player_action)
+func conv_player_action_out(player_action : int) -> String:
+	return _player_action_out.get(player_action)
+
+
+func conv_player_action_in(player_action : String) -> int:
+	return _player_action_in.get(player_action)
 
 
 func conv_stat_dict(stat_dict : Dictionary) -> Dictionary:
