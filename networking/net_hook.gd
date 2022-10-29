@@ -4,9 +4,10 @@ class_name NetHook
 
 var game_over_time : int = 0
 
-func _ready():
+func _init():
 	var e =Network.connect("msg_received", self, "process_msg")
 	Network.connect("disconnected", self, "disconnection")
+
 	#var err = Network.init_wss_conn("123")
 
 
@@ -52,6 +53,7 @@ func process_msg(msg : Dictionary):
 
 func disconnection():
 	emit_signal("disconn")
+	print("Disconnection")
 	#TODO add reconnection logic and fire signal if sucessfull
 	#try token,
 	# reauth if not

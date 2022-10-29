@@ -1,8 +1,22 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://backgrounds/medow_full.png" type="Texture" id=1]
 [ext_resource path="res://game/game_state.gd" type="Script" id=2]
 [ext_resource path="res://game/gui.gd" type="Script" id=3]
+[ext_resource path="res://game/dialog/TopCardMenu.tscn" type="PackedScene" id=4]
+[ext_resource path="res://themes/ttheme.tres" type="Theme" id=5]
+[ext_resource path="res://themes/tab.tres" type="StyleBox" id=6]
+[ext_resource path="res://themes/tabpane.tres" type="StyleBox" id=7]
+[ext_resource path="res://game/dialog/TopCardMenu.gd" type="Script" id=8]
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.145098, 0.207843, 0.239216, 0.831373 )
+border_width_left = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.0196078, 0.329412, 0.427451, 0.427451 )
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.145098, 0.207843, 0.239216, 0.831373 )
@@ -12,13 +26,35 @@ border_width_bottom = 3
 border_color = Color( 0.0196078, 0.329412, 0.427451, 0.427451 )
 corner_radius_bottom_left = 15
 
+[sub_resource type="StyleBoxLine" id=4]
+color = Color( 0.0196078, 0.329412, 0.427451, 0.427451 )
+thickness = 2
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.145098, 0.207843, 0.239216, 0.831373 )
+border_width_left = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.0196078, 0.329412, 0.427451, 0.427451 )
+corner_radius_bottom_right = 15
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.145098, 0.207843, 0.239216, 0.831373 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.0196078, 0.329412, 0.427451, 0.427451 )
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [node name="GameView" type="Node2D"]
 position = Vector2( -512, 896 )
 script = ExtResource( 2 )
 
 [node name="Background" type="TextureRect" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
 margin_left = 512.0
 margin_top = -896.0
 margin_right = 512.0
@@ -47,24 +83,303 @@ anchor_right = 0.5
 margin_left = -250.0
 margin_right = 250.0
 margin_bottom = 140.0
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 2 )
 
 [node name="PlayerCards" type="PanelContainer" parent="GUI"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = 384.0
-margin_right = 804.0
-margin_bottom = 360.0
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -266.0
+margin_right = 4.0
+margin_bottom = 416.0
 rect_pivot_offset = Vector2( 344, 80 )
 custom_styles/panel = SubResource( 1 )
+script = ExtResource( 8 )
 
-[node name="PlayerCards2" type="PanelContainer" parent="GUI"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -800.0
-margin_right = -380.0
-margin_bottom = 360.0
-rect_pivot_offset = Vector2( 344, 80 )
-custom_styles/panel = SubResource( 1 )
+[node name="TabContainer" type="TabContainer" parent="GUI/PlayerCards"]
+margin_left = 3.0
+margin_right = 267.0
+margin_bottom = 413.0
+theme = ExtResource( 5 )
+custom_styles/tab_fg = ExtResource( 6 )
+custom_styles/tab_bg = ExtResource( 6 )
+custom_styles/panel = ExtResource( 7 )
+tab_align = 0
+
+[node name="Pawn" type="Tabs" parent="GUI/PlayerCards/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.0
+margin_top = 26.0
+margin_right = -1.0
+margin_bottom = -1.0
+
+[node name="VBox" type="VBoxContainer" parent="GUI/PlayerCards/TabContainer/Pawn"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="Pawn1" type="HBoxContainer" parent="GUI/PlayerCards/TabContainer/Pawn/VBox"]
+margin_top = 5.0
+margin_right = 262.0
+margin_bottom = 125.0
+rect_min_size = Vector2( 260, 120 )
+custom_constants/separation = 6
+alignment = 1
+
+[node name="Pawn" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Pawn/VBox/Pawn1"]
+margin_left = 6.0
+margin_right = 85.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="Weapon" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Pawn/VBox/Pawn1"]
+margin_left = 91.0
+margin_right = 170.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="Power" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Pawn/VBox/Pawn1"]
+margin_left = 176.0
+margin_right = 255.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="HSeparator" type="HSeparator" parent="GUI/PlayerCards/TabContainer/Pawn/VBox"]
+margin_top = 129.0
+margin_right = 262.0
+margin_bottom = 129.0
+custom_constants/separation = 0
+custom_styles/separator = SubResource( 4 )
+
+[node name="Pawn2" type="HBoxContainer" parent="GUI/PlayerCards/TabContainer/Pawn/VBox"]
+margin_top = 133.0
+margin_right = 262.0
+margin_bottom = 253.0
+rect_min_size = Vector2( 260, 120 )
+custom_constants/separation = 6
+alignment = 1
+
+[node name="Pawn" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Pawn/VBox/Pawn2"]
+margin_left = 6.0
+margin_right = 85.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="Weapon" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Pawn/VBox/Pawn2"]
+margin_left = 91.0
+margin_right = 170.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="Power" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Pawn/VBox/Pawn2"]
+margin_left = 176.0
+margin_right = 255.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="HSeparator2" type="HSeparator" parent="GUI/PlayerCards/TabContainer/Pawn/VBox"]
+margin_top = 257.0
+margin_right = 262.0
+margin_bottom = 257.0
+custom_constants/separation = 0
+custom_styles/separator = SubResource( 4 )
+
+[node name="Pawn3" type="HBoxContainer" parent="GUI/PlayerCards/TabContainer/Pawn/VBox"]
+margin_top = 261.0
+margin_right = 262.0
+margin_bottom = 381.0
+rect_min_size = Vector2( 260, 120 )
+custom_constants/separation = 6
+alignment = 1
+
+[node name="Pawn" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Pawn/VBox/Pawn3"]
+margin_left = 6.0
+margin_right = 85.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="Weapon" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Pawn/VBox/Pawn3"]
+margin_left = 91.0
+margin_right = 170.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="Power" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Pawn/VBox/Pawn3"]
+margin_left = 176.0
+margin_right = 255.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="Cards" type="Tabs" parent="GUI/PlayerCards/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="VBox" type="VBoxContainer" parent="GUI/PlayerCards/TabContainer/Cards"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="Pawn1" type="HBoxContainer" parent="GUI/PlayerCards/TabContainer/Cards/VBox"]
+margin_right = 260.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 260, 120 )
+custom_constants/separation = 6
+alignment = 1
+
+[node name="Action1" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Cards/VBox/Pawn1"]
+margin_left = 5.0
+margin_right = 84.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="Action2" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Cards/VBox/Pawn1"]
+margin_left = 90.0
+margin_right = 169.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="Ability" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Cards/VBox/Pawn1"]
+margin_left = 175.0
+margin_right = 254.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="HSeparator" type="HSeparator" parent="GUI/PlayerCards/TabContainer/Cards/VBox"]
+margin_top = 124.0
+margin_right = 260.0
+margin_bottom = 124.0
+custom_constants/separation = 0
+custom_styles/separator = SubResource( 4 )
+
+[node name="Pawn2" type="HBoxContainer" parent="GUI/PlayerCards/TabContainer/Cards/VBox"]
+margin_top = 128.0
+margin_right = 260.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 260, 120 )
+custom_constants/separation = 6
+alignment = 1
+
+[node name="Action1" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Cards/VBox/Pawn2"]
+margin_left = 5.0
+margin_right = 84.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="Action2" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Cards/VBox/Pawn2"]
+margin_left = 90.0
+margin_right = 169.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="Ability" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Cards/VBox/Pawn2"]
+margin_left = 175.0
+margin_right = 254.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="HSeparator2" type="HSeparator" parent="GUI/PlayerCards/TabContainer/Cards/VBox"]
+margin_top = 252.0
+margin_right = 260.0
+margin_bottom = 252.0
+custom_constants/separation = 0
+custom_styles/separator = SubResource( 4 )
+
+[node name="Pawn3" type="HBoxContainer" parent="GUI/PlayerCards/TabContainer/Cards/VBox"]
+margin_top = 256.0
+margin_right = 260.0
+margin_bottom = 376.0
+rect_min_size = Vector2( 260, 120 )
+custom_constants/separation = 6
+alignment = 1
+
+[node name="Action1" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Cards/VBox/Pawn3"]
+margin_left = 5.0
+margin_right = 84.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="Action2" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Cards/VBox/Pawn3"]
+margin_left = 90.0
+margin_right = 169.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="Ability" type="TextureRect" parent="GUI/PlayerCards/TabContainer/Cards/VBox/Pawn3"]
+margin_left = 175.0
+margin_right = 254.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 79, 110 )
+mouse_filter = 0
+input_pass_on_modal_close_click = false
+expand = true
+
+[node name="EnemyCards" parent="GUI" instance=ExtResource( 4 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = -4.0
+margin_right = 266.0
+custom_styles/panel = SubResource( 3 )
+
+[node name="TabContainer" parent="GUI/EnemyCards" index="0"]
+custom_styles/panel = SubResource( 5 )
+tab_align = 2
 
 [connection signal="pressed" from="GUI/Button" to="." method="_on_Button_pressed"]
+
+[editable path="GUI/EnemyCards"]

@@ -10,11 +10,14 @@ func _ready():
 	var err = Network.init_wss_conn("123")
 
 	
+func _init():
+	pass
+
 func send():
 	var nga := NetGameAction.new(
 		Game.PlayerAction.ATTACK_HEAVY, 
-		Network.conv_pawn_out(Game.Pawn.PAWN1), 
-		Network.conv_pawn_out(Game.Pawn.PAWN3), 
+		Game.Pawn.PAWN1, 
+		Game.Pawn.PAWN3, 
 		"")
 	var nlq := NetLobbyQueue.new(
 		true,

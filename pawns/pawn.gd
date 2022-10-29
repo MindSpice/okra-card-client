@@ -18,7 +18,12 @@ var _speed : int = 1000
 var _velocity : Vector2 = Vector2.ZERO
 var _target_pos : Vector2
 var _target_pawn : int
+
+
+
+# For Intenral GUI use
 var _menu : Node
+var _pview : Node
 
 # Game Variables
 var pawn_idx : int
@@ -28,12 +33,12 @@ var is_active : bool
 var stats : StatMap = StatMap.new(0,0,0,0,0,0)
 var effects : Array
 const cards = {
-	Game.CardSlot.PAWN_CARD		: "",
-	Game.CardSlot.WEAPON_CARD 	: "",
-	Game.CardSlot.ACTION_CARD_1	: "",
-	Game.CardSlot.ACTION_CARD_2	: "",
-	Game.CardSlot.ABILITY_CARD	: "",
-	Game.CardSlot.POWER_CARD	: ""
+	Game.CardSlot.PAWN_CARD		: null,
+	Game.CardSlot.WEAPON_CARD 	: null,
+	Game.CardSlot.ACTION_CARD_1	: null,
+	Game.CardSlot.ACTION_CARD_2	: null,
+	Game.CardSlot.ABILITY_CARD	: null,
+	Game.CardSlot.POWER_CARD	: null,
 }
 
 
@@ -41,6 +46,7 @@ const cards = {
 
 
 func _ready():
+	_sprite.texture.flags = 0
 	self.hide()
 
 
@@ -65,12 +71,15 @@ func init_data(pawn_idx: int, is_player : bool) -> void:
 		_menu = _enemy_menu.instance()
 		_menu.set_position(Vector2(Game.E_PAWN_POS[pawn_idx].x - 290, Game.E_PAWN_POS[pawn_idx].y - 110))
 		_gui.add_child(_menu)
+	_pview = _gui.get_node("PlayerCards") if is_player else _gui.get_node("EnemyCards")
 	self.show()
 	_state = Game.PState.IDLE
 
 func init_hooks(net : NetHook, gui : Node):
 	_net = net
 	_gui = gui
+	
+
 
 ###########
 ## LOGIC ##
@@ -82,7 +91,7 @@ func calc_valid_actions():
 
 func set_active(active : bool):
 	is_active = active
-	_menu.disabled_all_actions(false if active else true)
+	_menu.disable_all_actions(false if active else true)
 	
 
 
@@ -106,23 +115,34 @@ func update_effects(effects_update : Array):
 	#calc if incoming effect disable a turn (reflects, or chaos self hits)
 
 
-func turn_reponse(response : NetTurnResponse):
+func turn_response(response : NetTurnResponse):
+	pass
 	# Disable Card if Card, Makes redundant call if button, 
 	# But cards only reenable on card updates, buttons on turn, could use better syntax
-	_menu.disable_action(response.turn_action)
 
+	# Only needs called if is_player as enemy has minimal menu class
+	
+
+	# Show Action Flags 
 	# TODO
 	# Init animation
-	# Show Action Flags
+	
 
 # Free's obj, updates pawn card, then nulls img reference and updates input menu
 # Some redundant void calls to set_card, but less syntax
 func card_hand_update(update : Dictionary):
-	for card in cards:
-		card.queue_free()
+	print("card player? ", true, "Pawn : ", pawn_idx)
+	for card in cards.values():
+		if card != null:
+			card.queue_free()
+
 	for card in update:
-		cards[card] = update.get(card)
-		_menu.set_card(card, update.get(card))
+		if update.get(card) == null:
+			print("continuing")
+			continue
+		var card_inst = CardBase.instance_card_by_slot(card, update.get(card))
+		_menu.set_card(card, card_inst)
+		_pview.set_card(pawn_idx, card, card_inst.get_image())
 
 
 func set_dead():
@@ -132,7 +152,9 @@ func set_dead():
 
 
 func turn_update(active : bool):
-	set_active(active)
+	# Only needs called if is_player as enemy has minimal menu class
+	if is_player:	
+		set_active(active)
 	#calc_valid_actions
 
 
@@ -146,12 +168,15 @@ func turn_update(active : bool):
 ## NETWORK OUTGOING ##
 ######################
 
-func _on_action_input(action, target_pawn):
+
+## TODO need this to bring up pawn selection circles based on targetable pawns
+func _on_action_input(action):
+	print("action")
 	var nga = NetGameAction.new(
 		action,
 		pawn_idx,
-		target_pawn,
-		"null"
+		Game.Pawn.PAWN1,
+		""
 	)
 	_net.send(nga)
 
