@@ -80,7 +80,7 @@ _global_script_classes=[ {
 "path": "res://networking/incoming/net_turn_update.gd"
 }, {
 "base": "KinematicBody2D",
-"class": "Pawn",
+"class": "PawnCopy",
 "language": "GDScript",
 "path": "res://pawns/pawn.gd"
 }, {
@@ -88,6 +88,11 @@ _global_script_classes=[ {
 "class": "PawnLoadout",
 "language": "GDScript",
 "path": "res://player/pawn_loadout.gd"
+}, {
+"base": "Reference",
+"class": "PawnResponse",
+"language": "GDScript",
+"path": "res://networking/incoming/pawn_response.gd"
 }, {
 "base": "Reference",
 "class": "PawnSet",
@@ -114,8 +119,9 @@ _global_script_class_icons={
 "NetStat": "",
 "NetTurnResponse": "",
 "NetTurnUpdate": "",
-"Pawn": "",
+"PawnCopy": "",
 "PawnLoadout": "",
+"PawnResponse": "",
 "PawnSet": "",
 "StatMap": ""
 }

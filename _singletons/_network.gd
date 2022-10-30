@@ -140,12 +140,12 @@ const _insight_type = {
 }
 
 const _stat_type = {
-		"HP"		: Game.StatType.HP,
-		"DP" 		: Game.StatType.DP,
-		"SP"		: Game.StatType.SP,
-		"MP" 		: Game.StatType.MP,
-		"WILLPOWER"	: Game.StatType.WILLPOWER,
-		"LUCK" 		: Game.StatType.LUCK		
+	"HP"		: Game.StatType.HP,
+	"DP" 		: Game.StatType.DP,
+	"SP"		: Game.StatType.SP,
+	"MP" 		: Game.StatType.MP,
+	"WILLPOWER"	: Game.StatType.WILLPOWER,
+	"LUCK" 		: Game.StatType.LUCK		
 	}
 
 const _card_slot = {
@@ -156,6 +156,30 @@ const _card_slot = {
 	"ability_card"	: Game.CardSlot.ABILITY_CARD,
 	"power_card"	: Game.CardSlot.POWER_CARD
 }
+
+# const _action_flags_in = {
+# 	"REFLECTED" 	: Game.ActionFlags.REFLECTED,
+#     "RESISTED" 		: Game.ActionFlags.RESISTED,
+#     "DOUBLED" 		: Game.ActionFlags.DOUBLED,
+#     "DAMAGED"		: Game.ActionFlags.DAMAGED,
+#     "EFFECTED"		: Game.ActionFlags.EFFECTED,
+#     "SUCCESS"		: Game.ActionFlags.SUCCESS,
+#     "UNSUCCESSFUL"	: Game.ActionFlags.UNSUCCESSFUL,
+#     "CONFUSED"		: Game.ActionFlags.CONFUSED
+# }
+
+# const _action_flags_out = {
+# 	Game.ActionFlags.REFLECTED 		: "REFLECTED",
+#     Game.ActionFlags.RESISTED 		: "RESISTED",
+#     Game.ActionFlags.DOUBLED 		: "DOUBLED",
+#     Game.ActionFlags.DAMAGED		: "DAMAGED",
+#     Game.ActionFlags.EFFECTED		: "EFFECTED",
+#     Game.ActionFlags.SUCCESS		: "SUCCESS",
+#     Game.ActionFlags.UNSUCCESSFUL	: "UNSUCCESSFUL",
+#     CGame.ActionFlags.CONFUSED		: "CONFUSED"
+# }
+
+
 
 
 func conv_msg_in(msg_type : String) -> int:
@@ -204,4 +228,12 @@ func conv_effect_arr(effects : Array) -> Dictionary:
 		var e = Game._effect_type.get(effect)
 		rtn_dict[e[0]] = e[1]
 	return rtn_dict
+
+func conv_turn_reponse(reponse : Array) -> Dictionary:
+	var rtn_dict : Dictionary
+	for item in reponse:
+		rtn_dict[conv_pawn_in(item.get("pawn"))] = item.get("action_flags") if item.get("pawn") != null else {}
+	return rtn_dict
+
+	
 	

@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-class_name Pawn
+class_name PawnCopy
 
 # Resources
 var _combat_menu := preload("res://game/dialog/combat_menu.tscn")
@@ -32,6 +32,7 @@ var is_dead : bool
 var is_active : bool
 var stats : StatMap = StatMap.new(0,0,0,0,0,0)
 var effects : Array
+
 const cards = {
 	Game.CardSlot.PAWN_CARD		: null,
 	Game.CardSlot.WEAPON_CARD 	: null,
@@ -60,6 +61,8 @@ func init_data(pawn_idx: int, is_player : bool) -> void:
 	_detection_box.pawn_idx = pawn_idx
 	
 	_sprite.scale = Vector2(-1.5, 1.5) if is_player else Vector2(1.5, 1.5)
+	$Cursor.scale = Vector2(-1.5, 1.5) if is_player else Vector2(1.5, 1.5)
+
 	
 	if is_player: 
 		$DetectionBox/Area.position.x = 40
@@ -198,6 +201,7 @@ func _physics_process(delta: float) -> void:
 	match(_state):
 		Game.PState.IDLE:
 			_animation_player.play("Idle")
+			$CursorPlayer.play("Cursor")
 			
 		Game.PState.LUNGE:
 			_animation_player.play("Lunge")

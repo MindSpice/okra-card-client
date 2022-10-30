@@ -63,6 +63,17 @@ enum CardSlot {
 	POWER_CARD
 }
 
+enum ActionFlags {
+	REFLECTED,
+    RESISTED,
+    DOUBLED,
+    DAMAGED,
+    EFFECTED,
+    SUCCESS, 
+    UNSUCCESSFUL,
+    CONFUSED
+}
+
 var _effect_type = {
 	"PARALYSIS" 				: ["Paralyzed", false],
     "POISON"					: ["Poisoned", false],

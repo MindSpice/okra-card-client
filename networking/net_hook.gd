@@ -60,7 +60,7 @@ func disconnection():
 	#try again
 	emit_signal("reconn")
 	#else time >
-	emit_signal("close_game")
+	#emit_signal("close_game")
 	
 	
 signal dead_update(net_dead)

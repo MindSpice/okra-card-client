@@ -105,6 +105,7 @@ func _on_stat_update(stats : NetStat):
 
 
 func _on_turn_response(response : NetTurnResponse):
+	#todo, likely will need  to handle animations from here to access both player and enemy
 	get_pawn(response.player_pawn, response.is_player).turn_response(response)
 
 

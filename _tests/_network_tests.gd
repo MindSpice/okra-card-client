@@ -4,10 +4,11 @@ var msgs : Array
 
 
 func _ready():
-	Network.connect("msg_received", self, "showmsg")
+	var err
+	err = Network.connect("msg_received", self, "showmsg")
 	Network.connect("disconnected", self, "discon")
 
-	var err = Network.init_wss_conn("123")
+	err = Network.init_wss_conn("123")
 
 	
 func _init():
@@ -26,6 +27,7 @@ func send():
 		
 	#Network.send(nlq)
 	Network.send(nga)
+
 
 
 func re_auth(username: String, password : String) -> int:
