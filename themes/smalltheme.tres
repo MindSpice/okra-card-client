@@ -3,5 +3,5 @@
 [ext_resource path="res://fonts/Modeseven-L3n5.ttf" type="DynamicFontData" id=1]
 
 [resource]
-size = 20
+size = 11
 font_data = ExtResource( 1 )
