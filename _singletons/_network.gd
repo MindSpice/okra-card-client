@@ -112,22 +112,24 @@ const _pawn_out = {
 }
 
 const _player_action_out = {
-	Game.PlayerAction.ATTACK_LIGHT  : "ATTACK_LIGHT", 
-	Game.PlayerAction.ATTACK_HEAVY  : "ATTACK_HEAVY", 
-	Game.PlayerAction.ACTION_CARD_1 : "ACTION_CARD_1", 
-	Game.PlayerAction.ACTION_CARD_2 : "ACTION_CARD_2", 
-	Game.PlayerAction.ABILITY_CARD  : "ABILITY_CARD", 
-	Game.PlayerAction.POTION 		: "POTION", 
-	Game.PlayerAction.END_TURN 		: "END_TURN", 
-	Game.PlayerAction.SKIP_PAWN 	: "SKIP_PAWN"
+	Game.PlayerAction.ARMT_CARD_1	  : "ARMT_CARD_1",
+	Game.PlayerAction.ARMT_CARD_2	  : "ARMT_CARD_2",
+	Game.PlayerAction.ACTION_CARD_1   : "ACTION_CARD_1", 
+	Game.PlayerAction.ACTION_CARD_2   : "ACTION_CARD_2", 
+	Game.PlayerAction.ABILITY_CARD_1  : "ABILITY_CARD_1",
+	Game.PlayerAction.ABILITY_CARD_2  : "ABILITY_CARD_2",
+	Game.PlayerAction.POTION 		  : "POTION", 
+	Game.PlayerAction.END_TURN 		  : "END_TURN", 
+	Game.PlayerAction.SKIP_PAWN 	  : "SKIP_PAWN"
 }
 
 const _player_action_in = {
-	"ATTACK_LIGHT" 		: Game.PlayerAction.ATTACK_LIGHT,
-	"ATTACK_HEAVY" 		: Game.PlayerAction.ATTACK_HEAVY,
+	"ARMT_CARD_1" 		: Game.PlayerAction.ARMT_CARD_1,
+	"ARMT_CARD_2" 		: Game.PlayerAction.ARMT_CARD_2,
 	"ACTION_CARD_1" 	: Game.PlayerAction.ACTION_CARD_1,
 	"ACTION_CARD_2" 	: Game.PlayerAction.ACTION_CARD_2 ,
-	"ABILITY_CARD" 		: Game.PlayerAction.ABILITY_CARD,
+	"ABILITY_CARD_1" 	: Game.PlayerAction.ABILITY_CARD_1,
+	"ABILITY_CARD_2" 	: Game.PlayerAction.ABILITY_CARD_2,
 	"POTION" 			: Game.PlayerAction.POTION ,
 	"END_TURN"			: Game.PlayerAction.END_TURN,
 	"SKIP_PAWN"			: Game.PlayerAction.SKIP_PAWN
@@ -149,34 +151,36 @@ const _stat_type = {
 	}
 
 const _card_slot = {
-	"pawn_card"		: Game.CardSlot.PAWN_CARD,
-	"weapon_card"	: Game.CardSlot.WEAPON_CARD,
-	"action_card_1"	: Game.CardSlot.ACTION_CARD_1,
-	"action_card_2"	: Game.CardSlot.ACTION_CARD_2,
-	"ability_card"	: Game.CardSlot.ABILITY_CARD,
-	"power_card"	: Game.CardSlot.POWER_CARD
+	"PAWN_CARD"			: Game.CardSlot.PAWN_CARD,
+	"ARMT_CARD_1"  	    : Game.CardSlot.ARMT_CARD_1,
+	"ARMT_CARD_2"   	: Game.CardSlot.ARMT_CARD_2,
+	"ACTION_CARD_1"		: Game.CardSlot.ACTION_CARD_1,
+	"ACTION_CARD_2"		: Game.CardSlot.ACTION_CARD_2,
+	"ABILITY_CARD_1"	: Game.CardSlot.ABILITY_CARD_1,
+	"ABILITY_CARD_2"	: Game.CardSlot.ABILITY_CARD_2,
+	"POWER_CARD"		: Game.CardSlot.POWER_CARD
 }
 
-# const _action_flags_in = {
-# 	"REFLECTED" 	: Game.ActionFlags.REFLECTED,
-#     "RESISTED" 		: Game.ActionFlags.RESISTED,
-#     "DOUBLED" 		: Game.ActionFlags.DOUBLED,
-#     "DAMAGED"		: Game.ActionFlags.DAMAGED,
-#     "EFFECTED"		: Game.ActionFlags.EFFECTED,
-#     "SUCCESS"		: Game.ActionFlags.SUCCESS,
-#     "UNSUCCESSFUL"	: Game.ActionFlags.UNSUCCESSFUL,
-#     "CONFUSED"		: Game.ActionFlags.CONFUSED
-# }
+const _action_flags_in = {
+	"REFLECTED" 	: Game.ActionFlags.REFLECTED,
+	"RESISTED" 		: Game.ActionFlags.RESISTED,
+	"DOUBLED" 		: Game.ActionFlags.DOUBLED,
+	"DAMAGED"		: Game.ActionFlags.DAMAGED,
+	"EFFECTED"		: Game.ActionFlags.EFFECTED,
+	"SUCCESS"		: Game.ActionFlags.SUCCESS,
+	"UNSUCCESSFUL"	: Game.ActionFlags.UNSUCCESSFUL,
+	"CONFUSED"		: Game.ActionFlags.CONFUSED
+}
 
 # const _action_flags_out = {
 # 	Game.ActionFlags.REFLECTED 		: "REFLECTED",
-#     Game.ActionFlags.RESISTED 		: "RESISTED",
-#     Game.ActionFlags.DOUBLED 		: "DOUBLED",
-#     Game.ActionFlags.DAMAGED		: "DAMAGED",
-#     Game.ActionFlags.EFFECTED		: "EFFECTED",
-#     Game.ActionFlags.SUCCESS		: "SUCCESS",
-#     Game.ActionFlags.UNSUCCESSFUL	: "UNSUCCESSFUL",
-#     CGame.ActionFlags.CONFUSED		: "CONFUSED"
+# 	Game.ActionFlags.RESISTED 		: "RESISTED",
+# 	Game.ActionFlags.DOUBLED 		: "DOUBLED",
+# 	Game.ActionFlags.DAMAGED		: "DAMAGED",
+# 	Game.ActionFlags.EFFECTED		: "EFFECTED",
+# 	Game.ActionFlags.SUCCESS		: "SUCCESS",
+# 	Game.ActionFlags.UNSUCCESSFUL	: "UNSUCCESSFUL",
+# 	CGame.ActionFlags.CONFUSED		: "CONFUSED"
 # }
 
 

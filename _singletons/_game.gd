@@ -17,7 +17,8 @@ enum Domain {
 	ABILITY, 
 	POWER, 
 	PAWN, 
-	WEAPON
+	TALISMAN,
+	ARMT
 	}
 	
 enum Pawn {
@@ -35,11 +36,12 @@ enum PState {
 	}
 	
 enum PlayerAction {
-	ATTACK_LIGHT, 
-	ATTACK_HEAVY, 
+	ARMT_CARD_1,
+	ARMT_CARD_2,
 	ACTION_CARD_1, 
 	ACTION_CARD_2, 
-	ABILITY_CARD, 
+	ABILITY_CARD_1, 
+	ABILITY_CARD_2, 
 	POTION, 
 	END_TURN, 
 	SKIP_PAWN
@@ -54,49 +56,61 @@ enum StatType{
 	LUCK
 }
 
+# enum CardSlot {
+# 	PAWN_CARD,
+# 	WEAPON_CARD,
+# 	ACTION_CARD_1,
+# 	ACTION_CARD_2,
+# 	ABILITY_CARD,
+# 	POWER_CARD
+# }
+
 enum CardSlot {
 	PAWN_CARD,
-	WEAPON_CARD,
+	ARMT_CARD_1,
+	ARMT_CARD_2,
+	TALISMAN_CARD,
+	POWER_CARD,
 	ACTION_CARD_1,
 	ACTION_CARD_2,
-	ABILITY_CARD,
-	POWER_CARD
+	ABILITY_CARD_1,
+	ABILITY_CARD_2
 }
 
 enum ActionFlags {
 	REFLECTED,
-    RESISTED,
-    DOUBLED,
-    DAMAGED,
-    EFFECTED,
-    SUCCESS, 
-    UNSUCCESSFUL,
-    CONFUSED
+	RESISTED,
+	DOUBLED,
+	DAMAGED,
+	EFFECTED,
+	SUCCESS, 
+	UNSUCCESSFUL,
+	CONFUSED
 }
 
 var _effect_type = {
 	"PARALYSIS" 				: ["Paralyzed", false],
-    "POISON"					: ["Poisoned", false],
-    "SLEEP"						: ["Asleep", false],
-    "CONFUSION"					: ["Confused", false],
-    "INSIGHT_STATUS"			: ["Sighted", false],
-    "INSIGHT_EFFECTS"			: ["Sighted", false],
-    "INSIGHT_STATS"				: ["Sighted", false],
-    "INSIGHT_POWERS"			: ["Sighted", false],
-    "INSIGHT_ACTION_CARDS"		: ["Sighted", false],
-    "INSIGHT_ABILITY_HAND"		: ["Sighted", false],
-    "FORTUNE"					: ["Fortune", true],
-    "MISFORTUNE"				: ["Misfortune", false],
-    "FORTIFY"					: ["Fortify", true],
-    "DEFORTIFY"					: ["Defortify", false],
-    "MEDITATE"					: ["Meditate", true],
-    "DEMEDITATE"				: ["Demeditate", false],
-    "CORE"						: ["Core", true],
-    "DECORE"					: ["Decore", false],
-    "INVIGORATE"				: ["Invigorate", true],
-    "DEINVIGORATE"				: ["Devigorate",false],
-    "REGENERATION"				: ["Regen", true],
-    "DEGENERATION"				: ["Degen", false]
+	"POISON"					: ["Poisoned", false],
+	"SLEEP"						: ["Asleep", false],
+	"CONFUSION"					: ["Confused", false],
+	"INSIGHT_STATUS"			: ["Sighted", false],
+	"INSIGHT_EFFECTS"			: ["Sighted", false],
+	"INSIGHT_STATS"				: ["Sighted", false],
+	"INSIGHT_POWERS"			: ["Sighted", false],
+	"INSIGHT_ACTION_CARDS"		: ["Sighted", false],
+	"INSIGHT_ABILITY_HAND"		: ["Sighted", false],
+	"FORTUNE"					: ["Fortune", true],
+	"MISFORTUNE"				: ["Misfortune", false],
+	"FORTIFY"					: ["Fortify", true],
+	"DEFORTIFY"					: ["Defortify", false],
+	"MEDITATE"					: ["Meditate", true],
+	"DEMEDITATE"				: ["Demeditate", false],
+	"CORE"						: ["Core", true],
+	"DECORE"					: ["Decore", false],
+	"INVIGORATE"				: ["Invigorate", true],
+	"DEINVIGORATE"				: ["Devigorate",false],
+	"REGENERATION"				: ["Regen", true],
+	"DEGENERATION"				: ["Degen", false]
 }
 
 
@@ -169,7 +183,6 @@ func validate_set(set : PawnSet) -> Dictionary:
 	return rtn
 	
 
-	
 	
 
 

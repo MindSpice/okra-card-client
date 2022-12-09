@@ -27,7 +27,7 @@ split_offset = 900
 
 [node name="AllView" type="Panel" parent="View"]
 margin_right = 900.0
-margin_bottom = 900.0
+margin_bottom = 1080.0
 
 [node name="CardTotal" type="Label" parent="View/AllView"]
 anchor_left = 0.5
@@ -93,8 +93,8 @@ columns = 6
 
 [node name="DeckView" type="Panel" parent="View"]
 margin_left = 908.0
-margin_right = 1600.0
-margin_bottom = 900.0
+margin_right = 1920.0
+margin_bottom = 1080.0
 
 [node name="Save" type="Button" parent="View/DeckView"]
 margin_left = 625.0
@@ -114,8 +114,8 @@ custom_constants/separation = 15
 alignment = 1
 
 [node name="CardTotal" type="Label" parent="View/DeckView/LoadBox"]
-margin_left = 197.0
-margin_right = 357.0
+margin_left = 367.0
+margin_right = 507.0
 margin_bottom = 31.0
 rect_min_size = Vector2( 120, 31 )
 text = "Deck: 0 / 12 (Min:9)"
@@ -154,7 +154,7 @@ custom_constants/separation = 20
 alignment = 2
 
 [node name="Close" type="Button" parent="View/DeckView/HBox"]
-margin_left = 72.0
+margin_left = 77.0
 margin_right = 124.0
 margin_bottom = 33.0
 text = "Close"

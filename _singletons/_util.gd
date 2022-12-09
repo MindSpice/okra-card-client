@@ -44,6 +44,9 @@ func erase_all(target_array : Array, array : Array) -> void:
 	for item in array:
 		target_array.erase(item)
 
+
+
+
 #func free_matches_from (target_array : Array, array : Array) -> void:
 #	for item in array:
 #		var idx = target_array.find(item)

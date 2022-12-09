@@ -11,6 +11,7 @@ onready var _sprite : Sprite = $Sprite
 onready var _detection_box : Area2D = $DetectionBox
 onready var _animation_player : AnimationPlayer = $AnimationPlayer
 
+
 # For internal use
 var _home_pos: Vector2
 var _state : int

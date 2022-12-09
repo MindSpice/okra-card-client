@@ -11,6 +11,7 @@ var card_domain : int
 var mouse_on : bool 
 var is_in_deck : bool = false
 var disable_context : bool = false
+var is_combat_menu : bool = false
 
 func init(domain : int, name : String, info : Array):
 	card_domain = domain
@@ -20,12 +21,13 @@ func init(domain : int, name : String, info : Array):
 	card_class = info[0]
 	card_level = info[2]
 	$Image.texture = load(str(CardBase.ACTION_RES,name,".jpg"))
-	$Image.scale  = Vector2(.3, .3)
+	#$Image.scale  = Vector2(.3, .3)
 
 
 func _ready():
 	pass
-	
+
+
 	
 func get_image() -> Texture:
 	return $Image.texture
@@ -36,23 +38,27 @@ func set_scalar(scalar : float):
 	
 	
 func _input(event):
-	$Menu.set_item_disabled(0, true if is_in_deck else false)
-	$Menu.set_item_disabled(1, false if is_in_deck else true)
+	if disable_context:
+		return
 
-	if (event is InputEventMouseButton and event.is_pressed() 
-			and (event.button_index == BUTTON_LEFT or event.button_index == BUTTON_RIGHT)):
-				
-		if not disable_context:
-			if not $Menu.is_visible_in_tree() && mouse_on:
-				$Menu.popup(Rect2(get_global_mouse_position().x, get_global_mouse_position().y, 75, 75))
-		else:
-			if (mouse_on):
-				emit_signal("card_selected", self)
-				
+	if not is_combat_menu:
+		$Menu.set_item_disabled(0, true if is_in_deck else false) #Called every mouse move, needs made more effcient
+		$Menu.set_item_disabled(1, false if is_in_deck else true)
 
+		if (event is InputEventMouseButton and event.is_pressed() 
+				and (event.button_index == BUTTON_LEFT or event.button_index == BUTTON_RIGHT)):
+					
+			if not disable_context:
+				if not $Menu.is_visible_in_tree() && mouse_on:
+					$Menu.popup(Rect2(get_global_mouse_position().x, get_global_mouse_position().y, 75, 75))
+			else:
+				if (mouse_on):
+					emit_signal("card_selected", self)
 
-func enable_select(flag : bool):
-	disable_context = flag
+		else: # is_combat_menu
+			#TODO right click inspect, left click combat menu
+			# Contexts signals need to be bound
+			pass
 	
 
 func _on_Card_mouse_entered():
@@ -72,5 +78,12 @@ signal card_selected(card)
 signal context_selected(card , id)
 
 
+# For deck builder
 func _on_context_id_pressed(id):
 	emit_signal("context_selected", self, id)
+
+# For gameplay
+func _on_combat_input(id):
+	emit_signal("combat_action", self, id)
+
+
