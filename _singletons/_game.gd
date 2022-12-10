@@ -14,11 +14,12 @@ const E_PAWN_POS = [Vector2(400, 850), Vector2(500, 700), Vector2(400,550)]
 
 enum Domain {
 	ACTION, 
-	ABILITY, 
+	ABILITY,
+	WEAPON,
+	DEFENSE,
 	POWER, 
 	PAWN, 
 	TALISMAN,
-	ARMT
 	}
 	
 enum Pawn {
@@ -36,8 +37,8 @@ enum PState {
 	}
 	
 enum PlayerAction {
-	ARMT_CARD_1,
-	ARMT_CARD_2,
+	WEAPON_CARD_LIGHT,
+	WEAPON_CARD_HEAVY,
 	ACTION_CARD_1, 
 	ACTION_CARD_2, 
 	ABILITY_CARD_1, 
@@ -67,8 +68,8 @@ enum StatType{
 
 enum CardSlot {
 	PAWN_CARD,
-	ARMT_CARD_1,
-	ARMT_CARD_2,
+	WEAPON_CARD,
+	DEFENSE_CARD,
 	TALISMAN_CARD,
 	POWER_CARD,
 	ACTION_CARD_1,

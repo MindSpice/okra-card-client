@@ -14,38 +14,56 @@ func instance_card(domain : int, card_name : String) -> Node:
 	match(domain):
 		Game.Domain.ACTION:
 			card.init(domain, card_name, ACTIONCARDS.get(card_name))
+
 		Game.Domain.ABILITY:
 			card.init(domain, card_name, ABILITYCARDS.get(card_name))
+
 		Game.Domain.POWER:
 			card.init(domain, card_name, POWERCARDS.get(card_name))
+
 		Game.Domain.PAWN:
 			card.init(domain, card_name, PAWNCARDS.get(card_name))
-		Game.Domain.ARMT:
-			card.init(domain, card_name, ARMTCARDS.get(card_name))
+
+		Game.Domain.WEAPON:
+			card.init(domain, card_name, WEAPONCARDS.get(card_name))
+
+		Game.Domain.DEFENSE:
+			card.init(domain, card_name, DEFENSECARDS.get(card_name))
+
 		Game.Domain.TALISMAN:
 			card.init(domain, card_name, TALISMANARDS.get(card_name))
+
 	return card
 
 func instance_card_by_slot(card_slot : int, card_name : String) -> Node:
 		match(card_slot):
 			Game.CardSlot.PAWN_CARD:
 				return instance_card(Game.Domain.PAWN, card_name)
-			Game.CardSlot.ARMT_CARD_1, Game.CardSlot.ARMT_CARD_2:
-				return instance_card(Game.Domain.ARMT, card_name)
+
+			Game.CardSlot.WEAPON_CARD:
+				return instance_card(Game.Domain.WEAPON, card_name)
+
+			Game.CardSlot.DEFENSE_CARD:
+				return instance_card(Game.Domain.DEFENSE, card_name)
+
 			Game.CardSlot.ACTION_CARD_1, Game.CardSlot.ACTION_CARD_2:
 				 return instance_card(Game.Domain.ACTION, card_name)
+
 			Game.CardSlot.ABILITY_CARD_1, Game.CardSlot.ABILITY_CARD_2:
 				return instance_card(Game.Domain.ABILITY, card_name)
+
 			Game.CardSlot.POWER_CARD:
 				return instance_card(Game.Domain.POWER, card_name)
+
 			Game.CardSlot.TALISMAN_CARD:
 				return instance_card(Game.Domain.POWER, card_name)
+
 		return null
 
 	
 	
-func instance_card_list(domain : int, cards : Array) -> Array:
-	var instances : Array
+func instance_card_list(domain: int, cards: Array) -> Array:
+	var instances: Array
 	for card in cards:
 		instances.append(instance_card(domain, card))
 		
@@ -164,7 +182,7 @@ const WEAPONCARDS = {
 	"TESTCARD" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
 }
 
-const ARMTCARDS = {
+const DEFENSECARDS = {
 	"WEAPON1" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
 	"WEAPON2" : ["SINGLE", "RANGED", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
 	"WEAPON3" : ["SINGLE", "MAGIC", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],

@@ -112,27 +112,27 @@ const _pawn_out = {
 }
 
 const _player_action_out = {
-	Game.PlayerAction.ARMT_CARD_1	  : "ARMT_CARD_1",
-	Game.PlayerAction.ARMT_CARD_2	  : "ARMT_CARD_2",
-	Game.PlayerAction.ACTION_CARD_1   : "ACTION_CARD_1", 
-	Game.PlayerAction.ACTION_CARD_2   : "ACTION_CARD_2", 
-	Game.PlayerAction.ABILITY_CARD_1  : "ABILITY_CARD_1",
-	Game.PlayerAction.ABILITY_CARD_2  : "ABILITY_CARD_2",
-	Game.PlayerAction.POTION 		  : "POTION", 
-	Game.PlayerAction.END_TURN 		  : "END_TURN", 
-	Game.PlayerAction.SKIP_PAWN 	  : "SKIP_PAWN"
+	Game.PlayerAction.WEAPON_CARD_LIGHT	  : "WEAPON_CARD_LIGHT",
+	Game.PlayerAction.WEAPON_CARD_HEAVY	  : "WEAPON_CARD_HEAVY",
+	Game.PlayerAction.ACTION_CARD_1   	  : "ACTION_CARD_1", 
+	Game.PlayerAction.ACTION_CARD_2   	  : "ACTION_CARD_2", 
+	Game.PlayerAction.ABILITY_CARD_1  	  : "ABILITY_CARD_1",
+	Game.PlayerAction.ABILITY_CARD_2  	  : "ABILITY_CARD_2",
+	Game.PlayerAction.POTION 		  	  : "POTION", 
+	Game.PlayerAction.END_TURN 		  	  : "END_TURN", 
+	Game.PlayerAction.SKIP_PAWN 	  	  : "SKIP_PAWN"
 }
 
 const _player_action_in = {
-	"ARMT_CARD_1" 		: Game.PlayerAction.ARMT_CARD_1,
-	"ARMT_CARD_2" 		: Game.PlayerAction.ARMT_CARD_2,
-	"ACTION_CARD_1" 	: Game.PlayerAction.ACTION_CARD_1,
-	"ACTION_CARD_2" 	: Game.PlayerAction.ACTION_CARD_2 ,
-	"ABILITY_CARD_1" 	: Game.PlayerAction.ABILITY_CARD_1,
-	"ABILITY_CARD_2" 	: Game.PlayerAction.ABILITY_CARD_2,
-	"POTION" 			: Game.PlayerAction.POTION ,
-	"END_TURN"			: Game.PlayerAction.END_TURN,
-	"SKIP_PAWN"			: Game.PlayerAction.SKIP_PAWN
+	"WEAPON_CARD_LIGHT" 		: Game.PlayerAction.WEAPON_CARD_LIGHT,
+	"WEAPON_CARD_HEAVY" 		: Game.PlayerAction.WEAPON_CARD_HEAVY,
+	"ACTION_CARD_1" 			: Game.PlayerAction.ACTION_CARD_1,
+	"ACTION_CARD_2" 			: Game.PlayerAction.ACTION_CARD_2 ,
+	"ABILITY_CARD_1" 			: Game.PlayerAction.ABILITY_CARD_1,
+	"ABILITY_CARD_2" 			: Game.PlayerAction.ABILITY_CARD_2,
+	"POTION" 					: Game.PlayerAction.POTION ,
+	"END_TURN"					: Game.PlayerAction.END_TURN,
+	"SKIP_PAWN"					: Game.PlayerAction.SKIP_PAWN
 }
 
 const _insight_type = {
@@ -152,8 +152,8 @@ const _stat_type = {
 
 const _card_slot = {
 	"PAWN_CARD"			: Game.CardSlot.PAWN_CARD,
-	"ARMT_CARD_1"  	    : Game.CardSlot.ARMT_CARD_1,
-	"ARMT_CARD_2"   	: Game.CardSlot.ARMT_CARD_2,
+	"WEAPON_CARD"  	    : Game.CardSlot.WEAPON_CARD,
+	"DEFENSE_CARD"   	: Game.CardSlot.DEFENSE_CARD,
 	"ACTION_CARD_1"		: Game.CardSlot.ACTION_CARD_1,
 	"ACTION_CARD_2"		: Game.CardSlot.ACTION_CARD_2,
 	"ABILITY_CARD_1"	: Game.CardSlot.ABILITY_CARD_1,
