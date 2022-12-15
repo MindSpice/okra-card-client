@@ -112,20 +112,20 @@ const _pawn_out = {
 }
 
 const _player_action_out = {
-	Game.PlayerAction.WEAPON_CARD_LIGHT	  : "WEAPON_CARD_LIGHT",
-	Game.PlayerAction.WEAPON_CARD_HEAVY	  : "WEAPON_CARD_HEAVY",
-	Game.PlayerAction.ACTION_CARD_1   	  : "ACTION_CARD_1", 
-	Game.PlayerAction.ACTION_CARD_2   	  : "ACTION_CARD_2", 
-	Game.PlayerAction.ABILITY_CARD_1  	  : "ABILITY_CARD_1",
-	Game.PlayerAction.ABILITY_CARD_2  	  : "ABILITY_CARD_2",
-	Game.PlayerAction.POTION 		  	  : "POTION", 
-	Game.PlayerAction.END_TURN 		  	  : "END_TURN", 
-	Game.PlayerAction.SKIP_PAWN 	  	  : "SKIP_PAWN"
+	Game.PlayerAction.WEAPON_CARD_1	  : "WEAPON_CARD_1",
+	Game.PlayerAction.WEAPON_CARD_2	  : "WEAPON_CARD_2",
+	Game.PlayerAction.ACTION_CARD_1   : "ACTION_CARD_1", 
+	Game.PlayerAction.ACTION_CARD_2   : "ACTION_CARD_2", 
+	Game.PlayerAction.ABILITY_CARD_1  : "ABILITY_CARD_1",
+	Game.PlayerAction.ABILITY_CARD_2  : "ABILITY_CARD_2",
+	Game.PlayerAction.POTION 		  : "POTION", 
+	Game.PlayerAction.END_TURN 		  : "END_TURN", 
+	Game.PlayerAction.SKIP_PAWN 	  : "SKIP_PAWN"
 }
 
 const _player_action_in = {
-	"WEAPON_CARD_LIGHT" 		: Game.PlayerAction.WEAPON_CARD_LIGHT,
-	"WEAPON_CARD_HEAVY" 		: Game.PlayerAction.WEAPON_CARD_HEAVY,
+	"WEAPON_CARD_1" 		: Game.PlayerAction.WEAPON_CARD_1,
+	"WEAPON_CARD_2" 		: Game.PlayerAction.WEAPON_CARD_2,
 	"ACTION_CARD_1" 			: Game.PlayerAction.ACTION_CARD_1,
 	"ACTION_CARD_2" 			: Game.PlayerAction.ACTION_CARD_2 ,
 	"ABILITY_CARD_1" 			: Game.PlayerAction.ABILITY_CARD_1,
@@ -152,8 +152,8 @@ const _stat_type = {
 
 const _card_slot = {
 	"PAWN_CARD"			: Game.CardSlot.PAWN_CARD,
-	"WEAPON_CARD"  	    : Game.CardSlot.WEAPON_CARD,
-	"DEFENSE_CARD"   	: Game.CardSlot.DEFENSE_CARD,
+	"WEAPON_CARD_1"  	    : Game.CardSlot.WEAPON_CARD_1,
+	"WEAPON_CARD_2"  	    : Game.CardSlot.WEAPON_CARD_2,
 	"ACTION_CARD_1"		: Game.CardSlot.ACTION_CARD_1,
 	"ACTION_CARD_2"		: Game.CardSlot.ACTION_CARD_2,
 	"ABILITY_CARD_1"	: Game.CardSlot.ABILITY_CARD_1,
@@ -225,6 +225,7 @@ func conv_card_hand(card_hand : Dictionary) -> Dictionary:
 	for card in card_hand:
 		rtn_dict[_card_slot.get(card)] = card_hand.get(card)
 	return rtn_dict
+
 
 func conv_effect_arr(effects : Array) -> Dictionary:
 	var rtn_dict : Dictionary

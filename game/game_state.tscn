@@ -109,7 +109,7 @@ tab_align = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1.0
-margin_top = 26.0
+margin_top = 23.0
 margin_right = -1.0
 margin_bottom = -1.0
 
@@ -119,9 +119,9 @@ anchor_bottom = 1.0
 alignment = 1
 
 [node name="Pawn1" type="HBoxContainer" parent="GUI/PlayerCards/TabContainer/Pawn/VBox"]
-margin_top = 5.0
+margin_top = 6.0
 margin_right = 262.0
-margin_bottom = 125.0
+margin_bottom = 126.0
 rect_min_size = Vector2( 260, 120 )
 custom_constants/separation = 6
 alignment = 1
@@ -154,16 +154,16 @@ input_pass_on_modal_close_click = false
 expand = true
 
 [node name="HSeparator" type="HSeparator" parent="GUI/PlayerCards/TabContainer/Pawn/VBox"]
-margin_top = 129.0
+margin_top = 130.0
 margin_right = 262.0
-margin_bottom = 129.0
+margin_bottom = 130.0
 custom_constants/separation = 0
 custom_styles/separator = SubResource( 4 )
 
 [node name="Pawn2" type="HBoxContainer" parent="GUI/PlayerCards/TabContainer/Pawn/VBox"]
-margin_top = 133.0
+margin_top = 134.0
 margin_right = 262.0
-margin_bottom = 253.0
+margin_bottom = 254.0
 rect_min_size = Vector2( 260, 120 )
 custom_constants/separation = 6
 alignment = 1
@@ -196,16 +196,16 @@ input_pass_on_modal_close_click = false
 expand = true
 
 [node name="HSeparator2" type="HSeparator" parent="GUI/PlayerCards/TabContainer/Pawn/VBox"]
-margin_top = 257.0
+margin_top = 258.0
 margin_right = 262.0
-margin_bottom = 257.0
+margin_bottom = 258.0
 custom_constants/separation = 0
 custom_styles/separator = SubResource( 4 )
 
 [node name="Pawn3" type="HBoxContainer" parent="GUI/PlayerCards/TabContainer/Pawn/VBox"]
-margin_top = 261.0
+margin_top = 262.0
 margin_right = 262.0
-margin_bottom = 381.0
+margin_bottom = 382.0
 rect_min_size = Vector2( 260, 120 )
 custom_constants/separation = 6
 alignment = 1

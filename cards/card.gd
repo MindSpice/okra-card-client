@@ -8,6 +8,7 @@ var card_type : String
 var card_class : String
 var card_level : int
 var card_domain : int
+var is_player_targeting: bool
 var mouse_on : bool 
 var is_in_deck : bool = false
 var disable_context : bool = false
@@ -19,7 +20,8 @@ func init(domain : int, name : String, info : Array):
 	card_name = name # TODO this needs to be pass along with the info
 	card_type = info[1]
 	card_class = info[0]
-	card_level = info[2]
+	is_player_targeting = info[2]
+	card_level = info[3]
 	$Image.texture = load(str(CardBase.ACTION_RES,name,".jpg"))
 	#$Image.scale  = Vector2(.3, .3)
 

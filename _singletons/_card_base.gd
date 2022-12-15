@@ -40,11 +40,8 @@ func instance_card_by_slot(card_slot : int, card_name : String) -> Node:
 			Game.CardSlot.PAWN_CARD:
 				return instance_card(Game.Domain.PAWN, card_name)
 
-			Game.CardSlot.WEAPON_CARD:
+			Game.CardSlot.WEAPON_CARD_1, Game.CardSlot.WEAPON_CARD_2:
 				return instance_card(Game.Domain.WEAPON, card_name)
-
-			Game.CardSlot.DEFENSE_CARD:
-				return instance_card(Game.Domain.DEFENSE, card_name)
 
 			Game.CardSlot.ACTION_CARD_1, Game.CardSlot.ACTION_CARD_2:
 				 return instance_card(Game.Domain.ACTION, card_name)
@@ -100,107 +97,107 @@ func card_nodes_as_names (card_nodes : Array) -> Array:
 # TODO find a better representation
 # export from back into into csv and maintain indexing?
 const ACTIONCARDS = {
-	"ONE" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TWO" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"THREE" : ["SINGLE", "MELEE", 2, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"FOUR" : ["SINGLE", "MELEE", 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"FIVE" : ["SINGLE", "MELEE", 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"SIX" : ["SINGLE", "RANGED", 1,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"SEVEN" : ["SINGLE", "RANGED", 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"EIGHT" : ["SINGLE", "RANGED", 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"NINE" : ["SINGLE", "MAGIC", 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TEN" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"ACTION1" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"ACTION2" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"NULL" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TESTCARD" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
+	"ONE" : ["SINGLE", "MELEE", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TWO" : ["SINGLE", "MELEE", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"THREE" : ["SINGLE", "MELEE", false, 2, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"FOUR" : ["SINGLE", "MELEE", false, 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"FIVE" : ["SINGLE", "MELEE", false, 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"SIX" : ["SINGLE", "RANGED", false, 1,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"SEVEN" : ["SINGLE", "RANGED", false, 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"EIGHT" : ["SINGLE", "RANGED", false, 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"NINE" : ["SINGLE", "MAGIC", false, 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TEN" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"ACTION1" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"ACTION2" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"NULL" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TESTCARD" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
 }
 
 const ABILITYCARDS = {
-	"ONE" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TWO" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"THREE" : ["SINGLE", "MELEE", 2, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"FOUR" : ["SINGLE", "MELEE", 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"FIVE" : ["SINGLE", "MELEE", 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"SIX" : ["SINGLE", "RANGED", 1,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"SEVEN" : ["SINGLE", "RANGED", 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"EIGHT" : ["SINGLE", "RANGED", 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"NINE" : ["SINGLE", "MAGIC", 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TEN" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TEST_ENEMY" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"NULL" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TESTCARD" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
+	"ONE" : ["SINGLE", "MELEE", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TWO" : ["SINGLE", "MELEE", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"THREE" : ["SINGLE", "MELEE", false, 2, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"FOUR" : ["SINGLE", "MELEE", false, 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"FIVE" : ["SINGLE", "MELEE", false, 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"SIX" : ["SINGLE", "RANGED", false, 1,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"SEVEN" : ["SINGLE", "RANGED", false, 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"EIGHT" : ["SINGLE", "RANGED", false, 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"NINE" : ["SINGLE", "MAGIC", false, 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TEN" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TEST_ENEMY" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"NULL" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TESTCARD" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
 }
 
 const POWERCARDS = {
-	"ONE" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TWO" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"THREE" : ["SINGLE", "MELEE", 2, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"FOUR" : ["SINGLE", "MELEE", 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"FIVE" : ["SINGLE", "MELEE", 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"SIX" : ["SINGLE", "RANGED", 1,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"SEVEN" : ["SINGLE", "RANGED", 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"EIGHT" : ["SINGLE", "RANGED", 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"NINE" : ["SINGLE", "MAGIC", 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TEN" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TEST" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"NULL" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TESTCARD" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
+	"ONE" : ["SINGLE", "MELEE", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TWO" : ["SINGLE", "MELEE", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"THREE" : ["SINGLE", "MELEE", false, 2, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"FOUR" : ["SINGLE", "MELEE", false, 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"FIVE" : ["SINGLE", "MELEE", false, 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"SIX" : ["SINGLE", "RANGED", false, 1,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"SEVEN" : ["SINGLE", "RANGED", false, 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"EIGHT" : ["SINGLE", "RANGED", false, 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"NINE" : ["SINGLE", "MAGIC", false, 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TEN" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TEST" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"NULL" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TESTCARD" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
 }
 
 const TALISMANARDS = {
-	"ONE" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TWO" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"THREE" : ["SINGLE", "MELEE", 2, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"FOUR" : ["SINGLE", "MELEE", 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"FIVE" : ["SINGLE", "MELEE", 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"SIX" : ["SINGLE", "RANGED", 1,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"SEVEN" : ["SINGLE", "RANGED", 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"EIGHT" : ["SINGLE", "RANGED", 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"NINE" : ["SINGLE", "MAGIC", 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TEN" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TEST_ENEMY" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"NULL" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TESTCARD" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
+	"ONE" : ["SINGLE", "MELEE", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TWO" : ["SINGLE", "MELEE", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"THREE" : ["SINGLE", "MELEE", false, 2, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"FOUR" : ["SINGLE", "MELEE", false, 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"FIVE" : ["SINGLE", "MELEE", false, 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"SIX" : ["SINGLE", "RANGED", false, 1,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"SEVEN" : ["SINGLE", "RANGED", false, 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"EIGHT" : ["SINGLE", "RANGED", false, 3 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"NINE" : ["SINGLE", "MAGIC", false, 4 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TEN" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TEST_ENEMY" : ["SINGLE", false, "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"NULL" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TESTCARD" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
 }
 
 const PAWNCARDS = {
-	"PAWN1" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"PAWN2" : ["SINGLE", "RANGED", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"PAWN3" : ["SINGLE", "MAGIC", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"OKRUID" : ["SINGLE", "MAGIC", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"NULL" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TESTCARD" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
+	"PAWN1" : ["SINGLE", "MELEE", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"PAWN2" : ["SINGLE", "RANGED", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"PAWN3" : ["SINGLE", "MAGIC", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"OKRUID" : ["SINGLE", "MAGIC", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"NULL" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TESTCARD" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
 }
 
 const WEAPONCARDS = {
-	"WEAPON1" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"WEAPON2" : ["SINGLE", "RANGED", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"WEAPON3" : ["SINGLE", "MAGIC", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"ENCHANTED_BOW" : ["SINGLE", "MAGIC", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"NULL" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TESTCARD" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
+	"WEAPON1" : ["SINGLE", "MELEE", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"WEAPON2" : ["SINGLE", "RANGED", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"WEAPON3" : ["SINGLE", "MAGIC", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"ENCHANTED_BOW" : ["SINGLE", "MAGIC", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"NULL" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TESTCARD" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
 }
 
 const DEFENSECARDS = {
-	"WEAPON1" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"WEAPON2" : ["SINGLE", "RANGED", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"WEAPON3" : ["SINGLE", "MAGIC", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"ENCHANTED_BOW" : ["SINGLE", "MAGIC", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"NULL" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"TESTCARD" : ["SINGLE", "MAGIC", 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
+	"WEAPON1" : ["SINGLE", "MELEE", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"WEAPON2" : ["SINGLE", "RANGED", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"WEAPON3" : ["SINGLE", "MAGIC", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"ENCHANTED_BOW" : ["SINGLE", "MAGIC", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"NULL" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"TESTCARD" : ["SINGLE", "MAGIC", false, 1 ,true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
 }
 
 
 
 
 const POTIONS = {
-	"POTION1" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"POTION2" : ["SINGLE", "RANGED", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"POTION3" : ["SINGLE", "MAGIC", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"POTION4" : ["SINGLE", "MELEE", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"POTION5" : ["SINGLE", "RANGED", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
-	"POTION6" : ["SINGLE", "MAGIC", 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
+	"POTION1" : ["SINGLE", "MELEE", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"POTION2" : ["SINGLE", "RANGED", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"POTION3" : ["SINGLE", "MAGIC", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"POTION4" : ["SINGLE", "MELEE", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"POTION5" : ["SINGLE", "RANGED", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0],
+	"POTION6" : ["SINGLE", "MAGIC", false, 1, true, false, 10, 5, 5, 5, 0 ,0, 22, 0]
 }
 
 

@@ -16,7 +16,6 @@ enum Domain {
 	ACTION, 
 	ABILITY,
 	WEAPON,
-	DEFENSE,
 	POWER, 
 	PAWN, 
 	TALISMAN,
@@ -37,8 +36,8 @@ enum PState {
 	}
 	
 enum PlayerAction {
-	WEAPON_CARD_LIGHT,
-	WEAPON_CARD_HEAVY,
+	WEAPON_CARD_1,
+	WEAPON_CARD_2,
 	ACTION_CARD_1, 
 	ACTION_CARD_2, 
 	ABILITY_CARD_1, 
@@ -47,6 +46,19 @@ enum PlayerAction {
 	END_TURN, 
 	SKIP_PAWN
 	}
+
+enum CardSlot {
+	PAWN_CARD,
+	WEAPON_CARD_1,
+	WEAPON_CARD_2,
+	TALISMAN_CARD,
+	POWER_CARD,
+	ACTION_CARD_1,
+	ACTION_CARD_2,
+	ABILITY_CARD_1,
+	ABILITY_CARD_2
+}
+
 
 enum StatType{
 	HP,
@@ -65,18 +77,6 @@ enum StatType{
 # 	ABILITY_CARD,
 # 	POWER_CARD
 # }
-
-enum CardSlot {
-	PAWN_CARD,
-	WEAPON_CARD,
-	DEFENSE_CARD,
-	TALISMAN_CARD,
-	POWER_CARD,
-	ACTION_CARD_1,
-	ACTION_CARD_2,
-	ABILITY_CARD_1,
-	ABILITY_CARD_2
-}
 
 enum ActionFlags {
 	REFLECTED,
