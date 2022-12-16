@@ -2,7 +2,7 @@ extends MarginContainer
 
 class_name Card
 
-var card_info : Array
+var card_info : Dictionary
 var card_name : String
 var card_type : String
 var card_class : String
@@ -14,14 +14,23 @@ var is_in_deck : bool = false
 var disable_context : bool = false
 var is_combat_menu : bool = false
 
-func init(domain : int, name : String, info : Array):
+func init(domain : int, name : String, info : Dictionary):
 	card_domain = domain
 	card_info = info
 	card_name = name # TODO this needs to be pass along with the info
-	card_type = info[1]
-	card_class = info[0]
-	is_player_targeting = info[2]
-	card_level = info[3]
+
+	if (domain == Game.Domain.PAWN || domain == Game.Domain.WEAPON || domain == Game.Domain.ACTION):
+		card_type = info.get("action_type")
+	else:
+		card_type = "null"
+
+	if (domain == Game.Domain.ACTION || domain == Game.Domain.WEAPON || domain == Game.Domain.ABILITY):
+		card_class = info.get("damage_class")
+
+	if (domain == Game.Domain.WEAPON || domain == Game.Domain.ABILITY):
+		is_player_targeting = info.get("is_player")
+
+	card_level = info.get("level")
 	$Image.texture = load(str(CardBase.ACTION_RES,name,".jpg"))
 	#$Image.scale  = Vector2(.3, .3)
 
@@ -30,7 +39,6 @@ func _ready():
 	pass
 
 
-	
 func get_image() -> Texture:
 	return $Image.texture
 	
@@ -62,6 +70,7 @@ func _on_Card_mouse_entered():
 func _on_Card_mouse_exited():
 	mouse_on = false
 	
+
 func get_context() -> Node:
 	return $Menu
 	
@@ -75,6 +84,7 @@ signal context_selected(card , id)
 # For deck builder
 func _on_context_id_pressed(id):
 	emit_signal("context_selected", self, id)
+
 
 # For gameplay
 func _on_combat_input(id):
