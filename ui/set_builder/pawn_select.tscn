@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://themes/ttheme.tres" type="Theme" id=1]
 [ext_resource path="res://ui/set_builder/pawn_select.gd" type="Script" id=2]
+[ext_resource path="res://fonts/Modeseven-L3n5.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0.0335196, 1 )
@@ -12,6 +13,12 @@ gradient = SubResource( 2 )
 width = 400
 height = 560
 
+[sub_resource type="DynamicFont" id=3]
+size = 20
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 3 )
+
 [node name="CardSelect" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -21,8 +28,9 @@ theme = ExtResource( 1 )
 script = ExtResource( 2 )
 
 [node name="Window" type="WindowDialog" parent="."]
-margin_right = 1200.0
-margin_bottom = 700.0
+visible = true
+margin_right = 1800.0
+margin_bottom = 603.0
 
 [node name="Hsplit" type="HSplitContainer" parent="Window"]
 anchor_right = 1.0
@@ -33,16 +41,29 @@ dragger_visibility = 1
 
 [node name="Cards" type="Panel" parent="Window/Hsplit"]
 margin_right = 750.0
-margin_bottom = 700.0
+margin_bottom = 603.0
 
-[node name="TypeOption" type="OptionButton" parent="Window/Hsplit/Cards"]
-margin_left = 594.0
-margin_top = 3.0
-margin_right = 747.0
-margin_bottom = 24.0
-text = "Type"
+[node name="TypeCombo" type="OptionButton" parent="Window/Hsplit/Cards"]
+margin_left = 498.0
+margin_top = 1.0
+margin_right = 600.0
+margin_bottom = 34.0
+text = "All Types"
 align = 1
 icon_align = 1
+items = [ "All Types", null, false, 0, null, "MELEE", null, false, 1, null, "RANGED", null, false, 2, null, "MAGIC", null, false, 3, null ]
+selected = 0
+
+[node name="LevelCombo" type="OptionButton" parent="Window/Hsplit/Cards"]
+margin_left = 636.0
+margin_top = 1.0
+margin_right = 745.0
+margin_bottom = 34.0
+text = "All Levels"
+align = 1
+icon_align = 1
+items = [ "All Levels", null, false, 0, null, "Level 1", null, false, 1, null, "LEVEL 2", null, false, 2, null, "Level 3", null, false, 3, null, "Level 4", null, false, 4, null ]
+selected = 0
 
 [node name="ScrollCont" type="ScrollContainer" parent="Window/Hsplit/Cards"]
 anchor_right = 1.0
@@ -60,27 +81,57 @@ columns = 5
 
 [node name="Card" type="Panel" parent="Window/Hsplit"]
 margin_left = 758.0
-margin_right = 1200.0
-margin_bottom = 700.0
+margin_right = 1800.0
+margin_bottom = 603.0
 
-[node name="Image" type="TextureRect" parent="Window/Hsplit/Card"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -200.0
-margin_top = 20.0
-margin_right = 200.0
-margin_bottom = 580.0
+[node name="HBox" type="HBoxContainer" parent="Window/Hsplit/Card"]
+margin_left = 12.0
+margin_top = 9.0
+margin_right = 1032.0
+margin_bottom = 591.0
+custom_constants/separation = 20
+
+[node name="VBox" type="VBoxContainer" parent="Window/Hsplit/Card/HBox"]
+margin_right = 400.0
+margin_bottom = 582.0
+rect_min_size = Vector2( 400, 560 )
+
+[node name="Image" type="TextureRect" parent="Window/Hsplit/Card/HBox/VBox"]
+margin_right = 400.0
+margin_bottom = 560.0
+rect_min_size = Vector2( 400, 560 )
 texture = SubResource( 1 )
+expand = true
 
-[node name="Select" type="Button" parent="Window/Hsplit/Card"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -200.0
-margin_top = -116.0
-margin_right = 200.0
-margin_bottom = -95.0
+[node name="Select" type="Button" parent="Window/Hsplit/Card/HBox/VBox"]
+margin_top = 564.0
+margin_right = 400.0
+margin_bottom = 582.0
 text = "Select"
 
-[connection signal="pressed" from="Window/Hsplit/Card/Select" to="." method="_on_select_pressed"]
+[node name="Info" type="VBoxContainer" parent="Window/Hsplit/Card/HBox"]
+margin_left = 420.0
+margin_right = 1020.0
+margin_bottom = 582.0
+rect_min_size = Vector2( 0, 575 )
+custom_constants/separation = 7
+
+[node name="Stat" type="ScrollContainer" parent="Window/Hsplit/Card/HBox/Info"]
+margin_right = 600.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 600, 400 )
+
+[node name="Description" type="Label" parent="Window/Hsplit/Card/HBox/Info"]
+margin_top = 407.0
+margin_right = 600.0
+margin_bottom = 577.0
+rect_min_size = Vector2( 600, 170 )
+custom_fonts/font = SubResource( 3 )
+text = "
+"
+valign = 1
+autowrap = true
+
+[connection signal="item_selected" from="Window/Hsplit/Cards/TypeCombo" to="." method="_on_TypeCombo_item_selected"]
+[connection signal="item_selected" from="Window/Hsplit/Cards/LevelCombo" to="." method="_on_LevelCombo_item_selected"]
+[connection signal="pressed" from="Window/Hsplit/Card/HBox/VBox/Select" to="." method="_on_select_pressed"]

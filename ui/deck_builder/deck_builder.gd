@@ -114,6 +114,7 @@ func update_deck(card : Card, id : int):
 
 func update_filtered_view(typei : int, level : int):
 	Util.remove_children(_all_grid)
+	$View/AllView/Top/TypeCombo.select(typei)
 	var type : String
 	match (typei):
 		0: type = ""

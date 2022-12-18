@@ -6,9 +6,11 @@ var _ability_cards_free : Array
 var _power_cards_free : Array
 var _pawn_cards_free : Array
 var _weapon_cards_free : Array
-var _saved_pawn_sets : Array 
+var _talisman_cards_free: Array
+var _saved_pawn_sets : Dictionary 
 var _potion_options : Array
 var _pawn_set : PawnSet
+var set_name: String
 
 
 onready var _deck_builder := preload("res://ui/deck_builder/deck_builder.tscn").instance()
@@ -24,10 +26,10 @@ func _ready():
 	_deck_builder.connect("save", self, "_on_deck_builder_save")
 	_add_card_context()
 
-	for i in range(0, Player.pawn_sets.size()):
-		_saved_pawn_sets.append(Player.pawn_sets[i].get("set_name"))
-		$HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.add_item(
-			Player.pawn_sets[i].get("set_name"))
+	_saved_pawn_sets = Player.get_pawn_sets()
+
+	for set in _saved_pawn_sets.keys():
+		$HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.add_item(set)
 			
 	for node in $HSplit/VSplit2/SetInfo/HBox/Potions.get_children():
 		if node is OptionButton:
@@ -47,6 +49,7 @@ func _load_cards_all() -> void:
 	_power_cards_free = CardBase.instance_card_list(Game.Domain.POWER, Player.power_cards_all)
 	_pawn_cards_free = CardBase.instance_card_list(Game.Domain.PAWN, Player.pawn_cards_all)
 	_weapon_cards_free = CardBase.instance_card_list(Game.Domain.WEAPON, Player.weapon_cards_all)
+	_talisman_cards_free = CardBase.instance_card_list(Game.Domain.TALISMAN, Player.talisman_cards_all)
 
 
 func _clear_cards_all() -> void:
@@ -91,25 +94,52 @@ func _get_pawn_loadout(pawn_idx : int) -> PawnLoadout:
 	return null
 
 
-func _get_card_window(pawn_idx :int, domain : int) -> Node:
+func _get_card_window(pawn_idx :int, domain : int, card_idx: int) -> Node:
 	match(pawn_idx):
 		Game.Pawn.PAWN1:
-			if (domain == Game.Domain.PAWN):
-				return $HSplit/VSplit/Pawn1/VBox/HBox2/VBox/PawnCard
-			else:
-				return $HSplit/VSplit/Pawn1/VBox/HBox2/VBox2/WeaponCard
+			match(domain):
+				Game.Domain.PAWN:
+					return $HSplit/VSplit/Pawn1/VBox/HBox2/Pawn/PawnCard
+				Game.Domain.WEAPON:
+					if (card_idx == 1):
+						return $HSplit/VSplit/Pawn1/VBox/HBox2/Weapon1/WeaponCard1
+					else:
+						return $HSplit/VSplit/Pawn1/VBox/HBox2/Weapon2/WeaponCard2
+				Game.Domain.TALISMAN:
+					return $HSplit/VSplit/Pawn1/VBox/HBox2/Talisman/TalismanCard
+
 		Game.Pawn.PAWN2:
-			if (domain == Game.Domain.PAWN):
-				return $HSplit/VSplit2/Pawn2/VBox/HBox2/VBox/PawnCard
-			else:
-				return $HSplit/VSplit2/Pawn2/VBox/HBox2/VBox2/WeaponCard
+			match(domain):
+				Game.Domain.PAWN:
+					return $HSplit/VSplit2/Pawn2/VBox/HBox2/Pawn/PawnCard
+				Game.Domain.WEAPON:
+					if (card_idx == 1):
+						return $HSplit/VSplit2/Pawn2/VBox/HBox2/Weapon1/WeaponCard1
+					else:
+						return $HSplit/VSplit2/Pawn2/VBox/HBox2/Weapon2/WeaponCard2
+				Game.Domain.TALISMAN:
+					return $HSplit/VSplit2/Pawn2/VBox/HBox2/Talisman/TalismanCard
+
 		Game.Pawn.PAWN3:
-			if (domain == Game.Domain.PAWN):
-				return $HSplit/VSplit/Pawn3/VBox/HBox2/VBox/PawnCard
-			else:
-				return $HSplit/VSplit/Pawn3/VBox/HBox2/VBox2/WeaponCard
+			match(domain):
+				Game.Domain.PAWN:
+					return $HSplit/VSplit/Pawn3/VBox/HBox2/Pawn/PawnCard
+				Game.Domain.WEAPON:
+					if (card_idx == 1):
+						return $HSplit/VSplit/Pawn3/VBox/HBox2/Weapon1/WeaponCard1
+					else:
+						return $HSplit/VSplit/Pawn3/VBox/HBox2/Weapon2/WeaponCard2
+				Game.Domain.TALISMAN:
+					return $HSplit/VSplit/Pawn3/VBox/HBox2/Talisman/TalismanCard
 				
 	push_error("Wrong Domain")
+	return null
+
+func _get_error_label(pawn_idx: int) -> Node:
+	match(pawn_idx):
+		0: return $HSplit/VSplit/Pawn1/VBox/HBox3/VBox/error
+		1: return $HSplit/VSplit2/Pawn2/VBox/HBox3/VBox/error
+		2: return $HSplit/VSplit/Pawn3/VBox/HBox3/VBox/error
 	return null
 
 
@@ -125,6 +155,8 @@ func _get_all_by_domain(domain : int) -> Array:
 			return _pawn_cards_free
 		Game.Domain.WEAPON:
 			return _weapon_cards_free
+		Game.Domain.TALISMAN:
+			return _talisman_cards_free
 	
 	push_error("Bad Domain Index")
 	return []
@@ -142,46 +174,125 @@ func _replace_to_free(domain : int, card : Card):
 	_get_all_by_domain(domain).append(card)
 
 
-func _set_single_card_selction(pawn_idx : int, domain : int, card : Card) -> void:
+func _set_single_card_selction(pawn_idx : int, domain : int, card : Card, card_idx: int) -> void:
 	if card == null:
 		return
 		
-	if domain == Game.Domain.PAWN:
-		_replace_to_free(domain, _get_pawn_loadout(pawn_idx).pawn_card)
-		_remove_from_free(domain, card)
-		_get_pawn_loadout(pawn_idx).pawn_card = card
+	match (domain):
+		Game.Domain.PAWN:
+			_replace_to_free(domain, _get_pawn_loadout(pawn_idx).pawn_card)
+			_remove_from_free(domain, card)
+			_get_pawn_loadout(pawn_idx).pawn_card = card
 		
-	elif domain == Game.Domain.WEAPON:
-		_replace_to_free(domain, _get_pawn_loadout(pawn_idx).weapon_card)
-		_remove_from_free(domain, card)
-		_get_pawn_loadout(pawn_idx).weapon_card = card;
-		
+		Game.Domain.WEAPON:
+			_remove_from_free(domain, card)
+			if card_idx ==1:
+				_replace_to_free(domain, _get_pawn_loadout(pawn_idx).weapon_card_1)
+				_get_pawn_loadout(pawn_idx).weapon_card_1 = card
+			else:
+				_replace_to_free(domain, _get_pawn_loadout(pawn_idx).weapon_card_2)
+				_get_pawn_loadout(pawn_idx).weapon_card_2 = card
+
+		Game.Domain.TALISMAN:
+			_replace_to_free(domain, _get_pawn_loadout(pawn_idx).talisman_card)
+			_remove_from_free(domain, card)
+			_get_pawn_loadout(pawn_idx).talisman_card = card
+
+
+	_get_card_window(pawn_idx, domain, card_idx).texture = card.get_image()
+
+	if (domain == Game.Domain.TALISMAN):
+		return
+	
+	if not _is_pawn_weapon_valid(pawn_idx):
+		_get_error_label(pawn_idx).text = "ERROR: Pawn And Weapon Types Must Match"
 	else:
-		push_error("Wrong Domain")
-		
-	_get_card_window(pawn_idx, domain).texture = card.get_image()
+		_get_error_label(pawn_idx).text = ""
+	
+	var action_deck_type = _get_existing_action_type(pawn_idx)
+	var single_card_type = _get_existing_single_type(pawn_idx)
+
+	if action_deck_type != "" && single_card_type != "":
+		if action_deck_type != single_card_type:
+			_get_error_label(pawn_idx).text = "ERROR: Action Deck Must Match Pawn/Weapon Type"
+
+
+
+func _is_pawn_weapon_valid(pawn_idx) -> bool:
+	var card_types: Array
+	var pawn := _get_pawn_loadout(pawn_idx).pawn_card
+	if pawn != null:
+		 card_types.append(pawn)
+
+	var weapon_1 :=_get_pawn_loadout(pawn_idx).weapon_card_1
+	if weapon_1 != null:
+		card_types.append(weapon_1)
+
+	var weapon_2 := _get_pawn_loadout(pawn_idx).weapon_card_2
+	if weapon_2 != null:
+		card_types.append(weapon_2)
+	
+	if card_types.empty():
+		return true;
+
+	var type = card_types[0].card_type
+	for i in range (1, card_types.size()):
+		if card_types[i].card_type != type:
+			return false
+
+	return true
+
+
+func _get_existing_single_type(pawn_idx: int) -> String:
+	if _get_pawn_loadout(pawn_idx).pawn_card != null:
+		return _get_pawn_loadout(pawn_idx).pawn_card.card_type
+	elif _get_pawn_loadout(pawn_idx).weapon_card_1 != null:
+		return _get_pawn_loadout(pawn_idx).weapon_card_1.card_type
+	elif _get_pawn_loadout(pawn_idx).weapon_card_2 != null:
+		return _get_pawn_loadout(pawn_idx).weapon_card_2.card_type
+	else:
+		return ""
+	
+
+func _get_existing_action_type(pawn_idx: int) -> String:
+	if not _get_pawn_loadout(pawn_idx).get_deck(Game.Domain.ACTION).empty():
+		return _get_pawn_loadout(pawn_idx).get_deck(Game.Domain.ACTION)[0].card_type
+	else:
+		return ""
+
+
+func _is_action_deck_valid(pawn_idx: int) -> bool:
+	if _get_pawn_loadout(pawn_idx).get_deck(Game.Domain.ACTION).empty():
+		return true
+	else:
+		var deck = _get_pawn_loadout(pawn_idx).get_deck(Game.Domain.ACTION)
+		for i in range(1, deck.size()):
+			if deck[i-1].card_type != deck[i].card_type:
+				return false
+		return true
 
 
 func _set_deck_label(pawn_idx : int, domain : int, string : String):
 	match(pawn_idx):
 		Game.Pawn.PAWN1:
 			if domain == Game.Domain.ACTION:
-				$HSplit/VSplit/Pawn1/VBox/HBox2/PawnDeck/AttackDeck/DeckName.text = string
+				$HSplit/VSplit/Pawn1/VBox/HBox3/VBox/AttackDeck/DeckName.text = string
 			else:
-				$HSplit/VSplit/Pawn1/VBox/HBox2/PawnDeck/AbilityDeck/DeckName.text = string
+				$HSplit/VSplit/Pawn1/VBox/HBox3/VBox/AbilityDeck/DeckName.text = string
 		Game.Pawn.PAWN2:
 			if domain == Game.Domain.ACTION:
-				$HSplit/VSplit2/Pawn2/VBox/HBox2/PawnDeck/AttackDeck/DeckName.text = string
+				$HSplit/VSplit2/Pawn2/VBox/HBox3/VBox/AttackDeck/DeckName.text = string
 			else:
-				$HSplit/VSplit2/Pawn2/VBox/HBox2/PawnDeck/AbilityDeck/DeckName.text = string
+				$HSplit/VSplit2/Pawn2/VBox/HBox3/VBox/AttackDeck/DeckName.text = string
 		Game.Pawn.PAWN3:
 			if domain == Game.Domain.ACTION:
-				$HSplit/VSplit/Pawn3/VBox/HBox2/PawnDeck/AttackDeck/DeckName.text = string
+				$HSplit/VSplit/Pawn3/VBox/HBox3/VBox/AttackDeck/DeckName.text = string
 			else:
-				$HSplit/VSplit/Pawn3/VBox/HBox2/PawnDeck/AbilityDeck/DeckName.text = string
+				$HSplit/VSplit/Pawn3/VBox/HBox3/VBox/AbilityDeck/DeckName.text = string
 		-1:
 			$HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerDeck/DeckName.text = string
 			
+
 func _set_label_all(string : String):
 	$HSplit/VSplit/Pawn1/VBox/HBox2/PawnDeck/AttackDeck/DeckName.text = string
 	$HSplit/VSplit/Pawn1/VBox/HBox2/PawnDeck/AbilityDeck/DeckName.text = string
@@ -195,12 +306,16 @@ func _set_label_all(string : String):
 # These are passing an int that is indexed the same as
 # Game.Pawn enum, ex. 0 = PAWN1, and are thus interchangeable 
 func _on_SelectPawn_pressed(pawn_idx : int) -> void:
-	_s_select.init(pawn_idx, Game.Domain.PAWN, _pawn_cards_free)
+	_s_select.init(pawn_idx, Game.Domain.PAWN, _pawn_cards_free, 0)
 	_s_select.pop_up()
 
 
-func _on_SelectWeapon_pressed(pawn_idx : int) -> void:
-	_s_select.init(pawn_idx, Game.Domain.WEAPON, _weapon_cards_free)
+func _on_SelectWeapon_pressed(pawn_idx : int, weapon_idx) -> void:
+	_s_select.init(pawn_idx, Game.Domain.WEAPON, _weapon_cards_free, weapon_idx)
+	_s_select.pop_up()
+
+func _on_SelectTalisman_pressed(pawn_idx: int) -> void:
+	_s_select.init(pawn_idx, Game.Domain.TALISMAN, _talisman_cards_free, 0)
 	_s_select.pop_up()
 
 
@@ -211,6 +326,10 @@ func _on_Build_pressed(pawn_idx : int, domain : int) -> void:
 		_get_all_by_domain(domain),
 		_pawn_set.power_deck if domain == Game.Domain.POWER 
 			else _get_pawn_loadout(pawn_idx).get_deck(domain))
+
+	if domain == Game.Domain.ACTION && _get_existing_single_type(pawn_idx) != "":
+		var type_int = _deck_builder.get_type_int(_get_existing_single_type(pawn_idx))
+		_deck_builder.update_filtered_view(type_int, 0)
 		
 	$HSplit.hide()
 	_deck_builder.show()
@@ -248,19 +367,34 @@ func _on_deck_builder_save(pawn_idx : int, domain : int, deck : Array, free : Ar
 	#$Panel.remove_child(_deck_builder)
 	_deck_builder.hide()
 	$HSplit.show()
+	
+	if domain == Game.Domain.ACTION:
+		var action_deck_type = _get_existing_action_type(pawn_idx)
+		var single_card_type = _get_existing_single_type(pawn_idx)
+	
+		if action_deck_type != "" && single_card_type != "":
+			if action_deck_type != single_card_type:
+				_get_error_label(pawn_idx).text = "ERROR: Action Deck Must Match Pawn/Weapon Type"
+			else:
+				_get_error_label(pawn_idx).text = ""
+
+		if not _is_action_deck_valid(pawn_idx):
+			_get_error_label(pawn_idx).text = "ERROR: Action Deck Must Contain Cards Of Same Type"
 
 
 func _on_Save_pressed() -> void:
 	#
-	#			TODO
+	#			TODO SAVE LOCAL AND SUBMIT TO SERVER
 	#
 	#
 	#
-	$HSplit/VSplit/Pawn1/VBox/HBox2/VBox/PawnCard.texture = null
-	_pawn_set.set_name = "Test_Set"
+	var name = $HSplit/VSplit2/SetInfo/HBox/DeckSettings/HBox2/SetName.text
+	if (name.empty() && set_name.empty()):
+		pass
+		#todo throw dialog
+	_pawn_set.set_name = name
 	
 	_pawn_set.preferred_potions.clear()
-	
 	for option in _potion_options:
 		if option.get_selected_id() != 0:
 			_pawn_set.preferred_potions.append(option.get_item_text(option.get_selected_id()))
@@ -300,14 +434,18 @@ func _on_Load_pressed() -> void:
 	
 	for pawn_idx in Game.Pawn.values():
 		if _pawn_set.pawn_loadouts[pawn_idx].pawn_card != null:
-			(_get_card_window(pawn_idx, Game.Domain.PAWN).texture 
+			(_get_card_window(pawn_idx, Game.Domain.PAWN, 0).texture 
 				= _pawn_set.pawn_loadouts[pawn_idx].pawn_card.get_image())
 		else:
-			_get_card_window(pawn_idx, Game.Domain.PAWN).texture = null
+			_get_card_window(pawn_idx, Game.Domain.PAWN, 0).texture = null
 				
-		if _pawn_set.pawn_loadouts[pawn_idx].weapon_card != null:
-			(_get_card_window(pawn_idx, Game.Domain.WEAPON).texture 
-				= _pawn_set.pawn_loadouts[pawn_idx].weapon_card.get_image())
+		if _pawn_set.pawn_loadouts[pawn_idx].weapon_card_1 != null:
+			(_get_card_window(pawn_idx, Game.Domain.WEAPON, 1).texture 
+				= _pawn_set.pawn_loadouts[pawn_idx].weapon_card_1.get_image())
+
+			if _pawn_set.pawn_loadouts[pawn_idx].weapon_card_2 != null:
+				(_get_card_window(pawn_idx, Game.Domain.WEAPON, 2).texture 
+					= _pawn_set.pawn_loadouts[pawn_idx].weapon_card_2.get_image())
 		else:
-			_get_card_window(pawn_idx, Game.Domain.PAWN).texture = null
+			_get_card_window(pawn_idx, Game.Domain.PAWN, 0).texture = null
 	

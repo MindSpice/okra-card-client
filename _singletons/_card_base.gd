@@ -4,11 +4,12 @@ enum ActionType {MELEE, MAGIC, RANGED}
 enum Level {ONE, TWO, THREE, FOUR}
 var null_card = "res://cards/images/cardBack.png"
 
-var action_json  := "res://cards/json/action_cards.json"
-var ability_json := "res://cards/json/ability_cards.json"
-var weapon_json  := "res://cards/json/weapon_cards.json"
-var pawn_json    := "res://cards/json/pawn_cards.json"
-var power_json   := "res://cards/json/power_cards.json"
+var action_json   := "res://cards/json/action_cards.json"
+var ability_json  := "res://cards/json/ability_cards.json"
+var weapon_json   := "res://cards/json/weapon_cards.json"
+var pawn_json     := "res://cards/json/pawn_cards.json"
+var power_json    := "res://cards/json/power_cards.json"
+var talisman_json := "res://cards/json/talisman_cards.json"
 
 const ACTION_RES = "res://cards/images/"
 const CARD_TEMPLATE = preload("res://cards/card.tscn")
@@ -29,6 +30,7 @@ func _ready() -> void:
 	WEAPON_CARDS =_load_json(weapon_json)
 	PAWN_CARDS =_load_json(pawn_json)
 	POWER_CARDS =_load_json(power_json)
+	TALISMAN_CARDS = _load_json(talisman_json)
 
 
 func _load_json(json_path: String) -> Dictionary:
@@ -80,7 +82,7 @@ func instance_card_by_slot(card_slot : int, card_name : String) -> Node:
 				return instance_card(Game.Domain.POWER, card_name)
 
 			Game.CardSlot.TALISMAN_CARD:
-				return instance_card(Game.Domain.POWER, card_name)
+				return instance_card(Game.Domain.TALISMAN, card_name)
 
 		return null
 
@@ -97,14 +99,19 @@ func get_card_dict_by_domain(domain : int) -> Dictionary:
 	match(domain):
 		Game.Domain.ACTION:
 			return ACTION_CARDS
+
 		Game.Domain.ABILITY:
 			return ABILITY_CARDS
+
 		Game.Domain.POWER:
 			return POWER_CARDS
+
 		Game.Domain.PAWN:
 			return PAWN_CARDS
+
 		Game.Domain.WEAPON:
 			return WEAPON_CARDS
+
 		Game.Domain.TALISMAN:
 			return TALISMAN_CARDS
 		

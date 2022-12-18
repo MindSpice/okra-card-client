@@ -20,13 +20,11 @@ custom_styles/panel = SubResource( 1 )
 [node name="View" type="HSplitContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -1.0
-margin_bottom = -1.0
 custom_constants/separation = 0
-split_offset = 900
+split_offset = 960
 
 [node name="AllView" type="Panel" parent="View"]
-margin_right = 900.0
+margin_right = 960.0
 margin_bottom = 1080.0
 
 [node name="CardTotal" type="Label" parent="View/AllView"]
@@ -74,7 +72,7 @@ selected = 0
 [node name="ScrollContainer" type="ScrollContainer" parent="View/AllView"]
 margin_top = 45.0
 margin_right = 892.0
-margin_bottom = 825.0
+margin_bottom = 1060.0
 rect_min_size = Vector2( 880, 700 )
 scroll_horizontal_enabled = false
 
@@ -92,15 +90,16 @@ custom_constants/hseparation = 20
 columns = 6
 
 [node name="DeckView" type="Panel" parent="View"]
-margin_left = 908.0
+margin_left = 968.0
 margin_right = 1920.0
 margin_bottom = 1080.0
+rect_min_size = Vector2( 952, 1080 )
 
 [node name="Save" type="Button" parent="View/DeckView"]
-margin_left = 625.0
-margin_top = 6.0
-margin_right = 685.0
-margin_bottom = 39.0
+margin_left = 884.0
+margin_top = 7.0
+margin_right = 944.0
+margin_bottom = 40.0
 text = "Save"
 icon_align = 1
 
@@ -108,38 +107,40 @@ icon_align = 1
 anchor_right = 1.0
 margin_left = 68.0
 margin_top = 6.0
-margin_right = -69.0
-margin_bottom = 37.0
+margin_right = -85.0
+margin_bottom = 40.0
 custom_constants/separation = 15
 alignment = 1
 
 [node name="CardTotal" type="Label" parent="View/DeckView/LoadBox"]
-margin_left = 367.0
-margin_right = 507.0
-margin_bottom = 31.0
+margin_left = 329.0
+margin_top = 1.0
+margin_right = 469.0
+margin_bottom = 32.0
 rect_min_size = Vector2( 120, 31 )
 text = "Deck: 0 / 12 (Min:9)"
 align = 1
 valign = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="View/DeckView"]
-margin_left = 40.0
-margin_top = 44.0
-margin_right = 640.0
-margin_bottom = 839.0
+margin_left = 102.0
+margin_top = 47.0
+margin_right = 902.0
+margin_bottom = 1033.0
+rect_min_size = Vector2( 800, 0 )
 scroll_horizontal_enabled = false
 
 [node name="CardGrid" type="GridContainer" parent="View/DeckView/ScrollContainer"]
-margin_right = 600.0
-margin_bottom = 780.0
-rect_min_size = Vector2( 600, 780 )
+margin_right = 800.0
+margin_bottom = 986.0
+rect_min_size = Vector2( 800, 986 )
 rect_pivot_offset = Vector2( 332, 365 )
 size_flags_horizontal = 2
 size_flags_vertical = 2
 size_flags_stretch_ratio = 0.0
 custom_constants/vseparation = 20
 custom_constants/hseparation = 20
-columns = 4
+columns = 5
 
 [node name="HBox" type="HBoxContainer" parent="View/DeckView"]
 anchor_left = 1.0

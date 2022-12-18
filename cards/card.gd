@@ -63,6 +63,10 @@ func _input(event):
 				emit_signal("card_selected", self)
 
 
+func enable_select(flag : bool):
+	disable_context = flag
+
+	
 func _on_Card_mouse_entered():
 	mouse_on = true
 

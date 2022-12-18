@@ -36,7 +36,7 @@ margin_left = 447.0
 margin_top = 11.0
 margin_right = 1047.0
 margin_bottom = 586.0
-rect_min_size = Vector2( 0, 575 )
+rect_min_size = Vector2( 600, 575 )
 custom_constants/separation = 7
 
 [node name="Stat" type="ScrollContainer" parent="Window/Info"]
