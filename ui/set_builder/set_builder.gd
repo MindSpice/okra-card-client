@@ -11,12 +11,18 @@ var _saved_pawn_sets : Dictionary
 var _potion_options : Array
 var _pawn_set : PawnSet
 var set_name: String
-
+var _net := Network
 
 onready var _deck_builder := preload("res://ui/deck_builder/deck_builder.tscn").instance()
 onready var _s_select := preload("res://ui/set_builder/pawn_select.tscn").instance()
+onready var _dialog:= preload("res://ui/SimpleDialog.tscn").instance()
 
 func _ready():
+
+	# REMOVE TEST VAR
+	_net.init_wss_conn("123")
+
+
 	_load_cards_all()
 	$Panel.add_child(_s_select)
 	$Panel.add_child(_deck_builder)
@@ -28,8 +34,8 @@ func _ready():
 
 	_saved_pawn_sets = Player.get_pawn_sets()
 
-	for set in _saved_pawn_sets.keys():
-		$HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.add_item(set)
+	for set in _saved_pawn_sets:
+		$HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.add_item(set.name)
 			
 	for node in $HSplit/VSplit2/SetInfo/HBox/Potions.get_children():
 		if node is OptionButton:
@@ -37,10 +43,10 @@ func _ready():
 			node.add_item("None")
 			for potion in CardBase.POTIONS.keys():
 				node.add_item(potion)
-	 
-	print(_potion_options.size())
-		
+
 	_pawn_set = PawnSet.new()
+	Network.connect("set_response", self, "_on_save_response")
+
 
 
 func _load_cards_all() -> void:
@@ -398,8 +404,19 @@ func _on_Save_pressed() -> void:
 	for option in _potion_options:
 		if option.get_selected_id() != 0:
 			_pawn_set.preferred_potions.append(option.get_item_text(option.get_selected_id()))
+
+	var set_num = Player.add_pawn_set(_pawn_set)
+			
+	if (set_num == -1):
+		_dialog.set_text("Failed To Save, Too Many Saved Set\n Limt: 5 (10 If Premium\n Delete Or Replace Existing To Save")
+		_dialog.popup_centered
+	else:
+		_pawn_set.set_number = set_num
+		_net.send(NetPawnSet.new(_pawn_set))
+
 				
 	print(to_json(_pawn_set.get_as_dict()))
+
 	pass
 
 
@@ -449,3 +466,13 @@ func _on_Load_pressed() -> void:
 		else:
 			_get_card_window(pawn_idx, Game.Domain.PAWN, 0).texture = null
 	
+
+func _on_save_response(valid: bool, reason: String) -> void:
+	print("hrere")
+	if valid:
+		_dialog.set_text("Set Saved Successfully")
+		_dialog.popup_centered()
+	else:
+		_dialog.set_text("Failed To Save\n" + "Reason: " + reason)
+		_dialog.popup_centered()
+

@@ -5,19 +5,23 @@ var set_name : String
 var power_deck : Array
 var preferred_potions : Array
 var pawn_loadouts : Array
+var set_number := -1
 
 var test : Dictionary = {"PAWN1":{"ability_deck":["FIVE","FOUR","SEVEN","THREE","NINE","ONE"],"action_deck":["FIVE","ONE","TWO","FIVE","THREE"],"pawn_card":"PAWN1","weapon_card":"WEAPON2"},"PAWN2":{"ability_deck":["TWO","TEN","FIVE","FOUR","SEVEN"],"action_deck":["SEVEN","SEVEN","EIGHT","SEVEN"],"pawn_card":"PAWN3","weapon_card":"WEAPON2"},"PAWN3":{"ability_deck":["TEN","EIGHT","THREE","NINE","ONE","EIGHT","TWO"],"action_deck":["NINE","NINE","TEN","TEN","NINE","TEN"],"pawn_card":"PAWN1","weapon_card":"WEAPON3"},"power_deck":["EIGHT","TWO","TEN","FIVE","FOUR","SEVEN","THREE","NINE"],"preferred_potions":["POTION1","POTION2","POTION3"],"set_name":"Test_Set"}
 func _init():
 	for i in 3:
 		pawn_loadouts.append(PawnLoadout.new())
+
 		
 func load(set : Dictionary) -> void:
-	set_name = set.get("set_name")
-	power_deck = CardBase.instance_card_list(Game.Domain.POWER, set.get("power_deck"))
-	preferred_potions = set.get("preferred_potions")
-	pawn_loadouts[0].load(set.get("PAWN1"))
-	pawn_loadouts[1].load(set.get("PAWN2"))
-	pawn_loadouts[2].load(set.get("PAWN3"))
+	set_name = set.get("name")
+	power_deck = CardBase.instance_card_list(Game.Domain.POWER, set.get("powerHand"))
+	preferred_potions = set.get("preferredPotions")
+
+	var pawns = set.get("pawns")
+	for i in range(0, pawns.size()):
+		pawn_loadouts[i].load(pawns[i])
+
 
 func is_valid() -> bool:
 	if pawn_loadouts.size() < 3:
@@ -39,12 +43,11 @@ func get_as_dict() -> Dictionary:
 		#return {}
 	
 	return {
-		"set_name" : set_name,
-		"power_deck" : CardBase.card_nodes_as_names(power_deck),
-		"preferred_potions" : preferred_potions,
-		"PAWN1" : pawn_loadouts[0].get_as_dict(),
-		"PAWN2" : pawn_loadouts[1].get_as_dict(),
-		"PAWN3" : pawn_loadouts[2].get_as_dict(),
+		"name" : set_name,
+		"powerHand" : CardBase.card_nodes_as_names(power_deck),
+		"potions" 	: preferred_potions,
+		"pawns"		: [pawn_loadouts[0].get_as_dict(), pawn_loadouts[1].get_as_dict(), pawn_loadouts[2].get_as_dict()]
+
 	}
 	
 func clean_up() -> void:

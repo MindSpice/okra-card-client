@@ -52,16 +52,63 @@ func send (msg : Object) -> bool:
 func init_wss_conn(token : String) -> bool:
 	var auth =  "token:" + token
 	var header =  ["Content-Type: application/json" , auth]
-	print(auth)
 	wss_client.connect_to_url(wss_url,[], false, header)
 	#return false if err > 0 else true
 	return true
-#
-#
-#
+
+func process_msg(msg : Dictionary):
+	
+	match (Network.conv_msg_in(msg.get("msg_type"))):
+		MsgIn.DEAD:
+			emit_signal("dead_update", NetDead.new(msg))
+			
+		MsgIn.EFFECT:
+			emit_signal("effect_update", NetEffect.new(msg))
+			
+		MsgIn.GAME_OVER:
+			emit_signal("game_over", NetGameOver.new(msg))
+			
+		MsgIn.INSIGHT:
+			pass
+			emit_signal("insight_update", null)
+			# TODO add and test later, waiting on server side
+			
+		MsgIn.STAT_UPDATE:
+			emit_signal("stat_update", NetStat.new(msg))
+			
+		MsgIn.TURN_RESPONSE:
+			emit_signal("turn_response", NetTurnResponse.new(msg))
+			
+		MsgIn.TURN_UPDATE:
+			emit_signal("turn_update", NetTurnUpdate.new(msg))	
+
+		MsgIn.CARD_UPDATE:
+			emit_signal("card_update", NetCardUpdate.new(msg))	
+
+		MsgIn.PAWN_SET_UPDATE:
+			Player.set_pawn_sets(msg.get("pawn_sets"))
+
+		MsgIn.NET_QUEUE_RESPONSE:
+			emit_signal("queue_response", NetQueueResponse.new(msg))
+		
+		MsgIn.NET_SET_RESPONSE:
+			emit_signal("set_response", msg.get("is_valid"), msg.get("reason"))
+
+
 signal msg_received(msg)
 signal disconnected()
-signal connection()
+signal connection()	
+signal dead_update(net_dead)
+signal effect_update(net_effect)
+signal game_over(net_game_over)
+signal insight_update(net_insight)
+signal stat_update(net_stat_update)
+signal turn_response(net_turn_response)
+signal turn_update(net_turn_update)
+signal card_update(net_card_update)
+signal queue_response(net_queue_response)
+signal set_response(is_valid, reason)
+
 
 
 ######################################################
@@ -70,15 +117,27 @@ signal connection()
 
 
 enum MsgIn {
-	TURN_UPDATE,
-	INSIGHT,
-	DEAD,
-	GAME_OVER,
-	EFFECT,
-	STAT_UPDATE,
-	TURN_RESPONSE
-	REJOIN,
-	CARD_UPDATE
+    TURN_UPDATE,
+    INSIGHT,
+    DEAD,
+    GAME_OVER,
+    EFFECT,
+    STAT_UPDATE,
+    TURN_RESPONSE,
+    REJOIN,
+    CARD_UPDATE,
+    PAWN_SET_UPDATE,
+    QUEUE_RESPONSE,
+    SET_RESPONSE,
+    OWNED_CARDS,
+}
+
+enum MsgOut {
+	JOIN_QUEUE,
+    LEAVE_QUEUE,
+    SAVE_PAWN_SET,
+    POTION_PURCHASE,
+    UPDATE_PAWN_SETS,
 }
 
 enum InsightType {
@@ -88,16 +147,30 @@ enum InsightType {
 }
 
 const _n_msg_in = {
-	"TURN_UPDATE"   : MsgIn.TURN_UPDATE,
-	"INSIGHT" 	    : MsgIn.INSIGHT,
-	"DEAD"		    : MsgIn.DEAD,
-	"GAME_OVER"	    : MsgIn.GAME_OVER,
-	"EFFECT"	    : MsgIn.EFFECT,
-	"STAT_UPDATE"   : MsgIn.STAT_UPDATE,
-	"TURN_RESPONSE" : MsgIn.TURN_RESPONSE,
-	"REJOIN" 		: MsgIn.REJOIN,
-	"CARD_UPDATE"	: MsgIn.CARD_UPDATE
+	"TURN_UPDATE"   	: MsgIn.TURN_UPDATE,
+	"INSIGHT" 	    	: MsgIn.INSIGHT,
+	"DEAD"		    	: MsgIn.DEAD,
+	"GAME_OVER"	    	: MsgIn.GAME_OVER,
+	"EFFECT"	    	: MsgIn.EFFECT,
+	"STAT_UPDATE"   	: MsgIn.STAT_UPDATE,
+	"TURN_RESPONSE" 	: MsgIn.TURN_RESPONSE,
+	"REJOIN" 			: MsgIn.REJOIN,
+	"CARD_UPDATE"		: MsgIn.CARD_UPDATE,
+	"PAWN_SET_UPDATE"	: MsgIn.PAWN_SET_UPDATE,
+	"QUEUE_RESPONSE"	: MsgIn.QUEUE_RESPONSE,
+	"SET_RESPONSE"		: MsgIn.SET_RESPONSE,
+	"OWNED_CARDS"		: MsgIn.OWNED_CARDS
 }
+
+const _n_msg_out = {
+	MsgOut.JOIN_QUEUE		: "JOIN_QUEUE",
+    MsgOut.LEAVE_QUEUE		: "LEAVE_QUEUE",
+    MsgOut.SAVE_PAWN_SET	: "SAVE_PAWN_SET",
+    MsgOut.POTION_PURCHASE	: "POTION_PURCHASE",
+    MsgOut.UPDATE_PAWN_SETS	: "UPDATE_PAWN_SETS"
+}
+
+
 
 const _pawn_in = {
 	"PAWN1" : Game.Pawn.PAWN1, 
@@ -172,6 +245,8 @@ const _action_flags_in = {
 	"CONFUSED"		: Game.ActionFlags.CONFUSED
 }
 
+
+
 # const _action_flags_out = {
 # 	Game.ActionFlags.REFLECTED 		: "REFLECTED",
 # 	Game.ActionFlags.RESISTED 		: "RESISTED",
@@ -188,6 +263,10 @@ const _action_flags_in = {
 
 func conv_msg_in(msg_type : String) -> int:
 	return _n_msg_in.get(msg_type)
+
+
+func conv_msg_out(msg_type: int) -> String:
+	return _n_msg_out.get(msg_type)
 
 
 func conv_pawn_arr(arr : Array) -> Array:
@@ -239,6 +318,8 @@ func conv_turn_reponse(reponse : Array) -> Dictionary:
 	for item in reponse:
 		rtn_dict[conv_pawn_in(item.get("pawn"))] = item.get("action_flags") if item.get("pawn") != null else {}
 	return rtn_dict
+
+
 
 	
 	

@@ -9,6 +9,7 @@ func _ready():
 	Network.connect("disconnected", self, "discon")
 
 	err = Network.init_wss_conn("123")
+	print(err)
 
 	
 func _init():
@@ -16,14 +17,15 @@ func _init():
 
 func send():
 	var nga := NetGameAction.new(
-		Game.PlayerAction.ATTACK_HEAVY, 
+		Game.PlayerAction.WEAPON_CARD_1,
 		Game.Pawn.PAWN1, 
 		Game.Pawn.PAWN3, 
 		"")
-	var nlq := NetLobbyQueue.new(
-		true,
-		"set1"
-	)
+	# var nlq := NetLobbyQueue.new(
+	# 	true,
+	# 	1,
+	# 	[]
+	# )
 		
 	#Network.send(nlq)
 	Network.send(nga)

@@ -1,7 +1,5 @@
 extends Node
 
-
-
 var ability_cards_all: Array 
 var action_cards_all: Array
 var power_cards_all: Array
@@ -47,15 +45,45 @@ func _ready():
 func get_pawn_sets() -> Dictionary:
 	return _pawn_sets
 
-func remove_pawn_set(name: String) -> void:
-	_pawn_sets.erase(name)
 
-func add_pawn_set(name: String, pawn_set: PawnSet) -> bool:
-	if _pawn_sets.size() >= (10 if is_premieum else 5):
-		return false
+func get_pawn_set_by_name(name: String) -> PawnSet:
+	for pawn_set in _pawn_sets:
+		if pawn_set.name == name:
+			return pawn_set
+	return null
+
+# TODO LOGIC FOR REPLACE BY NAME
+func add_pawn_set(pawn_set: PawnSet) -> int:
+	var existing = _pawn_sets.get(pawn_set.set_number)
+
+	if existing == null:
+		if _pawn_sets.size() >= (10 if is_premieum else 5):
+			return -1
+		else:
+			_pawn_sets[_pawn_sets.size()] = pawn_set
+			return _pawn_sets.size()
 	else:
-		_pawn_sets[name] = pawn_set
-		return true
+		existing = pawn_set
+		return pawn_set.set_number
+
+
+func remove_pawn_set(name: String) -> void:
+	var pset: PawnSet
+	for pawn_set in _pawn_sets:
+		if pawn_set.name == name:
+			pset = pawn_set
+	_pawn_sets.erase(pset)
+
+func set_pawn_sets(pawn_sets: Dictionary) -> void:
+	_pawn_sets = pawn_sets
+
+func set_owned_cards(cards: Dictionary) -> void:
+	action_cards_all = cards.get("ACTION")
+	ability_cards_all = cards.get("ABILITY_CARDS")
+	power_cards_all = cards.get("POWER")
+	talisman_cards_all = cards.get("TALISMAN")
+	weapon_cards_all = cards.get("WEAPON")
+	pawn_cards_all = cards.get("PAWN")
 
 
 	

@@ -11,12 +11,12 @@ var ability_deck : Array = []
 
 
 func load(loadout : Dictionary):
-	pawn_card = CardBase.instance_card(Game.Domain.PAWN, loadout.get("pawn_card"))
-	weapon_card_1 = CardBase.instance_card(Game.Domain.WEAPON, loadout.get("weapon_card_1"))
-	weapon_card_2 = CardBase.instance_card(Game.Domain.WEAPON, loadout.get("weapon_card_2"))
-	talisman_card = CardBase.instance_card(Game.Domain.WEAPON, loadout.get("talisman_card"))
-	action_deck = CardBase.instance_card_list(Game.Domain.ACTION, loadout.get("action_deck"))
-	ability_deck = CardBase.instance_card_list(Game.Domain.ABILITY, loadout.get("ability_deck"))
+	pawn_card = CardBase.instance_card(Game.Domain.PAWN, loadout.get("pawn"))
+	weapon_card_1 = CardBase.instance_card(Game.Domain.WEAPON, loadout.get("weapon1"))
+	weapon_card_2 = CardBase.instance_card(Game.Domain.WEAPON, loadout.get("weapon2"))
+	talisman_card = CardBase.instance_card(Game.Domain.WEAPON, loadout.get("talisman"))
+	action_deck = CardBase.instance_card_list(Game.Domain.ACTION, loadout.get("actionDeck"))
+	ability_deck = CardBase.instance_card_list(Game.Domain.ABILITY, loadout.get("abilityDeck"))
 
 func is_valid() -> bool:
 	if pawn_card == null or weapon_card_1 == null or weapon_card_2 == null or talisman_card == null:
@@ -51,11 +51,12 @@ func set_deck(domain : int, deck : Array) -> void:
 
 func get_as_dict() -> Dictionary:
 	return {
-		"pawn_card" : pawn_card.card_name,
-		"weapon_card_1" : weapon_card_1.card_name,
-		"weapon_card_2" : weapon_card_2.card_name,
-		"action_deck" : CardBase.card_nodes_as_names(action_deck),
-		"ability_deck" : CardBase.card_nodes_as_names(ability_deck)
+		"pawn" 		: pawn_card.card_name,
+		"weapon1" 		: weapon_card_1.card_name,
+		"weapon2" 		: weapon_card_2.card_name,
+		"actionDeck" 	: CardBase.card_nodes_as_names(action_deck),
+		"abilityDeck" 	: CardBase.card_nodes_as_names(ability_deck),
+		"talisman" 		: talisman_card.card_name
 	} 
 
 func clean_up() -> void:
