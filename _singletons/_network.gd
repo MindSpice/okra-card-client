@@ -41,7 +41,7 @@ func _connected(proto = ""):
 
 func _on_data():
 	var data := JSON.parse(wss_client.get_peer(1).get_packet().get_string_from_utf8())
-	emit_signal("msg_received", data.result)
+	process_msg(data.result)
 
 
 func send (msg : Object) -> bool:
@@ -57,6 +57,8 @@ func init_wss_conn(token : String) -> bool:
 	return true
 
 func process_msg(msg : Dictionary):
+	print(msg)
+
 	
 	match (Network.conv_msg_in(msg.get("msg_type"))):
 		MsgIn.DEAD:
@@ -88,14 +90,14 @@ func process_msg(msg : Dictionary):
 		MsgIn.PAWN_SET_UPDATE:
 			Player.set_pawn_sets(msg.get("pawn_sets"))
 
-		MsgIn.NET_QUEUE_RESPONSE:
+		MsgIn.QUEUE_RESPONSE:
 			emit_signal("queue_response", NetQueueResponse.new(msg))
 		
-		MsgIn.NET_SET_RESPONSE:
+		MsgIn.SET_RESPONSE:
+			print("here")
 			emit_signal("set_response", msg.get("is_valid"), msg.get("reason"))
 
 
-signal msg_received(msg)
 signal disconnected()
 signal connection()	
 signal dead_update(net_dead)
@@ -117,27 +119,29 @@ signal set_response(is_valid, reason)
 
 
 enum MsgIn {
-    TURN_UPDATE,
-    INSIGHT,
-    DEAD,
-    GAME_OVER,
-    EFFECT,
-    STAT_UPDATE,
-    TURN_RESPONSE,
-    REJOIN,
-    CARD_UPDATE,
-    PAWN_SET_UPDATE,
-    QUEUE_RESPONSE,
-    SET_RESPONSE,
-    OWNED_CARDS,
+	TURN_UPDATE,
+	INSIGHT,
+	DEAD,
+	GAME_OVER,
+	EFFECT,
+	STAT_UPDATE,
+	TURN_RESPONSE,
+	REJOIN,
+	CARD_UPDATE,
+	PAWN_SET_UPDATE,
+	QUEUE_RESPONSE,
+	SET_RESPONSE,
+	OWNED_CARDS,
 }
 
 enum MsgOut {
 	JOIN_QUEUE,
-    LEAVE_QUEUE,
-    SAVE_PAWN_SET,
-    POTION_PURCHASE,
-    UPDATE_PAWN_SETS,
+	LEAVE_QUEUE,
+	SAVE_PAWN_SET,
+	POTION_PURCHASE,
+	FETCH_CARDS,
+	FETCH_PAWN_SETS,
+	DELETE_PAWN_SET,
 }
 
 enum InsightType {
@@ -164,10 +168,12 @@ const _n_msg_in = {
 
 const _n_msg_out = {
 	MsgOut.JOIN_QUEUE		: "JOIN_QUEUE",
-    MsgOut.LEAVE_QUEUE		: "LEAVE_QUEUE",
-    MsgOut.SAVE_PAWN_SET	: "SAVE_PAWN_SET",
-    MsgOut.POTION_PURCHASE	: "POTION_PURCHASE",
-    MsgOut.UPDATE_PAWN_SETS	: "UPDATE_PAWN_SETS"
+	MsgOut.LEAVE_QUEUE		: "LEAVE_QUEUE",
+	MsgOut.SAVE_PAWN_SET	: "SAVE_PAWN_SET",
+	MsgOut.POTION_PURCHASE	: "POTION_PURCHASE",
+	MsgOut.FETCH_PAWN_SETS	: "FETCH_PAWN_SETS",
+	MsgOut.FETCH_CARDS		: "FETCH_CARDS",
+	MsgOut.DELETE_PAWN_SET	: "DELETE_PAWN_SET"
 }
 
 

@@ -154,10 +154,6 @@ func _on_LevelCombo_item_selected(index):
 
 
 func _on_Save_pressed() -> void:
-	if (_deck_grid.get_child_count() < Game.get_deck_contraints(_domain).y
-		or _deck_grid.get_child_count() > Game.get_deck_contraints(_domain).x):
-			push_warning("Save Constaints Mis-Match")
-			pass
 	emit_signal("save",
 		 _pawn, 
 		_domain,

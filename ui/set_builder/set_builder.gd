@@ -11,11 +11,14 @@ var _saved_pawn_sets : Dictionary
 var _potion_options : Array
 var _pawn_set : PawnSet
 var set_name: String
-var _net := Network
+var _net = Network
+
 
 onready var _deck_builder := preload("res://ui/deck_builder/deck_builder.tscn").instance()
 onready var _s_select := preload("res://ui/set_builder/pawn_select.tscn").instance()
-onready var _dialog:= preload("res://ui/SimpleDialog.tscn").instance()
+onready var _dialog := preload("res://ui/simple_dialog.tscn").instance()
+onready var _confirm := preload("res://ui/confirm_dialog.tscn").instance()
+onready var _replace := preload("res://ui/replace_set.tscn").instance()
 
 func _ready():
 
@@ -26,16 +29,18 @@ func _ready():
 	_load_cards_all()
 	$Panel.add_child(_s_select)
 	$Panel.add_child(_deck_builder)
+	$Panel.add_child(_dialog)
+	$Panel.add_child(_confirm)
+	$Panel.add_child(_replace)
 	_deck_builder.hide()
 	_s_select.connect("_card_relay", self, "_set_single_card_selction")
 	_deck_builder.connect("closed", self, "_on_deck_builder_close")
 	_deck_builder.connect("save", self, "_on_deck_builder_save")
+	_replace.connect("confirmed", self, "_on_replace_confirmed")
 	_add_card_context()
 
-	_saved_pawn_sets = Player.get_pawn_sets()
-
-	for set in _saved_pawn_sets:
-		$HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.add_item(set.name)
+	
+	_load_saved_sets()
 			
 	for node in $HSplit/VSplit2/SetInfo/HBox/Potions.get_children():
 		if node is OptionButton:
@@ -48,14 +53,21 @@ func _ready():
 	Network.connect("set_response", self, "_on_save_response")
 
 
+func _load_saved_sets():
+	$HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.clear()
+	_saved_pawn_sets = Player.get_pawn_sets()
+	for set in _saved_pawn_sets.values():
+		$HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.add_item(set.set_name, set.set_number)
+
+
 
 func _load_cards_all() -> void:
-	_action_cards_free = CardBase.instance_card_list(Game.Domain.ACTION, Player.action_cards_all)
-	_ability_cards_free = CardBase.instance_card_list(Game.Domain.ABILITY, Player.ability_cards_all)
-	_power_cards_free = CardBase.instance_card_list(Game.Domain.POWER, Player.power_cards_all)
-	_pawn_cards_free = CardBase.instance_card_list(Game.Domain.PAWN, Player.pawn_cards_all)
-	_weapon_cards_free = CardBase.instance_card_list(Game.Domain.WEAPON, Player.weapon_cards_all)
-	_talisman_cards_free = CardBase.instance_card_list(Game.Domain.TALISMAN, Player.talisman_cards_all)
+	_action_cards_free = CardBase.instance_card_list(Game.Domain.ACTION, Player._action_cards_all)
+	_ability_cards_free = CardBase.instance_card_list(Game.Domain.ABILITY, Player._ability_cards_all)
+	_power_cards_free = CardBase.instance_card_list(Game.Domain.POWER, Player._power_cards_all)
+	_pawn_cards_free = CardBase.instance_card_list(Game.Domain.PAWN, Player._pawn_cards_all)
+	_weapon_cards_free = CardBase.instance_card_list(Game.Domain.WEAPON, Player._weapon_cards_all)
+	_talisman_cards_free = CardBase.instance_card_list(Game.Domain.TALISMAN, Player._talisman_cards_all)
 
 
 func _clear_cards_all() -> void:
@@ -66,6 +78,7 @@ func _clear_cards_all() -> void:
 	Util.free_array(_ability_cards_free)
 	Util.free_array(_power_cards_free)
 	
+
 func _add_card_context() -> void:
 	for card in _action_cards_free:
 		card.connect("context_selected", _deck_builder, "update_deck")
@@ -76,7 +89,15 @@ func _add_card_context() -> void:
 	for card in _power_cards_free:
 		card.connect("context_selected", _deck_builder, "update_deck")
 	
+	for card in _pawn_cards_free:
+		card.connect("card_selected", _s_select, "_select_card")
 
+	for card in _weapon_cards_free:
+		card.connect("card_selected", _s_select, "_select_card")
+
+	for card in _talisman_cards_free:
+		card.connect("card_selected", _s_select, "_select_card")
+	
 
 func _set_pawn_loadout(pawn_idx : int, pawn_loadout : PawnLoadout):
 	match(pawn_idx):
@@ -289,7 +310,7 @@ func _set_deck_label(pawn_idx : int, domain : int, string : String):
 			if domain == Game.Domain.ACTION:
 				$HSplit/VSplit2/Pawn2/VBox/HBox3/VBox/AttackDeck/DeckName.text = string
 			else:
-				$HSplit/VSplit2/Pawn2/VBox/HBox3/VBox/AttackDeck/DeckName.text = string
+				$HSplit/VSplit2/Pawn2/VBox/HBox3/VBox/AbilityDeck/DeckName.text = string
 		Game.Pawn.PAWN3:
 			if domain == Game.Domain.ACTION:
 				$HSplit/VSplit/Pawn3/VBox/HBox3/VBox/AttackDeck/DeckName.text = string
@@ -300,12 +321,12 @@ func _set_deck_label(pawn_idx : int, domain : int, string : String):
 			
 
 func _set_label_all(string : String):
-	$HSplit/VSplit/Pawn1/VBox/HBox2/PawnDeck/AttackDeck/DeckName.text = string
-	$HSplit/VSplit/Pawn1/VBox/HBox2/PawnDeck/AbilityDeck/DeckName.text = string
-	$HSplit/VSplit2/Pawn2/VBox/HBox2/PawnDeck/AttackDeck/DeckName.text = string
-	$HSplit/VSplit2/Pawn2/VBox/HBox2/PawnDeck/AbilityDeck/DeckName.text = string
-	$HSplit/VSplit/Pawn3/VBox/HBox2/PawnDeck/AttackDeck/DeckName.text = string
-	$HSplit/VSplit/Pawn3/VBox/HBox2/PawnDeck/AbilityDeck/DeckName.text = string
+	$HSplit/VSplit/Pawn1/VBox/HBox3/VBox/AttackDeck/DeckName.text = string
+	$HSplit/VSplit/Pawn1/VBox/HBox3/VBox/AbilityDeck/DeckName.text = string
+	$HSplit/VSplit2/Pawn2/VBox/HBox3/VBox/AttackDeck/DeckName.text = string
+	$HSplit/VSplit2/Pawn2/VBox/HBox3/VBox/AbilityDeck/DeckName.text = string
+	$HSplit/VSplit/Pawn3/VBox/HBox3/VBox/AttackDeck/DeckName.text = string
+	$HSplit/VSplit/Pawn3/VBox/HBox3/VBox/AbilityDeck/DeckName.text = string
 	$HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerDeck/DeckName.text = string
 
 
@@ -313,12 +334,26 @@ func _set_label_all(string : String):
 # Game.Pawn enum, ex. 0 = PAWN1, and are thus interchangeable 
 func _on_SelectPawn_pressed(pawn_idx : int) -> void:
 	_s_select.init(pawn_idx, Game.Domain.PAWN, _pawn_cards_free, 0)
+
+	var ex_type = _pawn_set.pawn_loadouts[pawn_idx].weapon_card_1
+	if ex_type == null:
+		ex_type = _pawn_set.pawn_loadouts[pawn_idx].weapon_card_2
+
+	if ex_type != null:
+		_s_select.update_filtered_view(_s_select.get_type_int(ex_type.card_type), 0)
+
 	_s_select.pop_up()
 
 
 func _on_SelectWeapon_pressed(pawn_idx : int, weapon_idx) -> void:
 	_s_select.init(pawn_idx, Game.Domain.WEAPON, _weapon_cards_free, weapon_idx)
+
+	var ex_type = _pawn_set.pawn_loadouts[pawn_idx].pawn_card
+	if ex_type != null:
+		_s_select.update_filtered_view(_s_select.get_type_int(ex_type.card_type), 0)
+		
 	_s_select.pop_up()
+
 
 func _on_SelectTalisman_pressed(pawn_idx: int) -> void:
 	_s_select.init(pawn_idx, Game.Domain.TALISMAN, _talisman_cards_free, 0)
@@ -389,15 +424,12 @@ func _on_deck_builder_save(pawn_idx : int, domain : int, deck : Array, free : Ar
 
 
 func _on_Save_pressed() -> void:
-	#
-	#			TODO SAVE LOCAL AND SUBMIT TO SERVER
-	#
-	#
-	#
 	var name = $HSplit/VSplit2/SetInfo/HBox/DeckSettings/HBox2/SetName.text
 	if (name.empty() && set_name.empty()):
-		pass
-		#todo throw dialog
+		_dialog.set_text("Pawn Set Must Have Name")
+		_dialog.popup_centered()
+		return
+
 	_pawn_set.set_name = name
 	
 	_pawn_set.preferred_potions.clear()
@@ -405,31 +437,41 @@ func _on_Save_pressed() -> void:
 		if option.get_selected_id() != 0:
 			_pawn_set.preferred_potions.append(option.get_item_text(option.get_selected_id()))
 
-	var set_num = Player.add_pawn_set(_pawn_set)
-			
-	if (set_num == -1):
-		_dialog.set_text("Failed To Save, Too Many Saved Set\n Limt: 5 (10 If Premium\n Delete Or Replace Existing To Save")
-		_dialog.popup_centered
-	else:
-		_pawn_set.set_number = set_num
-		_net.send(NetPawnSet.new(_pawn_set))
+	if Player.set_exists(_pawn_set.set_number):
+		# jank but needed due to the way confirmation dialogs return with signal
+		_confirm_discon()
+		_confirm.set_text("Save Will Overwrite Existing Pawn Set\n" +
+			"Click OK To Confirm, Or Cancel And Select Save As New")
+		_confirm.popup_centered()
+		_confirm.connect("confirmed", self, "_on_saved_forked")
+		return
 
-				
-	print(to_json(_pawn_set.get_as_dict()))
+	if not Player.add_pawn_set(_pawn_set):
+		_dialog.set_text("Failed To Save, Too Many Saved Sets\n Limit: 5 (10 If Premium)\n Delete A Set Or Save Over Existing To Save")
+		_dialog.popup_centered()
+		return
 
-	pass
+	_net.send(NetPawnSet.new(_pawn_set))
+	_load_saved_sets()
+
+
+func _on_saved_forked() -> void:
+	_net.send(NetPawnSet.new(_pawn_set))
+	_load_saved_sets()
 
 
 func _on_Load_pressed() -> void:
 	# Have to subtract one since option box doesn't honor the set -1 id for per selected text
-	var set_idx = $HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.get_selected() - 1
+	var set_idx = $HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.get_selected()
 	if set_idx < 0:
 		return
-		
-		
+
+
 	_clear_cards_all()
-	_pawn_set.load(Player.pawn_sets[set_idx])
+	_pawn_set = Player._pawn_sets[set_idx]
 	_set_label_all("Deck Saved")
+
+	$HSplit/VSplit2/SetInfo/HBox/DeckSettings/HBox2/SetName.text = _pawn_set.set_name
 	
 	for domain in Game.Domain.values():
 		var free_cards : Array = Player.get_owned_by_domain(domain)
@@ -439,10 +481,14 @@ func _on_Load_pressed() -> void:
 	var set_validation := Game.validate_set(_pawn_set)
 	
 	if set_validation.get("valid") == false:
-		#TODO throw dialog
-		pass
+		var invalid = ""
+		for inv in set_validation.get("invalid_cards"):
+			invalid += str(inv +"\n")
+
+		_dialog.set_text(str("Set Contains Cards No Longer Owned\nUn-Owned Cards\n", invalid))
 		
 	_add_card_context()
+
 		
 	for i in range(0, _pawn_set.preferred_potions.size()):
 		for j in range(1, _potion_options[i].get_item_count()):
@@ -459,16 +505,24 @@ func _on_Load_pressed() -> void:
 		if _pawn_set.pawn_loadouts[pawn_idx].weapon_card_1 != null:
 			(_get_card_window(pawn_idx, Game.Domain.WEAPON, 1).texture 
 				= _pawn_set.pawn_loadouts[pawn_idx].weapon_card_1.get_image())
-
-			if _pawn_set.pawn_loadouts[pawn_idx].weapon_card_2 != null:
-				(_get_card_window(pawn_idx, Game.Domain.WEAPON, 2).texture 
-					= _pawn_set.pawn_loadouts[pawn_idx].weapon_card_2.get_image())
 		else:
-			_get_card_window(pawn_idx, Game.Domain.PAWN, 0).texture = null
+			_get_card_window(pawn_idx, Game.Domain.WEAPON, 1).texture = null
+
+		if _pawn_set.pawn_loadouts[pawn_idx].weapon_card_2 != null:
+			(_get_card_window(pawn_idx, Game.Domain.WEAPON, 2).texture 
+				= _pawn_set.pawn_loadouts[pawn_idx].weapon_card_2.get_image())
+		else:
+			_get_card_window(pawn_idx, Game.Domain.WEAPON, 2).texture = null
+		
+		if _pawn_set.pawn_loadouts[pawn_idx].talisman_card != null:
+			(_get_card_window(pawn_idx, Game.Domain.TALISMAN, 0).texture 
+				= _pawn_set.pawn_loadouts[pawn_idx].talisman_card.get_image())
+		else:
+				_get_card_window(pawn_idx, Game.Domain.TALISMAN, 0).texture = null
 	
 
+
 func _on_save_response(valid: bool, reason: String) -> void:
-	print("hrere")
 	if valid:
 		_dialog.set_text("Set Saved Successfully")
 		_dialog.popup_centered()
@@ -476,3 +530,66 @@ func _on_save_response(valid: bool, reason: String) -> void:
 		_dialog.set_text("Failed To Save\n" + "Reason: " + reason)
 		_dialog.popup_centered()
 
+
+func _on_New_pressed():
+	# jank but needed due to the way confirmation dialogs return with signal
+	_confirm_discon()
+	_confirm.set_text("Create New Pawn Set?\nCurrent Pawn Set Will Be Lost If Not Saved")
+	_confirm.popup_centered()
+	_confirm.connect("confirmed", self, "_on_new_fork")
+
+
+func _on_new_fork():
+	_pawn_set = PawnSet.new()
+
+	for pawn_idx in Game.Pawn.values():
+		_get_card_window(pawn_idx, Game.Domain.PAWN, 0).texture = null
+		_get_card_window(pawn_idx, Game.Domain.WEAPON, 1).texture = null
+		_get_card_window(pawn_idx, Game.Domain.WEAPON, 2).texture = null
+		_get_card_window(pawn_idx, Game.Domain.TALISMAN, 0).texture = null
+
+
+func _on_SaveNew_pressed() -> void:
+	var idx = Player.get_open_slot()
+
+	if idx == -1:
+		_dialog.set_text("Failed To Save, Too Many Saved Sets\n Limit: 5 (10 If Premium)\n Delete A Set Or Save Over Existing To Save")
+		_dialog.popup_centered()
+	else:
+		_pawn_set.set_number = idx
+		_on_Save_pressed()
+
+
+func _on_Delete_pressed() -> void:
+	# jank but needed due to the way confirmation dialogs return with signal
+	_confirm_discon()
+	_confirm.set_text("Current Pawn Set Will Be Deleted\n Set Name: " + _pawn_set.set_name)
+	_confirm.popup_centered()
+	_confirm.connect("confirmed", self, "_on_delete_fork")
+
+
+func _on_delete_fork() -> void:
+	Player.remove_pawn_set(_pawn_set.set_number)
+	_net.send(NetSetDelete.new(_pawn_set.set_number))
+	_load_saved_sets()
+
+
+func _on_Replace_pressed() -> void:
+	_replace.init(Player.get_pawn_sets())
+	_replace.popup_centered()
+
+
+func _on_replace_confirmed() -> void:
+	_pawn_set.set_number = _replace.get_selected()
+	print(_replace.get_selected())
+	Player.remove_pawn_set(_replace.get_selected())
+	print("replace")
+	_on_Save_pressed()
+
+
+func _confirm_discon() -> void:
+	var signals = _confirm.get_signal_list();
+	for cur_signal in signals:
+		var conns = _confirm.get_signal_connection_list(cur_signal.name);
+		for cur_conn in conns:
+			_confirm.disconnect(cur_conn.signal, cur_conn.target, cur_conn.method)

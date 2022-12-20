@@ -1,10 +1,10 @@
 extends Reference
 
 class_name PawnSet
-var set_name : String
+var set_name := ""
 var power_deck : Array
-var preferred_potions : Array
-var pawn_loadouts : Array
+var preferred_potions := []
+var pawn_loadouts := []
 var set_number := -1
 
 var test : Dictionary = {"PAWN1":{"ability_deck":["FIVE","FOUR","SEVEN","THREE","NINE","ONE"],"action_deck":["FIVE","ONE","TWO","FIVE","THREE"],"pawn_card":"PAWN1","weapon_card":"WEAPON2"},"PAWN2":{"ability_deck":["TWO","TEN","FIVE","FOUR","SEVEN"],"action_deck":["SEVEN","SEVEN","EIGHT","SEVEN"],"pawn_card":"PAWN3","weapon_card":"WEAPON2"},"PAWN3":{"ability_deck":["TEN","EIGHT","THREE","NINE","ONE","EIGHT","TWO"],"action_deck":["NINE","NINE","TEN","TEN","NINE","TEN"],"pawn_card":"PAWN1","weapon_card":"WEAPON3"},"power_deck":["EIGHT","TWO","TEN","FIVE","FOUR","SEVEN","THREE","NINE"],"preferred_potions":["POTION1","POTION2","POTION3"],"set_name":"Test_Set"}
@@ -14,9 +14,15 @@ func _init():
 
 		
 func load(set : Dictionary) -> void:
-	set_name = set.get("name")
-	power_deck = CardBase.instance_card_list(Game.Domain.POWER, set.get("powerHand"))
-	preferred_potions = set.get("preferredPotions")
+	set_name = set["name"]
+	set_number = set["setNum"]
+	var power = set["powerDeck"]
+	if power != null:
+		power_deck = CardBase.instance_card_list(Game.Domain.POWER, power)
+
+	var potions = set.get("preferredPotions")
+	if potions != null:
+		preferred_potions = set.get("preferredPotions")
 
 	var pawns = set.get("pawns")
 	for i in range(0, pawns.size()):
@@ -38,16 +44,12 @@ func is_valid() -> bool:
 	
 	
 func get_as_dict() -> Dictionary:
-	if not is_valid():
-		push_error("Invalid PawnSet")
-		#return {}
-	
 	return {
-		"name" : set_name,
-		"powerHand" : CardBase.card_nodes_as_names(power_deck),
+		"setNum" 	: set_number,
+		"name" 		: set_name,
+		"powerDeck" : CardBase.card_nodes_as_names(power_deck),
 		"potions" 	: preferred_potions,
 		"pawns"		: [pawn_loadouts[0].get_as_dict(), pawn_loadouts[1].get_as_dict(), pawn_loadouts[2].get_as_dict()]
-
 	}
 	
 func clean_up() -> void:

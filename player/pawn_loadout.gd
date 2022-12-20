@@ -11,12 +11,30 @@ var ability_deck : Array = []
 
 
 func load(loadout : Dictionary):
-	pawn_card = CardBase.instance_card(Game.Domain.PAWN, loadout.get("pawn"))
-	weapon_card_1 = CardBase.instance_card(Game.Domain.WEAPON, loadout.get("weapon1"))
-	weapon_card_2 = CardBase.instance_card(Game.Domain.WEAPON, loadout.get("weapon2"))
-	talisman_card = CardBase.instance_card(Game.Domain.WEAPON, loadout.get("talisman"))
-	action_deck = CardBase.instance_card_list(Game.Domain.ACTION, loadout.get("actionDeck"))
-	ability_deck = CardBase.instance_card_list(Game.Domain.ABILITY, loadout.get("abilityDeck"))
+	var pawn = loadout["pawn"]
+	var weapon1 = loadout["weapon1"]
+	var weapon2 = loadout["weapon2"]
+	var talisman = loadout["talisman"]
+	var action = loadout["actionDeck"]
+	var ability = loadout["abilityDeck"]
+
+	if pawn != null:
+		pawn_card = CardBase.instance_card(Game.Domain.PAWN, pawn )
+
+	if weapon1 != null:
+		weapon_card_1 = CardBase.instance_card(Game.Domain.WEAPON, weapon1)
+
+	if weapon2 != null:
+		weapon_card_2 = CardBase.instance_card(Game.Domain.WEAPON, weapon2)
+
+	if talisman != null:
+		talisman_card = CardBase.instance_card(Game.Domain.TALISMAN, talisman)
+
+	if action != null:
+		action_deck = CardBase.instance_card_list(Game.Domain.ACTION, action)
+
+	if ability != null:
+		ability_deck = CardBase.instance_card_list(Game.Domain.ABILITY, ability)
 
 func is_valid() -> bool:
 	if pawn_card == null or weapon_card_1 == null or weapon_card_2 == null or talisman_card == null:
@@ -50,13 +68,17 @@ func set_deck(domain : int, deck : Array) -> void:
 
 
 func get_as_dict() -> Dictionary:
+	var pawn = pawn_card.card_name if pawn_card != null else null
+	var weapon1 = weapon_card_1.card_name if weapon_card_1 != null else null
+	var weapon2 = weapon_card_2.card_name if weapon_card_2 != null else null
+	var talisman = talisman_card.card_name if talisman_card != null else null
 	return {
-		"pawn" 		: pawn_card.card_name,
-		"weapon1" 		: weapon_card_1.card_name,
-		"weapon2" 		: weapon_card_2.card_name,
+		"pawn" 			: pawn,
+		"weapon1" 		: weapon1,
+		"weapon2" 		: weapon2,
 		"actionDeck" 	: CardBase.card_nodes_as_names(action_deck),
 		"abilityDeck" 	: CardBase.card_nodes_as_names(ability_deck),
-		"talisman" 		: talisman_card.card_name
+		"talisman" 		: talisman
 	} 
 
 func clean_up() -> void:

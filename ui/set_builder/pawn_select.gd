@@ -29,7 +29,7 @@ func init(pawn : int, domain : int, cards : Array, card_idx: int):
 	
 	for card in cards:
 		card.enable_select(true)
-		card.connect("card_selected", self, "_select_card")
+		# card.connect("card_selected", self, "_select_card")	- Done now in set_builder, left if revert needed
 		$Window/Hsplit/Cards/ScrollCont/CardGrid.add_child(card)
 	
 	$Window/Hsplit/Cards/LevelCombo.select(0)
@@ -76,6 +76,15 @@ func update_filtered_view(typei : int, level : int):
 		if (level != 0) and (card.card_level != level):
 			continue
 		_all_grid.add_child(card)
+	$Window/Hsplit/Cards/TypeCombo.select(typei)
+	
+
+
+func get_type_int(type : String) -> int:
+	if type == "MELEE": return 1
+	if type == "RANGED": return 2
+	if type == "MAGIC": return 3
+	return 0
 
 func _on_select_pressed():
 	emit_signal("_card_relay", _pawn, _domain, _selected_card, _card_idx)

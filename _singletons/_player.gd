@@ -1,89 +1,109 @@
 extends Node
 
-var ability_cards_all: Array 
-var action_cards_all: Array
-var power_cards_all: Array
-var pawn_cards_all: Array
-var weapon_cards_all: Array
-var talisman_cards_all: Array
+var _ability_cards_all: Array 
+var _action_cards_all: Array
+var _power_cards_all: Array
+var _pawn_cards_all: Array
+var _weapon_cards_all: Array
+var _talisman_cards_all: Array
 var _pawn_sets: Dictionary
 var potions: Dictionary
-var is_premieum: bool
+var is_premieum : = false
 
 var okra_tokens : float = 0
 
 func get_owned_by_domain(domain : int):
 	match (domain):
 		Game.Domain.ACTION:
-			return action_cards_all.duplicate(true)
+			return _action_cards_all.duplicate(true)
 		Game.Domain.ABILITY:
-			return ability_cards_all.duplicate(true)
+			return _ability_cards_all.duplicate(true)
 		Game.Domain.POWER:
-			return power_cards_all.duplicate(true)
+			return _power_cards_all.duplicate(true)
 		Game.Domain.PAWN:
-			return pawn_cards_all.duplicate(true)
+			return _pawn_cards_all.duplicate(true)
 		Game.Domain.WEAPON:
-			return weapon_cards_all.duplicate(true)
+			return _weapon_cards_all.duplicate(true)
 		Game.Domain.TALISMAN:
-			return talisman_cards_all.duplicate(true)
+			return _talisman_cards_all.duplicate(true)
 
 func _ready(): 
-	action_cards_all = ["ACTION1", "ACTION2", "TEST_MULTI", "TEST_SINGLE","ACTION1", "ACTION2", "TEST_MULTI", "TEST_SINGLE","ACTION1", 
+	_action_cards_all = ["ACTION1", "ACTION2", "TEST_MULTI", "TEST_SINGLE","ACTION1", "ACTION2", "TEST_MULTI", "TEST_SINGLE","ACTION1", 
 	"ACTION2", "TEST_MULTI", "TEST_SINGLE", "ACTION1", "ACTION2", "TEST_MULTI", "TEST_SINGLE",]
 	
-	ability_cards_all = ["ABILITY1", "ABILITY2", "TEST_SELF", "TEST_ENEMY", "TEST_RESIST", "TEST_CURE", "ABILITY1", "ABILITY2", "TEST_SELF", 
+	_ability_cards_all = ["ABILITY1", "ABILITY2", "TEST_SELF", "TEST_ENEMY", "TEST_RESIST", "TEST_CURE", "ABILITY1", "ABILITY2", "TEST_SELF", 
 	"TEST_ENEMY", "TEST_RESIST", "TEST_CURE","ABILITY1", "ABILITY2", "TEST_SELF", "TEST_ENEMY", "TEST_RESIST", "TEST_CURE"]
 	
-	power_cards_all = ["TEST", "TEST_RESIST", "TEST", "TEST_RESIST", "TEST", "TEST_RESIST", "TEST", "TEST_RESIST", "TEST", "TEST_RESIST", ]
+	_power_cards_all = ["TEST", "TEST_RESIST", "TEST", "TEST_RESIST", "TEST", "TEST_RESIST", "TEST", "TEST_RESIST", "TEST", "TEST_RESIST", ]
 	
-	pawn_cards_all = ["WARRIOR","RANGER", "OKRUID", "WARRIOR","RANGER", "OKRUID", "WARRIOR","RANGER", "OKRUID", "WARRIOR","RANGER", "OKRUID",]
+	_pawn_cards_all = ["WARRIOR","RANGER", "OKRUID", "WARRIOR","RANGER", "OKRUID", "WARRIOR","RANGER", "OKRUID", "WARRIOR","RANGER", "OKRUID",]
 	
-	weapon_cards_all = [ "TEST_MELEE", "TEST_MAGIC", "SHORT_SWORD", "TEST_MELEE", "TEST_MAGIC", "SHORT_SWORD"]
+	_weapon_cards_all = [ "TEST_MELEE", "TEST_MAGIC", "SHORT_SWORD", "TEST_MELEE", "TEST_MAGIC", "SHORT_SWORD"]
 
-	talisman_cards_all = ["TEST_TALISMAN", "TEST_TALISMAN", "TEST_TALISMAN"]
+	_talisman_cards_all = ["TEST_TALISMAN", "TEST_TALISMAN", "TEST_TALISMAN"]
 
 func get_pawn_sets() -> Dictionary:
 	return _pawn_sets
 
 
-func get_pawn_set_by_name(name: String) -> PawnSet:
-	for pawn_set in _pawn_sets:
-		if pawn_set.name == name:
-			return pawn_set
-	return null
-
-# TODO LOGIC FOR REPLACE BY NAME
-func add_pawn_set(pawn_set: PawnSet) -> int:
-	var existing = _pawn_sets.get(pawn_set.set_number)
-
+func add_pawn_set(pawn_set: PawnSet) -> bool:
+	var existing
+	if pawn_set.set_number != -1:
+		if _pawn_sets.has(pawn_set.set_number):
+			existing = _pawn_sets[pawn_set.set_number]
+	
 	if existing == null:
 		if _pawn_sets.size() >= (10 if is_premieum else 5):
-			return -1
+			return false
 		else:
+			pawn_set.set_number = _pawn_sets.size()
 			_pawn_sets[_pawn_sets.size()] = pawn_set
-			return _pawn_sets.size()
+			return true
 	else:
 		existing = pawn_set
-		return pawn_set.set_number
+		return true
 
 
-func remove_pawn_set(name: String) -> void:
-	var pset: PawnSet
-	for pawn_set in _pawn_sets:
-		if pawn_set.name == name:
-			pset = pawn_set
-	_pawn_sets.erase(pset)
+func set_exists(index: int) -> bool:
+	if index == -1:
+		return false
+	
+	if _pawn_sets.has(index):
+		return true
+	else:
+		return false
+	
+
+func get_open_slot() -> int:
+	if _pawn_sets[0] == null:
+		return 0
+	for i in range(1, (10 if is_premieum else 5)):
+		if _pawn_sets[i] == null:
+			return i
+	return -1
+
+
+func remove_pawn_set(idx: int) -> void:
+	_pawn_sets.erase(idx)
+
+
 
 func set_pawn_sets(pawn_sets: Dictionary) -> void:
-	_pawn_sets = pawn_sets
+	_pawn_sets.clear()
+	for pawn_set in pawn_sets.values():
+		var pset = PawnSet.new()
+		pset.load(pawn_set)
+		_pawn_sets[pset.set_number] = pset
+		
+
 
 func set_owned_cards(cards: Dictionary) -> void:
-	action_cards_all = cards.get("ACTION")
-	ability_cards_all = cards.get("ABILITY_CARDS")
-	power_cards_all = cards.get("POWER")
-	talisman_cards_all = cards.get("TALISMAN")
-	weapon_cards_all = cards.get("WEAPON")
-	pawn_cards_all = cards.get("PAWN")
+	_action_cards_all = cards["ACTION"]
+	_ability_cards_all = cards["ABILITY_CARDS"]
+	_power_cards_all = cards["POWER"]
+	_talisman_cards_all = cards["TALISMAN"]
+	_weapon_cards_all = cards["WEAPON"]
+	_pawn_cards_all = cards["PAWN"]
 
 
 	
