@@ -12,9 +12,9 @@ var ability_deck : Array = []
 
 func load(loadout : Dictionary):
 	var pawn = loadout["pawn"]
-	var weapon1 = loadout["weapon1"]
-	var weapon2 = loadout["weapon2"]
-	var talisman = loadout["talisman"]
+	var weapon1 = loadout["weaponCard1"]
+	var weapon2 = loadout["weaponCard2"]
+	var talisman = loadout["talismanCard"]
 	var action = loadout["actionDeck"]
 	var ability = loadout["abilityDeck"]
 
@@ -73,12 +73,12 @@ func get_as_dict() -> Dictionary:
 	var weapon2 = weapon_card_2.card_name if weapon_card_2 != null else null
 	var talisman = talisman_card.card_name if talisman_card != null else null
 	return {
-		"pawn" 			: pawn,
-		"weapon1" 		: weapon1,
-		"weapon2" 		: weapon2,
-		"actionDeck" 	: CardBase.card_nodes_as_names(action_deck),
-		"abilityDeck" 	: CardBase.card_nodes_as_names(ability_deck),
-		"talisman" 		: talisman
+		"pawnCard" 			: pawn,
+		"weaponCard1" 		: weapon1,
+		"weaponCard2" 		: weapon2,
+		"actionDeck" 		: CardBase.card_nodes_as_names(action_deck),
+		"abilityDeck" 		: CardBase.card_nodes_as_names(ability_deck),
+		"talismanCard" 		: talisman
 	} 
 
 func clean_up() -> void:

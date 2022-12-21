@@ -48,7 +48,7 @@ func get_as_dict() -> Dictionary:
 		"setNum" 	: set_number,
 		"name" 		: set_name,
 		"powerDeck" : CardBase.card_nodes_as_names(power_deck),
-		"potions" 	: preferred_potions,
+		"preferredPotions" 	: preferred_potions,
 		"pawns"		: [pawn_loadouts[0].get_as_dict(), pawn_loadouts[1].get_as_dict(), pawn_loadouts[2].get_as_dict()]
 	}
 	
@@ -64,15 +64,17 @@ func get_all_card_names(domain :int) -> Array:
 		
 	var cards : Array
 	
-	
 	match(domain):
 		Game.Domain.PAWN:
 			for pl in pawn_loadouts:
-				cards.append(pl.pawn_card.card_name)
+				if pl.pawn_card != null:
+					cards.append(pl.pawn_card.card_name)
 		Game.Domain.WEAPON:
 			for pl in pawn_loadouts:
-				cards.append(pl.weapon_card_1.card_name)
-				cards.append(pl.weapon_card_2.card_name)
+				if pl.weapon_card_1 != null:
+					cards.append(pl.weapon_card_1.card_name)
+				if pl.weapon_card_2 != null:
+					cards.append(pl.weapon_card_2.card_name)
 		Game.Domain.ACTION:
 			for pl in pawn_loadouts:
 				cards.append_array(CardBase.card_nodes_as_names(pl.action_deck))
@@ -81,7 +83,8 @@ func get_all_card_names(domain :int) -> Array:
 				cards.append_array(CardBase.card_nodes_as_names(pl.ability_deck))
 		Game.Domain.TALISMAN:
 			for pl in pawn_loadouts:
-				cards.append(pl.talisman_card.card_name)
+				if pl.talisman_card != null:
+					cards.append(pl.talisman_card.card_name)
 
 	return cards
 	

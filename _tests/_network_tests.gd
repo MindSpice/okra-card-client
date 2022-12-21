@@ -26,9 +26,11 @@ func send():
 	# 	1,
 	# 	[]
 	# )
-		
 	#Network.send(nlq)
 	Network.send(nga)
+
+	for domain in Game.Domain.values():
+		print(Player.get_owned_by_domain(domain))
 
 
 

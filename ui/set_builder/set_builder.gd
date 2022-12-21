@@ -19,8 +19,10 @@ onready var _s_select := preload("res://ui/set_builder/pawn_select.tscn").instan
 onready var _dialog := preload("res://ui/simple_dialog.tscn").instance()
 onready var _confirm := preload("res://ui/confirm_dialog.tscn").instance()
 onready var _replace := preload("res://ui/replace_set.tscn").instance()
+onready var _load := preload("res://ui/replace_set.tscn").instance()
 
 func _ready():
+
 
 	# REMOVE TEST VAR
 	_net.init_wss_conn("123")
@@ -32,16 +34,15 @@ func _ready():
 	$Panel.add_child(_dialog)
 	$Panel.add_child(_confirm)
 	$Panel.add_child(_replace)
+	$Panel.add_child(_load)
 	_deck_builder.hide()
 	_s_select.connect("_card_relay", self, "_set_single_card_selction")
 	_deck_builder.connect("closed", self, "_on_deck_builder_close")
 	_deck_builder.connect("save", self, "_on_deck_builder_save")
 	_replace.connect("confirmed", self, "_on_replace_confirmed")
+	_load.connect("confirmed", self, "_on_load_confirmed")
 	_add_card_context()
-
 	
-	_load_saved_sets()
-			
 	for node in $HSplit/VSplit2/SetInfo/HBox/Potions.get_children():
 		if node is OptionButton:
 			_potion_options.append(node)
@@ -51,14 +52,6 @@ func _ready():
 
 	_pawn_set = PawnSet.new()
 	Network.connect("set_response", self, "_on_save_response")
-
-
-func _load_saved_sets():
-	$HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.clear()
-	_saved_pawn_sets = Player.get_pawn_sets()
-	for set in _saved_pawn_sets.values():
-		$HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.add_item(set.set_name, set.set_number)
-
 
 
 func _load_cards_all() -> void:
@@ -452,24 +445,24 @@ func _on_Save_pressed() -> void:
 		return
 
 	_net.send(NetPawnSet.new(_pawn_set))
-	_load_saved_sets()
 
 
 func _on_saved_forked() -> void:
 	_net.send(NetPawnSet.new(_pawn_set))
-	_load_saved_sets()
 
 
 func _on_Load_pressed() -> void:
-	# Have to subtract one since option box doesn't honor the set -1 id for per selected text
-	var set_idx = $HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox/SavedSets.get_selected()
-	if set_idx < 0:
-		return
+	_load.init(Player.get_pawn_sets())
+	_load.popup_centered()
 
 
+func _on_load_confirmed():
+
+	var set_idx = _load.get_selected()
 	_clear_cards_all()
 	_pawn_set = Player._pawn_sets[set_idx]
 	_set_label_all("Deck Saved")
+	
 
 	$HSplit/VSplit2/SetInfo/HBox/DeckSettings/HBox2/SetName.text = _pawn_set.set_name
 	
@@ -489,7 +482,6 @@ func _on_Load_pressed() -> void:
 		
 	_add_card_context()
 
-		
 	for i in range(0, _pawn_set.preferred_potions.size()):
 		for j in range(1, _potion_options[i].get_item_count()):
 			if _potion_options[i].get_item_text(j) ==  _pawn_set.preferred_potions[i]:
@@ -571,7 +563,7 @@ func _on_Delete_pressed() -> void:
 func _on_delete_fork() -> void:
 	Player.remove_pawn_set(_pawn_set.set_number)
 	_net.send(NetSetDelete.new(_pawn_set.set_number))
-	_load_saved_sets()
+
 
 
 func _on_Replace_pressed() -> void:
@@ -580,11 +572,22 @@ func _on_Replace_pressed() -> void:
 
 
 func _on_replace_confirmed() -> void:
-	_pawn_set.set_number = _replace.get_selected()
-	print(_replace.get_selected())
+	var name = $HSplit/VSplit2/SetInfo/HBox/DeckSettings/HBox2/SetName.text
+	if (name.empty() && set_name.empty()):
+		_dialog.set_text("Pawn Set Must Have Name")
+		_dialog.popup_centered()
+		return
+
 	Player.remove_pawn_set(_replace.get_selected())
-	print("replace")
-	_on_Save_pressed()
+	_pawn_set.set_name = name
+	_pawn_set.set_number = _replace.get_selected()
+	
+	_pawn_set.preferred_potions.clear()
+	for option in _potion_options:
+		if option.get_selected_id() != 0:
+			_pawn_set.preferred_potions.append(option.get_item_text(option.get_selected_id()))
+
+	_net.send(NetPawnSet.new(_pawn_set))
 
 
 func _confirm_discon() -> void:

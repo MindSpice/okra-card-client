@@ -28,19 +28,20 @@ func get_owned_by_domain(domain : int):
 			return _talisman_cards_all.duplicate(true)
 
 func _ready(): 
-	_action_cards_all = ["ACTION1", "ACTION2", "TEST_MULTI", "TEST_SINGLE","ACTION1", "ACTION2", "TEST_MULTI", "TEST_SINGLE","ACTION1", 
-	"ACTION2", "TEST_MULTI", "TEST_SINGLE", "ACTION1", "ACTION2", "TEST_MULTI", "TEST_SINGLE",]
+	pass
+	#_action_cards_all = ["ACTION1", "ACTION2", "TEST_MULTI", "TEST_SINGLE","ACTION1", "ACTION2", "TEST_MULTI", "TEST_SINGLE","ACTION1", 
+	#"ACTION2", "TEST_MULTI", "TEST_SINGLE", "ACTION1", "ACTION2", "TEST_MULTI", "TEST_SINGLE",]
 	
-	_ability_cards_all = ["ABILITY1", "ABILITY2", "TEST_SELF", "TEST_ENEMY", "TEST_RESIST", "TEST_CURE", "ABILITY1", "ABILITY2", "TEST_SELF", 
-	"TEST_ENEMY", "TEST_RESIST", "TEST_CURE","ABILITY1", "ABILITY2", "TEST_SELF", "TEST_ENEMY", "TEST_RESIST", "TEST_CURE"]
+	# _ability_cards_all = ["ABILITY1", "ABILITY2", "TEST_SELF", "TEST_ENEMY", "TEST_RESIST", "TEST_CURE", "ABILITY1", "ABILITY2", "TEST_SELF", 
+	# "TEST_ENEMY", "TEST_RESIST", "TEST_CURE","ABILITY1", "ABILITY2", "TEST_SELF", "TEST_ENEMY", "TEST_RESIST", "TEST_CURE"]
 	
-	_power_cards_all = ["TEST", "TEST_RESIST", "TEST", "TEST_RESIST", "TEST", "TEST_RESIST", "TEST", "TEST_RESIST", "TEST", "TEST_RESIST", ]
+	# _power_cards_all = ["TEST", "TEST_RESIST", "TEST", "TEST_RESIST", "TEST", "TEST_RESIST", "TEST", "TEST_RESIST", "TEST", "TEST_RESIST", ]
 	
-	_pawn_cards_all = ["WARRIOR","RANGER", "OKRUID", "WARRIOR","RANGER", "OKRUID", "WARRIOR","RANGER", "OKRUID", "WARRIOR","RANGER", "OKRUID",]
+	# _pawn_cards_all = ["WARRIOR","RANGER", "OKRUID", "WARRIOR","RANGER", "OKRUID", "WARRIOR","RANGER", "OKRUID", "WARRIOR","RANGER", "OKRUID",]
 	
-	_weapon_cards_all = [ "TEST_MELEE", "TEST_MAGIC", "SHORT_SWORD", "TEST_MELEE", "TEST_MAGIC", "SHORT_SWORD"]
+	# _weapon_cards_all = [ "TEST_MELEE", "TEST_MAGIC", "SHORT_SWORD", "TEST_MELEE", "TEST_MAGIC", "SHORT_SWORD"]
 
-	_talisman_cards_all = ["TEST_TALISMAN", "TEST_TALISMAN", "TEST_TALISMAN"]
+	# _talisman_cards_all = ["TEST_TALISMAN", "TEST_TALISMAN", "TEST_TALISMAN"]
 
 func get_pawn_sets() -> Dictionary:
 	return _pawn_sets
@@ -56,8 +57,9 @@ func add_pawn_set(pawn_set: PawnSet) -> bool:
 		if _pawn_sets.size() >= (10 if is_premieum else 5):
 			return false
 		else:
-			pawn_set.set_number = _pawn_sets.size()
-			_pawn_sets[_pawn_sets.size()] = pawn_set
+			var slot = get_open_slot()
+			pawn_set.set_number = slot
+			_pawn_sets[slot] = pawn_set
 			return true
 	else:
 		existing = pawn_set
@@ -75,10 +77,8 @@ func set_exists(index: int) -> bool:
 	
 
 func get_open_slot() -> int:
-	if _pawn_sets[0] == null:
-		return 0
-	for i in range(1, (10 if is_premieum else 5)):
-		if _pawn_sets[i] == null:
+	for i in range(0, (10 if is_premieum else 5)):
+		if not _pawn_sets.has(i):
 			return i
 	return -1
 
@@ -99,7 +99,7 @@ func set_pawn_sets(pawn_sets: Dictionary) -> void:
 
 func set_owned_cards(cards: Dictionary) -> void:
 	_action_cards_all = cards["ACTION"]
-	_ability_cards_all = cards["ABILITY_CARDS"]
+	_ability_cards_all = cards["ABILITY"]
 	_power_cards_all = cards["POWER"]
 	_talisman_cards_all = cards["TALISMAN"]
 	_weapon_cards_all = cards["WEAPON"]

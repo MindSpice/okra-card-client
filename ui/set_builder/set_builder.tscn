@@ -1172,19 +1172,13 @@ margin_top = 200.0
 margin_right = 348.0
 margin_bottom = 221.0
 custom_constants/separation = 7
-
-[node name="SavedSets" type="OptionButton" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox"]
-margin_right = 296.0
-margin_bottom = 21.0
-rect_min_size = Vector2( 296, 0 )
-text = "Select Set To Load"
-align = 1
+alignment = 2
 
 [node name="Load" type="Button" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/LoadBox"]
-margin_left = 303.0
-margin_right = 347.0
+margin_left = 272.0
+margin_right = 348.0
 margin_bottom = 21.0
-text = "Load"
+text = "Load Set"
 
 [node name="HSeparator3" type="HSeparator" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings"]
 margin_top = 225.0

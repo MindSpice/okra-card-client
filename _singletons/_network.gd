@@ -94,8 +94,10 @@ func process_msg(msg : Dictionary):
 			emit_signal("queue_response", NetQueueResponse.new(msg))
 		
 		MsgIn.SET_RESPONSE:
-			print("here")
 			emit_signal("set_response", msg.get("is_valid"), msg.get("reason"))
+
+		MsgIn.OWNED_CARDS:
+			Player.set_owned_cards(msg.get("owned_cards"))
 
 
 signal disconnected()
