@@ -1,6 +1,13 @@
-[gd_resource type="Theme" load_steps=2 format=2]
+[gd_resource type="Theme" load_steps=3 format=2]
 
-[ext_resource path="res://themes/smalltheme.tres" type="DynamicFont" id=1]
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://fonts/Modeseven-L3n5.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = SubResource( 1 )
 
 [resource]
-default_font = ExtResource( 1 )
+default_font = SubResource( 2 )

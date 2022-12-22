@@ -45,22 +45,22 @@ func instance_card(domain : int, card_name : String) -> Node:
 	var card = CARD_TEMPLATE.instance()
 	match(domain):
 		Game.Domain.ACTION:
-			card.init(domain, card_name, ACTION_CARDS.get(card_name))
+			card.init(domain, card_name, ACTION_CARDS[card_name])
 
 		Game.Domain.ABILITY:
-			card.init(domain, card_name, ABILITY_CARDS.get(card_name))
+			card.init(domain, card_name, ABILITY_CARDS[card_name])
 
 		Game.Domain.POWER:
-			card.init(domain, card_name, POWER_CARDS.get(card_name))
+			card.init(domain, card_name, POWER_CARDS[card_name])
 
 		Game.Domain.PAWN:
-			card.init(domain, card_name, PAWN_CARDS.get(card_name))
+			card.init(domain, card_name, PAWN_CARDS[card_name])
 
 		Game.Domain.WEAPON:
-			card.init(domain, card_name, WEAPON_CARDS.get(card_name))
+			card.init(domain, card_name, WEAPON_CARDS[card_name])
 
 		Game.Domain.TALISMAN:
-			card.init(domain, card_name, TALISMAN_CARDS.get(card_name))
+			card.init(domain, card_name, TALISMAN_CARDS[card_name])
 
 	return card
 
@@ -129,6 +129,14 @@ func card_nodes_as_names (card_nodes : Array) -> Array:
 	for card in card_nodes:
 		card_names.append(card.card_name)
 	return card_names
+
+func instance_all_cards() -> Array:
+	var all_cards: Array
+	for domain in Game.Domain.values():
+		for card in get_card_dict_by_domain(domain):
+			all_cards.append(instance_card(domain, card))
+	return all_cards
+		
 
 # TODO find a better representation
 # export from back into into csv and maintain indexing?

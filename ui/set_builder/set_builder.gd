@@ -41,6 +41,7 @@ func _ready():
 	_deck_builder.connect("save", self, "_on_deck_builder_save")
 	_replace.connect("confirmed", self, "_on_replace_confirmed")
 	_load.connect("confirmed", self, "_on_load_confirmed")
+	Network.connect("net_msg", self, "_on_net_msg")
 	_add_card_context()
 	
 	for node in $HSplit/VSplit2/SetInfo/HBox/Potions.get_children():
@@ -51,7 +52,7 @@ func _ready():
 				node.add_item(potion)
 
 	_pawn_set = PawnSet.new()
-	Network.connect("set_response", self, "_on_save_response")
+
 
 
 func _load_cards_all() -> void:
@@ -514,12 +515,12 @@ func _on_load_confirmed():
 	
 
 
-func _on_save_response(valid: bool, reason: String) -> void:
+func _on_net_msg(valid: bool, msg: String) -> void:
 	if valid:
-		_dialog.set_text("Set Saved Successfully")
+		_dialog.set_text("Success\n" + msg)
 		_dialog.popup_centered()
 	else:
-		_dialog.set_text("Failed To Save\n" + "Reason: " + reason)
+		_dialog.set_text("Failed \n" + msg)
 		_dialog.popup_centered()
 
 

@@ -10,7 +10,10 @@ var _pawn_sets: Dictionary
 var potions: Dictionary
 var is_premieum : = false
 
-var okra_tokens : float = 0
+# Player Funds
+var okra_tokens : int = 0
+var potion_tokens: int = 0
+var nft_drops: int = 0
 
 func get_owned_by_domain(domain : int):
 	match (domain):
@@ -96,7 +99,6 @@ func set_pawn_sets(pawn_sets: Dictionary) -> void:
 		_pawn_sets[pset.set_number] = pset
 		
 
-
 func set_owned_cards(cards: Dictionary) -> void:
 	_action_cards_all = cards["ACTION"]
 	_ability_cards_all = cards["ABILITY"]
@@ -104,6 +106,24 @@ func set_owned_cards(cards: Dictionary) -> void:
 	_talisman_cards_all = cards["TALISMAN"]
 	_weapon_cards_all = cards["WEAPON"]
 	_pawn_cards_all = cards["PAWN"]
+
+
+func set_funds(okra: int, potion: int, nft: int) -> void:
+	okra_tokens = okra
+	potion_tokens = potion
+	nft_drops = nft
+
+func get_owned_card_names() -> Array:
+	var all_owned: Array
+	all_owned.append_array(_action_cards_all)
+	all_owned.append_array(_ability_cards_all)
+	all_owned.append_array(_power_cards_all)
+	all_owned.append_array(_pawn_cards_all)
+	all_owned.append_array(_weapon_cards_all)
+	all_owned.append_array(_talisman_cards_all)
+	return all_owned
+
+
 
 
 	

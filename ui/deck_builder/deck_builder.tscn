@@ -52,8 +52,7 @@ custom_constants/separation = 42
 alignment = 2
 
 [node name="TypeCombo" type="OptionButton" parent="View/AllView/Top"]
-margin_left = 7.0
-margin_right = 108.0
+margin_right = 119.0
 margin_bottom = 33.0
 rect_min_size = Vector2( 101, 0 )
 text = "All types"
@@ -61,8 +60,8 @@ items = [ "All types", null, false, 0, null, "Melee", null, false, 1, null, "Ran
 selected = 0
 
 [node name="LevelCombo" type="OptionButton" parent="View/AllView/Top"]
-margin_left = 150.0
-margin_right = 259.0
+margin_left = 161.0
+margin_right = 290.0
 margin_bottom = 33.0
 rect_min_size = Vector2( 109, 0 )
 text = "All Levels"
@@ -113,9 +112,9 @@ custom_constants/separation = 15
 alignment = 1
 
 [node name="CardTotal" type="Label" parent="View/DeckView/LoadBox"]
-margin_left = 329.0
+margin_left = 299.0
 margin_top = 1.0
-margin_right = 469.0
+margin_right = 499.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 120, 31 )
 text = "Deck: 0 / 12 (Min:9)"
@@ -155,7 +154,7 @@ custom_constants/separation = 20
 alignment = 2
 
 [node name="Close" type="Button" parent="View/DeckView/HBox"]
-margin_left = 77.0
+margin_left = 62.0
 margin_right = 124.0
 margin_bottom = 33.0
 text = "Close"

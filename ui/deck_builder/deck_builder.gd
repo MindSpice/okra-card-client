@@ -142,7 +142,7 @@ func update_all_count():
 
 func update_deck_count():
 	$View/DeckView/LoadBox/CardTotal.text = "Deck: " +(str(_deck_grid.get_child_count()) + " / " 
-	+ str(Game.get_deck_contraints(_domain).y) + " (Min:" + str(Game.get_deck_contraints(_domain).x) +")")
+		+ str(Game.get_deck_contraints(_domain).y) + " (Min:" + str(Game.get_deck_contraints(_domain).x) +")")
 
 
 func _on_TypeCombo_item_selected(index):

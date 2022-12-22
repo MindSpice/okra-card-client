@@ -60,7 +60,7 @@ func process_msg(msg : Dictionary):
 	print(msg)
 
 	
-	match (Network.conv_msg_in(msg.get("msg_type"))):
+	match (Network.conv_msg_in(msg["msg_type"])):
 		MsgIn.DEAD:
 			emit_signal("dead_update", NetDead.new(msg))
 			
@@ -88,16 +88,22 @@ func process_msg(msg : Dictionary):
 			emit_signal("card_update", NetCardUpdate.new(msg))	
 
 		MsgIn.PAWN_SET_UPDATE:
-			Player.set_pawn_sets(msg.get("pawn_sets"))
+			Player.set_pawn_sets(msg["pawn_sets"])
 
 		MsgIn.QUEUE_RESPONSE:
 			emit_signal("queue_response", NetQueueResponse.new(msg))
 		
-		MsgIn.SET_RESPONSE:
-			emit_signal("set_response", msg.get("is_valid"), msg.get("reason"))
+		MsgIn.NET_MSG:
+			emit_signal("net_msg", msg["is_valid"], msg["msg"])
 
 		MsgIn.OWNED_CARDS:
-			Player.set_owned_cards(msg.get("owned_cards"))
+			Player.set_owned_cards(msg["owned_cards"])
+
+		MsgIn.PLAYER_FUNDS:
+			Player.set_funds(msg["okra_tokens"], msg["potion_tokens"], msg["nft_drops"])
+		
+		MsgIn.POTIONS_UPDATE:
+			pass
 
 
 signal disconnected()
@@ -111,7 +117,7 @@ signal turn_response(net_turn_response)
 signal turn_update(net_turn_update)
 signal card_update(net_card_update)
 signal queue_response(net_queue_response)
-signal set_response(is_valid, reason)
+signal net_msg(is_valid, msg)
 
 
 
@@ -132,8 +138,10 @@ enum MsgIn {
 	CARD_UPDATE,
 	PAWN_SET_UPDATE,
 	QUEUE_RESPONSE,
-	SET_RESPONSE,
+	NET_MSG,
 	OWNED_CARDS,
+	PLAYER_FUNDS,
+	POTIONS_UPDATE
 }
 
 enum MsgOut {
@@ -164,8 +172,10 @@ const _n_msg_in = {
 	"CARD_UPDATE"		: MsgIn.CARD_UPDATE,
 	"PAWN_SET_UPDATE"	: MsgIn.PAWN_SET_UPDATE,
 	"QUEUE_RESPONSE"	: MsgIn.QUEUE_RESPONSE,
-	"SET_RESPONSE"		: MsgIn.SET_RESPONSE,
-	"OWNED_CARDS"		: MsgIn.OWNED_CARDS
+	"NET_MSG"			: MsgIn.NET_MSG,
+	"OWNED_CARDS"		: MsgIn.OWNED_CARDS,
+	"PLAYER_FUNDS"		: MsgIn.PLAYER_FUNDS,
+	"POTIONS_UPDATE"	: MsgIn.POTIONS_UPDATE
 }
 
 const _n_msg_out = {

@@ -4,8 +4,8 @@
 [ext_resource path="res://themes/ttheme.tres" type="Theme" id=2]
 [ext_resource path="res://ui/set_builder/set_builder.gd" type="Script" id=3]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.203922, 0.196078, 0.196078, 1 )
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.352941, 0.352941, 0.352941, 1 )
 
 [sub_resource type="DynamicFont" id=6]
 size = 11
@@ -32,9 +32,11 @@ theme = ExtResource( 2 )
 script = ExtResource( 3 )
 
 [node name="Panel" type="Panel" parent="."]
+visible = false
+modulate = Color( 0.403922, 0.32549, 0.32549, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 7 )
 
 [node name="HSplit" type="HSplitContainer" parent="."]
 anchor_right = 1.0
@@ -66,8 +68,8 @@ rect_min_size = Vector2( 0, 30 )
 alignment = 1
 
 [node name="Label" type="Label" parent="HSplit/VSplit/Pawn1/VBox/HBox"]
-margin_left = 456.0
-margin_right = 498.0
+margin_left = 447.0
+margin_right = 507.0
 margin_bottom = 31.0
 rect_min_size = Vector2( 0, 31 )
 text = "Pawn 1"
@@ -83,232 +85,226 @@ custom_constants/separation = 2
 [node name="HBox2" type="HBoxContainer" parent="HSplit/VSplit/Pawn1/VBox"]
 margin_top = 41.0
 margin_right = 954.0
-margin_bottom = 415.0
+margin_bottom = 425.0
 custom_constants/separation = 10
 
 [node name="Pawn" type="VBoxContainer" parent="HSplit/VSplit/Pawn1/VBox/HBox2"]
 margin_right = 230.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 alignment = 1
 
 [node name="Label" type="Label" parent="HSplit/VSplit/Pawn1/VBox/HBox2/Pawn"]
 margin_right = 230.0
-margin_bottom = 12.0
+margin_bottom = 17.0
 text = "Pawn"
 align = 1
 valign = 1
 
 [node name="PawnCard" type="TextureRect" parent="HSplit/VSplit/Pawn1/VBox/HBox2/Pawn"]
-margin_top = 16.0
+margin_top = 21.0
 margin_right = 230.0
-margin_bottom = 352.0
+margin_bottom = 357.0
 rect_min_size = Vector2( 230, 336 )
 expand = true
 
 [node name="SelectPawn" type="Button" parent="HSplit/VSplit/Pawn1/VBox/HBox2/Pawn"]
-margin_top = 356.0
+margin_top = 361.0
 margin_right = 230.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 text = "Select Pawn"
 
 [node name="Weapon1" type="VBoxContainer" parent="HSplit/VSplit/Pawn1/VBox/HBox2"]
 margin_left = 240.0
 margin_right = 470.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 
 [node name="Label" type="Label" parent="HSplit/VSplit/Pawn1/VBox/HBox2/Weapon1"]
 margin_right = 230.0
-margin_bottom = 12.0
+margin_bottom = 17.0
 text = "Weapon 1"
 align = 1
 valign = 1
 
 [node name="WeaponCard1" type="TextureRect" parent="HSplit/VSplit/Pawn1/VBox/HBox2/Weapon1"]
-margin_top = 16.0
+margin_top = 21.0
 margin_right = 230.0
-margin_bottom = 352.0
+margin_bottom = 357.0
 rect_min_size = Vector2( 230, 336 )
 expand = true
 
 [node name="SelectWeapon1" type="Button" parent="HSplit/VSplit/Pawn1/VBox/HBox2/Weapon1"]
-margin_top = 356.0
+margin_top = 361.0
 margin_right = 230.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 text = "Select Weapon"
 
 [node name="Weapon2" type="VBoxContainer" parent="HSplit/VSplit/Pawn1/VBox/HBox2"]
 margin_left = 480.0
 margin_right = 710.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 
 [node name="Label" type="Label" parent="HSplit/VSplit/Pawn1/VBox/HBox2/Weapon2"]
 margin_right = 230.0
-margin_bottom = 12.0
+margin_bottom = 17.0
 text = "Weapon 2"
 align = 1
 valign = 1
 
 [node name="WeaponCard2" type="TextureRect" parent="HSplit/VSplit/Pawn1/VBox/HBox2/Weapon2"]
-margin_top = 16.0
+margin_top = 21.0
 margin_right = 230.0
-margin_bottom = 352.0
+margin_bottom = 357.0
 rect_min_size = Vector2( 230, 336 )
 expand = true
 
 [node name="SelectWeapon2" type="Button" parent="HSplit/VSplit/Pawn1/VBox/HBox2/Weapon2"]
-margin_top = 356.0
+margin_top = 361.0
 margin_right = 230.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 text = "Select Weapon"
 
 [node name="Talisman" type="VBoxContainer" parent="HSplit/VSplit/Pawn1/VBox/HBox2"]
 margin_left = 720.0
 margin_right = 950.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 
 [node name="Label" type="Label" parent="HSplit/VSplit/Pawn1/VBox/HBox2/Talisman"]
 margin_right = 230.0
-margin_bottom = 12.0
+margin_bottom = 17.0
 text = "Talisman"
 align = 1
 valign = 1
 
 [node name="TalismanCard" type="TextureRect" parent="HSplit/VSplit/Pawn1/VBox/HBox2/Talisman"]
-margin_top = 16.0
+margin_top = 21.0
 margin_right = 230.0
-margin_bottom = 352.0
+margin_bottom = 357.0
 rect_min_size = Vector2( 230, 336 )
 expand = true
 
 [node name="SelectTalisman" type="Button" parent="HSplit/VSplit/Pawn1/VBox/HBox2/Talisman"]
-margin_top = 356.0
+margin_top = 361.0
 margin_right = 230.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 text = "Select Talisman"
 
 [node name="HBox3" type="HBoxContainer" parent="HSplit/VSplit/Pawn1/VBox"]
-margin_top = 419.0
+margin_top = 429.0
 margin_right = 954.0
-margin_bottom = 530.0
+margin_bottom = 524.0
 custom_constants/separation = 20
 
 [node name="Spacer" type="VBoxContainer" parent="HSplit/VSplit/Pawn1/VBox/HBox3"]
-margin_right = 230.0
-margin_bottom = 111.0
+margin_right = 190.0
+margin_bottom = 95.0
 custom_constants/separation = 9
 alignment = 1
 
 [node name="Spacer" type="Label" parent="HSplit/VSplit/Pawn1/VBox/HBox3/Spacer"]
-margin_top = 42.0
-margin_right = 230.0
-margin_bottom = 69.0
-rect_min_size = Vector2( 230, 27 )
+margin_top = 34.0
+margin_right = 190.0
+margin_bottom = 61.0
+rect_min_size = Vector2( 190, 27 )
 
 [node name="VBox" type="VBoxContainer" parent="HSplit/VSplit/Pawn1/VBox/HBox3"]
-margin_left = 250.0
-margin_right = 539.0
-margin_bottom = 111.0
+margin_left = 210.0
+margin_right = 550.0
+margin_bottom = 95.0
 
 [node name="Spacer" type="Label" parent="HSplit/VSplit/Pawn1/VBox/HBox3/VBox"]
-margin_right = 289.0
-margin_bottom = 39.0
-rect_min_size = Vector2( 0, 39 )
+margin_right = 340.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 0, 17 )
 
 [node name="error" type="Label" parent="HSplit/VSplit/Pawn1/VBox/HBox3/VBox"]
-margin_top = 43.0
-margin_right = 289.0
-margin_bottom = 55.0
+margin_top = 21.0
+margin_right = 340.0
+margin_bottom = 33.0
 custom_colors/font_color = Color( 0.803922, 0.14902, 0.14902, 1 )
 custom_fonts/font = SubResource( 6 )
 valign = 1
 
 [node name="AttackDeck" type="HBoxContainer" parent="HSplit/VSplit/Pawn1/VBox/HBox3/VBox"]
-margin_top = 59.0
-margin_right = 289.0
-margin_bottom = 81.0
+margin_top = 37.0
+margin_right = 340.0
+margin_bottom = 64.0
 
 [node name="Label" type="Label" parent="HSplit/VSplit/Pawn1/VBox/HBox3/VBox/AttackDeck"]
 margin_top = 5.0
-margin_right = 84.0
-margin_bottom = 17.0
+margin_right = 120.0
+margin_bottom = 22.0
 text = "Attack Deck "
 
 [node name="DeckName" type="LineEdit" parent="HSplit/VSplit/Pawn1/VBox/HBox3/VBox/AttackDeck"]
-margin_left = 88.0
-margin_right = 238.0
-margin_bottom = 22.0
+margin_left = 124.0
+margin_right = 274.0
+margin_bottom = 27.0
 rect_min_size = Vector2( 150, 0 )
 text = "Empty"
 align = 1
 editable = false
 
 [node name="BuildAttack" type="Button" parent="HSplit/VSplit/Pawn1/VBox/HBox3/VBox/AttackDeck"]
-margin_left = 242.0
-margin_right = 289.0
-margin_bottom = 22.0
+margin_left = 278.0
+margin_right = 340.0
+margin_bottom = 27.0
 text = "Build"
 
 [node name="AbilityDeck" type="HBoxContainer" parent="HSplit/VSplit/Pawn1/VBox/HBox3/VBox"]
-margin_top = 85.0
-margin_right = 289.0
-margin_bottom = 107.0
+margin_top = 68.0
+margin_right = 340.0
+margin_bottom = 95.0
 
 [node name="Label" type="Label" parent="HSplit/VSplit/Pawn1/VBox/HBox3/VBox/AbilityDeck"]
 margin_top = 5.0
-margin_right = 84.0
-margin_bottom = 17.0
+margin_right = 120.0
+margin_bottom = 22.0
 text = "Ability Deck"
 
 [node name="DeckName" type="LineEdit" parent="HSplit/VSplit/Pawn1/VBox/HBox3/VBox/AbilityDeck"]
-margin_left = 88.0
-margin_right = 238.0
-margin_bottom = 22.0
+margin_left = 124.0
+margin_right = 274.0
+margin_bottom = 27.0
 rect_min_size = Vector2( 150, 0 )
 text = "Empty"
 align = 1
 editable = false
 
 [node name="BuildAbility" type="Button" parent="HSplit/VSplit/Pawn1/VBox/HBox3/VBox/AbilityDeck"]
-margin_left = 242.0
-margin_right = 289.0
-margin_bottom = 22.0
+margin_left = 278.0
+margin_right = 340.0
+margin_bottom = 27.0
 text = "Build"
 
 [node name="PawnDeck" type="VBoxContainer" parent="HSplit/VSplit/Pawn1/VBox/HBox3"]
-margin_left = 559.0
-margin_right = 727.0
-margin_bottom = 111.0
+margin_left = 570.0
+margin_right = 810.0
+margin_bottom = 95.0
 custom_constants/separation = 9
 
-[node name="Spacer" type="Label" parent="HSplit/VSplit/Pawn1/VBox/HBox3/PawnDeck"]
-margin_right = 168.0
-margin_bottom = 27.0
-rect_min_size = Vector2( 0, 27 )
-
 [node name="CardCount" type="Label" parent="HSplit/VSplit/Pawn1/VBox/HBox3/PawnDeck"]
-margin_top = 36.0
-margin_right = 168.0
-margin_bottom = 48.0
+margin_right = 240.0
+margin_bottom = 17.0
 text = "Card Count:  "
 
 [node name="DeckLvl" type="Label" parent="HSplit/VSplit/Pawn1/VBox/HBox3/PawnDeck"]
-margin_top = 57.0
-margin_right = 168.0
-margin_bottom = 69.0
+margin_top = 26.0
+margin_right = 240.0
+margin_bottom = 43.0
 text = "Deck Level:"
 
 [node name="MaxLvlCount" type="Label" parent="HSplit/VSplit/Pawn1/VBox/HBox3/PawnDeck"]
-margin_top = 78.0
-margin_right = 168.0
-margin_bottom = 90.0
+margin_top = 52.0
+margin_right = 240.0
+margin_bottom = 69.0
 text = "Max Level For Count:"
 
 [node name="MaxLvlFull" type="Label" parent="HSplit/VSplit/Pawn1/VBox/HBox3/PawnDeck"]
-margin_top = 99.0
-margin_right = 168.0
-margin_bottom = 111.0
+margin_top = 78.0
+margin_right = 240.0
+margin_bottom = 95.0
 text = "Max Level For Full Deck:"
 
 [node name="Pawn3" type="Panel" parent="HSplit/VSplit"]
@@ -330,8 +326,8 @@ rect_min_size = Vector2( 0, 30 )
 alignment = 1
 
 [node name="Label" type="Label" parent="HSplit/VSplit/Pawn3/VBox/HBox"]
-margin_left = 456.0
-margin_right = 498.0
+margin_left = 447.0
+margin_right = 507.0
 margin_bottom = 31.0
 rect_min_size = Vector2( 0, 31 )
 text = "Pawn 3"
@@ -347,230 +343,224 @@ custom_constants/separation = 2
 [node name="HBox2" type="HBoxContainer" parent="HSplit/VSplit/Pawn3/VBox"]
 margin_top = 41.0
 margin_right = 954.0
-margin_bottom = 415.0
+margin_bottom = 425.0
 custom_constants/separation = 10
 
 [node name="Pawn" type="VBoxContainer" parent="HSplit/VSplit/Pawn3/VBox/HBox2"]
 margin_right = 230.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 alignment = 1
 
 [node name="Label" type="Label" parent="HSplit/VSplit/Pawn3/VBox/HBox2/Pawn"]
 margin_right = 230.0
-margin_bottom = 12.0
+margin_bottom = 17.0
 text = "Pawn"
 align = 1
 valign = 1
 
 [node name="PawnCard" type="TextureRect" parent="HSplit/VSplit/Pawn3/VBox/HBox2/Pawn"]
-margin_top = 16.0
+margin_top = 21.0
 margin_right = 230.0
-margin_bottom = 352.0
+margin_bottom = 357.0
 rect_min_size = Vector2( 230, 336 )
 expand = true
 
 [node name="SelectPawn" type="Button" parent="HSplit/VSplit/Pawn3/VBox/HBox2/Pawn"]
-margin_top = 356.0
+margin_top = 361.0
 margin_right = 230.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 text = "Select Pawn"
 
 [node name="Weapon1" type="VBoxContainer" parent="HSplit/VSplit/Pawn3/VBox/HBox2"]
 margin_left = 240.0
 margin_right = 470.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 
 [node name="Label" type="Label" parent="HSplit/VSplit/Pawn3/VBox/HBox2/Weapon1"]
 margin_right = 230.0
-margin_bottom = 12.0
+margin_bottom = 17.0
 text = "Weapon 1"
 align = 1
 valign = 1
 
 [node name="WeaponCard1" type="TextureRect" parent="HSplit/VSplit/Pawn3/VBox/HBox2/Weapon1"]
-margin_top = 16.0
+margin_top = 21.0
 margin_right = 230.0
-margin_bottom = 352.0
+margin_bottom = 357.0
 rect_min_size = Vector2( 230, 336 )
 expand = true
 
 [node name="SelectWeapon1" type="Button" parent="HSplit/VSplit/Pawn3/VBox/HBox2/Weapon1"]
-margin_top = 356.0
+margin_top = 361.0
 margin_right = 230.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 text = "Select Weapon"
 
 [node name="Weapon2" type="VBoxContainer" parent="HSplit/VSplit/Pawn3/VBox/HBox2"]
 margin_left = 480.0
 margin_right = 710.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 
 [node name="Label" type="Label" parent="HSplit/VSplit/Pawn3/VBox/HBox2/Weapon2"]
 margin_right = 230.0
-margin_bottom = 12.0
+margin_bottom = 17.0
 text = "Weapon 2"
 align = 1
 valign = 1
 
 [node name="WeaponCard2" type="TextureRect" parent="HSplit/VSplit/Pawn3/VBox/HBox2/Weapon2"]
-margin_top = 16.0
+margin_top = 21.0
 margin_right = 230.0
-margin_bottom = 352.0
+margin_bottom = 357.0
 rect_min_size = Vector2( 230, 336 )
 expand = true
 
 [node name="SelectWeapon2" type="Button" parent="HSplit/VSplit/Pawn3/VBox/HBox2/Weapon2"]
-margin_top = 356.0
+margin_top = 361.0
 margin_right = 230.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 text = "Select Weapon"
 
 [node name="Talisman" type="VBoxContainer" parent="HSplit/VSplit/Pawn3/VBox/HBox2"]
 margin_left = 720.0
 margin_right = 950.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 
 [node name="Label" type="Label" parent="HSplit/VSplit/Pawn3/VBox/HBox2/Talisman"]
 margin_right = 230.0
-margin_bottom = 12.0
+margin_bottom = 17.0
 text = "Talisman"
 align = 1
 valign = 1
 
 [node name="TalismanCard" type="TextureRect" parent="HSplit/VSplit/Pawn3/VBox/HBox2/Talisman"]
-margin_top = 16.0
+margin_top = 21.0
 margin_right = 230.0
-margin_bottom = 352.0
+margin_bottom = 357.0
 rect_min_size = Vector2( 230, 336 )
 expand = true
 
 [node name="SelectTalisman" type="Button" parent="HSplit/VSplit/Pawn3/VBox/HBox2/Talisman"]
-margin_top = 356.0
+margin_top = 361.0
 margin_right = 230.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 text = "Select Talisman"
 
 [node name="HBox3" type="HBoxContainer" parent="HSplit/VSplit/Pawn3/VBox"]
-margin_top = 419.0
+margin_top = 429.0
 margin_right = 954.0
-margin_bottom = 530.0
+margin_bottom = 524.0
 custom_constants/separation = 20
 
 [node name="Spacer" type="VBoxContainer" parent="HSplit/VSplit/Pawn3/VBox/HBox3"]
-margin_right = 230.0
-margin_bottom = 111.0
+margin_right = 190.0
+margin_bottom = 95.0
 custom_constants/separation = 9
 
 [node name="Spacer" type="Label" parent="HSplit/VSplit/Pawn3/VBox/HBox3/Spacer"]
-margin_right = 230.0
+margin_right = 190.0
 margin_bottom = 27.0
-rect_min_size = Vector2( 230, 27 )
+rect_min_size = Vector2( 190, 27 )
 
 [node name="VBox" type="VBoxContainer" parent="HSplit/VSplit/Pawn3/VBox/HBox3"]
-margin_left = 250.0
-margin_right = 539.0
-margin_bottom = 111.0
+margin_left = 210.0
+margin_right = 550.0
+margin_bottom = 95.0
 
 [node name="Spacer" type="Label" parent="HSplit/VSplit/Pawn3/VBox/HBox3/VBox"]
-margin_right = 289.0
-margin_bottom = 39.0
-rect_min_size = Vector2( 0, 39 )
+margin_right = 340.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 0, 17 )
 
 [node name="error" type="Label" parent="HSplit/VSplit/Pawn3/VBox/HBox3/VBox"]
-margin_top = 43.0
-margin_right = 289.0
-margin_bottom = 55.0
+margin_top = 21.0
+margin_right = 340.0
+margin_bottom = 33.0
 custom_colors/font_color = Color( 0.803922, 0.14902, 0.14902, 1 )
 custom_fonts/font = SubResource( 6 )
 valign = 1
 
 [node name="AttackDeck" type="HBoxContainer" parent="HSplit/VSplit/Pawn3/VBox/HBox3/VBox"]
-margin_top = 59.0
-margin_right = 289.0
-margin_bottom = 81.0
+margin_top = 37.0
+margin_right = 340.0
+margin_bottom = 64.0
 
 [node name="Label" type="Label" parent="HSplit/VSplit/Pawn3/VBox/HBox3/VBox/AttackDeck"]
 margin_top = 5.0
-margin_right = 84.0
-margin_bottom = 17.0
+margin_right = 120.0
+margin_bottom = 22.0
 text = "Attack Deck "
 
 [node name="DeckName" type="LineEdit" parent="HSplit/VSplit/Pawn3/VBox/HBox3/VBox/AttackDeck"]
-margin_left = 88.0
-margin_right = 238.0
-margin_bottom = 22.0
+margin_left = 124.0
+margin_right = 274.0
+margin_bottom = 27.0
 rect_min_size = Vector2( 150, 0 )
 text = "Empty"
 align = 1
 editable = false
 
 [node name="BuildAttack" type="Button" parent="HSplit/VSplit/Pawn3/VBox/HBox3/VBox/AttackDeck"]
-margin_left = 242.0
-margin_right = 289.0
-margin_bottom = 22.0
+margin_left = 278.0
+margin_right = 340.0
+margin_bottom = 27.0
 text = "Build"
 
 [node name="AbilityDeck" type="HBoxContainer" parent="HSplit/VSplit/Pawn3/VBox/HBox3/VBox"]
-margin_top = 85.0
-margin_right = 289.0
-margin_bottom = 107.0
+margin_top = 68.0
+margin_right = 340.0
+margin_bottom = 95.0
 
 [node name="Label" type="Label" parent="HSplit/VSplit/Pawn3/VBox/HBox3/VBox/AbilityDeck"]
 margin_top = 5.0
-margin_right = 84.0
-margin_bottom = 17.0
+margin_right = 120.0
+margin_bottom = 22.0
 text = "Ability Deck"
 
 [node name="DeckName" type="LineEdit" parent="HSplit/VSplit/Pawn3/VBox/HBox3/VBox/AbilityDeck"]
-margin_left = 88.0
-margin_right = 238.0
-margin_bottom = 22.0
+margin_left = 124.0
+margin_right = 274.0
+margin_bottom = 27.0
 rect_min_size = Vector2( 150, 0 )
 text = "Empty"
 align = 1
 editable = false
 
 [node name="BuildAbility" type="Button" parent="HSplit/VSplit/Pawn3/VBox/HBox3/VBox/AbilityDeck"]
-margin_left = 242.0
-margin_right = 289.0
-margin_bottom = 22.0
+margin_left = 278.0
+margin_right = 340.0
+margin_bottom = 27.0
 text = "Build"
 
 [node name="PawnDeck" type="VBoxContainer" parent="HSplit/VSplit/Pawn3/VBox/HBox3"]
-margin_left = 559.0
-margin_right = 727.0
-margin_bottom = 111.0
+margin_left = 570.0
+margin_right = 810.0
+margin_bottom = 95.0
 custom_constants/separation = 9
 
-[node name="Spacer" type="Label" parent="HSplit/VSplit/Pawn3/VBox/HBox3/PawnDeck"]
-margin_right = 168.0
-margin_bottom = 27.0
-rect_min_size = Vector2( 0, 27 )
-
 [node name="CardCount" type="Label" parent="HSplit/VSplit/Pawn3/VBox/HBox3/PawnDeck"]
-margin_top = 36.0
-margin_right = 168.0
-margin_bottom = 48.0
+margin_right = 240.0
+margin_bottom = 17.0
 text = "Card Count:  "
 
 [node name="DeckLvl" type="Label" parent="HSplit/VSplit/Pawn3/VBox/HBox3/PawnDeck"]
-margin_top = 57.0
-margin_right = 168.0
-margin_bottom = 69.0
+margin_top = 26.0
+margin_right = 240.0
+margin_bottom = 43.0
 text = "Deck Level:"
 
 [node name="MaxLvlCount" type="Label" parent="HSplit/VSplit/Pawn3/VBox/HBox3/PawnDeck"]
-margin_top = 78.0
-margin_right = 168.0
-margin_bottom = 90.0
+margin_top = 52.0
+margin_right = 240.0
+margin_bottom = 69.0
 text = "Max Level For Count:"
 
 [node name="MaxLvlFull" type="Label" parent="HSplit/VSplit/Pawn3/VBox/HBox3/PawnDeck"]
-margin_top = 99.0
-margin_right = 168.0
-margin_bottom = 111.0
+margin_top = 78.0
+margin_right = 240.0
+margin_bottom = 95.0
 text = "Max Level For Full Deck:"
 
 [node name="VSplit2" type="VSplitContainer" parent="HSplit"]
@@ -597,8 +587,8 @@ rect_min_size = Vector2( 0, 30 )
 alignment = 1
 
 [node name="Label" type="Label" parent="HSplit/VSplit2/Pawn2/VBox/HBox"]
-margin_left = 456.0
-margin_right = 498.0
+margin_left = 447.0
+margin_right = 507.0
 margin_bottom = 31.0
 rect_min_size = Vector2( 0, 31 )
 text = "Pawn 2"
@@ -614,230 +604,224 @@ custom_constants/separation = 2
 [node name="HBox2" type="HBoxContainer" parent="HSplit/VSplit2/Pawn2/VBox"]
 margin_top = 41.0
 margin_right = 954.0
-margin_bottom = 415.0
+margin_bottom = 425.0
 custom_constants/separation = 10
 
 [node name="Pawn" type="VBoxContainer" parent="HSplit/VSplit2/Pawn2/VBox/HBox2"]
 margin_right = 230.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 alignment = 1
 
 [node name="Label" type="Label" parent="HSplit/VSplit2/Pawn2/VBox/HBox2/Pawn"]
 margin_right = 230.0
-margin_bottom = 12.0
+margin_bottom = 17.0
 text = "Pawn"
 align = 1
 valign = 1
 
 [node name="PawnCard" type="TextureRect" parent="HSplit/VSplit2/Pawn2/VBox/HBox2/Pawn"]
-margin_top = 16.0
+margin_top = 21.0
 margin_right = 230.0
-margin_bottom = 352.0
+margin_bottom = 357.0
 rect_min_size = Vector2( 230, 336 )
 expand = true
 
 [node name="SelectPawn" type="Button" parent="HSplit/VSplit2/Pawn2/VBox/HBox2/Pawn"]
-margin_top = 356.0
+margin_top = 361.0
 margin_right = 230.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 text = "Select Pawn"
 
 [node name="Weapon1" type="VBoxContainer" parent="HSplit/VSplit2/Pawn2/VBox/HBox2"]
 margin_left = 240.0
 margin_right = 470.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 
 [node name="Label" type="Label" parent="HSplit/VSplit2/Pawn2/VBox/HBox2/Weapon1"]
 margin_right = 230.0
-margin_bottom = 12.0
+margin_bottom = 17.0
 text = "Weapon 1"
 align = 1
 valign = 1
 
 [node name="WeaponCard1" type="TextureRect" parent="HSplit/VSplit2/Pawn2/VBox/HBox2/Weapon1"]
-margin_top = 16.0
+margin_top = 21.0
 margin_right = 230.0
-margin_bottom = 352.0
+margin_bottom = 357.0
 rect_min_size = Vector2( 230, 336 )
 expand = true
 
 [node name="SelectWeapon1" type="Button" parent="HSplit/VSplit2/Pawn2/VBox/HBox2/Weapon1"]
-margin_top = 356.0
+margin_top = 361.0
 margin_right = 230.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 text = "Select Weapon"
 
 [node name="Weapon2" type="VBoxContainer" parent="HSplit/VSplit2/Pawn2/VBox/HBox2"]
 margin_left = 480.0
 margin_right = 710.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 
 [node name="Label" type="Label" parent="HSplit/VSplit2/Pawn2/VBox/HBox2/Weapon2"]
 margin_right = 230.0
-margin_bottom = 12.0
+margin_bottom = 17.0
 text = "Weapon 2"
 align = 1
 valign = 1
 
 [node name="WeaponCard2" type="TextureRect" parent="HSplit/VSplit2/Pawn2/VBox/HBox2/Weapon2"]
-margin_top = 16.0
+margin_top = 21.0
 margin_right = 230.0
-margin_bottom = 352.0
+margin_bottom = 357.0
 rect_min_size = Vector2( 230, 336 )
 expand = true
 
 [node name="SelectWeapon2" type="Button" parent="HSplit/VSplit2/Pawn2/VBox/HBox2/Weapon2"]
-margin_top = 356.0
+margin_top = 361.0
 margin_right = 230.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 text = "Select Weapon"
 
 [node name="Talisman" type="VBoxContainer" parent="HSplit/VSplit2/Pawn2/VBox/HBox2"]
 margin_left = 720.0
 margin_right = 950.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 
 [node name="Label" type="Label" parent="HSplit/VSplit2/Pawn2/VBox/HBox2/Talisman"]
 margin_right = 230.0
-margin_bottom = 12.0
+margin_bottom = 17.0
 text = "Talisman"
 align = 1
 valign = 1
 
 [node name="TalismanCard" type="TextureRect" parent="HSplit/VSplit2/Pawn2/VBox/HBox2/Talisman"]
-margin_top = 16.0
+margin_top = 21.0
 margin_right = 230.0
-margin_bottom = 352.0
+margin_bottom = 357.0
 rect_min_size = Vector2( 230, 336 )
 expand = true
 
 [node name="SelectTalisman" type="Button" parent="HSplit/VSplit2/Pawn2/VBox/HBox2/Talisman"]
-margin_top = 356.0
+margin_top = 361.0
 margin_right = 230.0
-margin_bottom = 374.0
+margin_bottom = 384.0
 text = "Select Talisman"
 
 [node name="HBox3" type="HBoxContainer" parent="HSplit/VSplit2/Pawn2/VBox"]
-margin_top = 419.0
+margin_top = 429.0
 margin_right = 954.0
-margin_bottom = 530.0
+margin_bottom = 524.0
 custom_constants/separation = 20
 
 [node name="Spacer" type="VBoxContainer" parent="HSplit/VSplit2/Pawn2/VBox/HBox3"]
-margin_right = 230.0
-margin_bottom = 111.0
+margin_right = 190.0
+margin_bottom = 95.0
 custom_constants/separation = 9
 
 [node name="Spacer" type="Label" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/Spacer"]
-margin_right = 230.0
+margin_right = 190.0
 margin_bottom = 27.0
-rect_min_size = Vector2( 230, 27 )
+rect_min_size = Vector2( 190, 27 )
 
 [node name="VBox" type="VBoxContainer" parent="HSplit/VSplit2/Pawn2/VBox/HBox3"]
-margin_left = 250.0
-margin_right = 539.0
-margin_bottom = 111.0
+margin_left = 210.0
+margin_right = 550.0
+margin_bottom = 95.0
 
 [node name="Spacer" type="Label" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/VBox"]
-margin_right = 289.0
-margin_bottom = 39.0
-rect_min_size = Vector2( 0, 39 )
+margin_right = 340.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 0, 17 )
 
 [node name="error" type="Label" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/VBox"]
-margin_top = 43.0
-margin_right = 289.0
-margin_bottom = 55.0
+margin_top = 21.0
+margin_right = 340.0
+margin_bottom = 33.0
 custom_colors/font_color = Color( 0.803922, 0.14902, 0.14902, 1 )
 custom_fonts/font = SubResource( 6 )
 valign = 1
 
 [node name="AttackDeck" type="HBoxContainer" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/VBox"]
-margin_top = 59.0
-margin_right = 289.0
-margin_bottom = 81.0
+margin_top = 37.0
+margin_right = 340.0
+margin_bottom = 64.0
 
 [node name="Label" type="Label" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/VBox/AttackDeck"]
 margin_top = 5.0
-margin_right = 84.0
-margin_bottom = 17.0
+margin_right = 120.0
+margin_bottom = 22.0
 text = "Attack Deck "
 
 [node name="DeckName" type="LineEdit" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/VBox/AttackDeck"]
-margin_left = 88.0
-margin_right = 238.0
-margin_bottom = 22.0
+margin_left = 124.0
+margin_right = 274.0
+margin_bottom = 27.0
 rect_min_size = Vector2( 150, 0 )
 text = "Empty"
 align = 1
 editable = false
 
 [node name="BuildAttack" type="Button" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/VBox/AttackDeck"]
-margin_left = 242.0
-margin_right = 289.0
-margin_bottom = 22.0
+margin_left = 278.0
+margin_right = 340.0
+margin_bottom = 27.0
 text = "Build"
 
 [node name="AbilityDeck" type="HBoxContainer" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/VBox"]
-margin_top = 85.0
-margin_right = 289.0
-margin_bottom = 107.0
+margin_top = 68.0
+margin_right = 340.0
+margin_bottom = 95.0
 
 [node name="Label" type="Label" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/VBox/AbilityDeck"]
 margin_top = 5.0
-margin_right = 84.0
-margin_bottom = 17.0
+margin_right = 120.0
+margin_bottom = 22.0
 text = "Ability Deck"
 
 [node name="DeckName" type="LineEdit" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/VBox/AbilityDeck"]
-margin_left = 88.0
-margin_right = 238.0
-margin_bottom = 22.0
+margin_left = 124.0
+margin_right = 274.0
+margin_bottom = 27.0
 rect_min_size = Vector2( 150, 0 )
 text = "Empty"
 align = 1
 editable = false
 
 [node name="BuildAbility" type="Button" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/VBox/AbilityDeck"]
-margin_left = 242.0
-margin_right = 289.0
-margin_bottom = 22.0
+margin_left = 278.0
+margin_right = 340.0
+margin_bottom = 27.0
 text = "Build"
 
 [node name="PawnDeck" type="VBoxContainer" parent="HSplit/VSplit2/Pawn2/VBox/HBox3"]
-margin_left = 559.0
-margin_right = 727.0
-margin_bottom = 111.0
+margin_left = 570.0
+margin_right = 810.0
+margin_bottom = 95.0
 custom_constants/separation = 9
 
-[node name="Spacer" type="Label" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/PawnDeck"]
-margin_right = 168.0
-margin_bottom = 27.0
-rect_min_size = Vector2( 0, 27 )
-
 [node name="CardCount" type="Label" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/PawnDeck"]
-margin_top = 36.0
-margin_right = 168.0
-margin_bottom = 48.0
+margin_right = 240.0
+margin_bottom = 17.0
 text = "Card Count:  "
 
 [node name="DeckLvl" type="Label" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/PawnDeck"]
-margin_top = 57.0
-margin_right = 168.0
-margin_bottom = 69.0
+margin_top = 26.0
+margin_right = 240.0
+margin_bottom = 43.0
 text = "Deck Level:"
 
 [node name="MaxLvlCount" type="Label" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/PawnDeck"]
-margin_top = 78.0
-margin_right = 168.0
-margin_bottom = 90.0
+margin_top = 52.0
+margin_right = 240.0
+margin_bottom = 69.0
 text = "Max Level For Count:"
 
 [node name="MaxLvlFull" type="Label" parent="HSplit/VSplit2/Pawn2/VBox/HBox3/PawnDeck"]
-margin_top = 99.0
-margin_right = 168.0
-margin_bottom = 111.0
+margin_top = 78.0
+margin_right = 240.0
+margin_bottom = 95.0
 text = "Max Level For Full Deck:"
 
 [node name="SetInfo" type="Panel" parent="HSplit/VSplit2"]
@@ -1109,42 +1093,42 @@ custom_constants/separation = 37
 alignment = 1
 
 [node name="VBox" type="VBoxContainer" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerStats"]
-margin_left = 50.0
-margin_right = 141.0
+margin_left = 5.0
+margin_right = 135.0
 margin_bottom = 58.0
 alignment = 1
 
 [node name="CardCount" type="Label" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerStats/VBox"]
-margin_top = 15.0
-margin_right = 91.0
+margin_top = 10.0
+margin_right = 130.0
 margin_bottom = 27.0
 theme = ExtResource( 2 )
 text = "Card Count:12"
 
 [node name="MaxLvlCount" type="Label" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerStats/VBox"]
 margin_top = 31.0
-margin_right = 91.0
-margin_bottom = 43.0
+margin_right = 130.0
+margin_bottom = 48.0
 theme = ExtResource( 2 )
 text = "Max Level:12"
 
 [node name="VBox2" type="VBoxContainer" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerStats"]
-margin_left = 178.0
-margin_right = 297.0
+margin_left = 172.0
+margin_right = 342.0
 margin_bottom = 58.0
 alignment = 1
 
 [node name="DeckLvl" type="Label" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerStats/VBox2"]
-margin_top = 15.0
-margin_right = 119.0
+margin_top = 10.0
+margin_right = 170.0
 margin_bottom = 27.0
 theme = ExtResource( 2 )
 text = "Deck Level:68"
 
 [node name="MaxLvlFull" type="Label" parent="HSplit/VSplit2/SetInfo/HBox/DeckSettings/PowerStats/VBox2"]
 margin_top = 31.0
-margin_right = 119.0
-margin_bottom = 43.0
+margin_right = 170.0
+margin_bottom = 48.0
 theme = ExtResource( 2 )
 text = "Max Full Level:98"
 
