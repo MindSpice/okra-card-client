@@ -61,6 +61,7 @@ func _select_card(card : Card):
 	$Window/Hsplit/Card/HBox/Info/Stat.add_child(info_node)
 	$Window/Hsplit/Card/HBox/Info/Description.text = card.card_info.get("description")
 
+
 func update_filtered_view(typei : int, level : int):
 	Util.remove_children(_all_grid)
 	var type : String
@@ -78,7 +79,6 @@ func update_filtered_view(typei : int, level : int):
 		_all_grid.add_child(card)
 	$Window/Hsplit/Cards/TypeCombo.select(typei)
 	
-
 
 func get_type_int(type : String) -> int:
 	if type == "MELEE": return 1

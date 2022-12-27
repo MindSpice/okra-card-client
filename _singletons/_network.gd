@@ -94,7 +94,7 @@ func process_msg(msg : Dictionary):
 			emit_signal("queue_response", NetQueueResponse.new(msg))
 		
 		MsgIn.NET_MSG:
-			emit_signal("net_msg", msg["is_valid"], msg["msg"])
+			emit_signal("net_msg", msg["is_valid"], msg["msg"], msg["context"])
 
 		MsgIn.OWNED_CARDS:
 			Player.set_owned_cards(msg["owned_cards"])
@@ -117,7 +117,7 @@ signal turn_response(net_turn_response)
 signal turn_update(net_turn_update)
 signal card_update(net_card_update)
 signal queue_response(net_queue_response)
-signal net_msg(is_valid, msg)
+signal net_msg(is_valid, msg, context)
 
 
 
@@ -149,8 +149,11 @@ enum MsgOut {
 	LEAVE_QUEUE,
 	SAVE_PAWN_SET,
 	POTION_PURCHASE,
+	PACK_PURCHASE,
 	FETCH_CARDS,
 	FETCH_PAWN_SETS,
+	FETCH_UPDATE,
+	FETCH_OFFERS
 	DELETE_PAWN_SET,
 }
 
@@ -159,6 +162,7 @@ enum InsightType {
 	EFFECT,
 	STAT
 }
+
 
 const _n_msg_in = {
 	"TURN_UPDATE"   	: MsgIn.TURN_UPDATE,
@@ -183,8 +187,11 @@ const _n_msg_out = {
 	MsgOut.LEAVE_QUEUE		: "LEAVE_QUEUE",
 	MsgOut.SAVE_PAWN_SET	: "SAVE_PAWN_SET",
 	MsgOut.POTION_PURCHASE	: "POTION_PURCHASE",
+	MsgOut.PACK_PURCHASE	: "PACK_PURCHASE",
 	MsgOut.FETCH_PAWN_SETS	: "FETCH_PAWN_SETS",
 	MsgOut.FETCH_CARDS		: "FETCH_CARDS",
+	MsgOut.FETCH_UPDATE		: "FETCH_UPDATE",
+	MsgOut.FETCH_OFFERS		: "FETCH_OFFERS",
 	MsgOut.DELETE_PAWN_SET	: "DELETE_PAWN_SET"
 }
 

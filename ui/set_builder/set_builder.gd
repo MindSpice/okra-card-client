@@ -515,7 +515,7 @@ func _on_load_confirmed():
 	
 
 
-func _on_net_msg(valid: bool, msg: String) -> void:
+func _on_net_msg(valid: bool, msg: String, context: String) -> void:
 	if valid:
 		_dialog.set_text("Success\n" + msg)
 		_dialog.popup_centered()

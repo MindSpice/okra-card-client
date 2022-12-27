@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://themes/ttheme.tres" type="Theme" id=1]
 [ext_resource path="res://backgrounds/background6.jpg" type="Texture" id=2]
@@ -13,6 +13,19 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color( 0, 0, 0, 0.486275 )
 border_blend = true
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.0745098, 0.321569, 0.392157, 0.662745 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.0156863, 0.0156863, 0.0156863, 1 )
+border_blend = true
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
 
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.0509804, 0.290196, 0.0588235, 0.2 )
@@ -61,23 +74,47 @@ margin_bottom = -1.0
 texture = ExtResource( 2 )
 expand = true
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
-modulate = Color( 1, 1, 1, 0.47451 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-
 [node name="MenuPane" type="Panel" parent="."]
+margin_left = 160.0
+margin_top = 90.0
+margin_right = 1760.0
+margin_bottom = 990.0
+rect_min_size = Vector2( 1600, 900 )
+rect_pivot_offset = Vector2( 683, 384 )
+custom_styles/panel = SubResource( 1 )
+
+[node name="QueueBox" type="VBoxContainer" parent="MenuPane"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -800.0
-margin_top = -450.0
-margin_right = 800.0
-margin_bottom = 450.0
-rect_min_size = Vector2( 1600, 900 )
-rect_pivot_offset = Vector2( 683, 384 )
-custom_styles/panel = SubResource( 1 )
+margin_left = -66.0
+margin_top = -400.0
+margin_right = 66.0
+margin_bottom = -358.0
+
+[node name="Queue" type="PanelContainer" parent="MenuPane/QueueBox"]
+margin_right = 132.0
+margin_bottom = 18.0
+custom_styles/panel = SubResource( 6 )
+
+[node name="Text" type="Label" parent="MenuPane/QueueBox/Queue"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 130.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 128, 0 )
+custom_colors/font_color = Color( 0.0941176, 0.768627, 0.184314, 1 )
+text = "In Queue"
+align = 1
+valign = 1
+
+[node name="Leave" type="Button" parent="MenuPane/QueueBox"]
+margin_top = 22.0
+margin_right = 132.0
+margin_bottom = 42.0
+text = "Leave Queue"
 
 [node name="Info" type="Panel" parent="MenuPane"]
 margin_left = 4.0
@@ -109,47 +146,47 @@ expand = true
 
 [node name="Stats" type="VBoxContainer" parent="MenuPane/Info/Player/AvStats"]
 margin_left = 168.0
-margin_right = 308.0
+margin_right = 280.0
 margin_bottom = 128.0
 
 [node name="Lifetime" type="Label" parent="MenuPane/Info/Player/AvStats/Stats"]
-margin_right = 140.0
-margin_bottom = 17.0
+margin_right = 112.0
+margin_bottom = 14.0
 text = "Lifetime Stats"
 valign = 1
 
 [node name="Wins" type="Label" parent="MenuPane/Info/Player/AvStats/Stats"]
-margin_top = 21.0
-margin_right = 140.0
-margin_bottom = 38.0
+margin_top = 18.0
+margin_right = 112.0
+margin_bottom = 32.0
 text = "Wins:"
 align = 1
 
 [node name="losses" type="Label" parent="MenuPane/Info/Player/AvStats/Stats"]
-margin_top = 42.0
-margin_right = 140.0
-margin_bottom = 59.0
+margin_top = 36.0
+margin_right = 112.0
+margin_bottom = 50.0
 text = "Losses:"
 align = 1
 
 [node name="Weekly" type="Label" parent="MenuPane/Info/Player/AvStats/Stats"]
-margin_top = 63.0
-margin_right = 140.0
-margin_bottom = 80.0
+margin_top = 54.0
+margin_right = 112.0
+margin_bottom = 68.0
 text = "Weekly Stats"
 align = 1
 
 [node name="Wins2" type="Label" parent="MenuPane/Info/Player/AvStats/Stats"]
-margin_top = 84.0
-margin_right = 140.0
-margin_bottom = 101.0
+margin_top = 72.0
+margin_right = 112.0
+margin_bottom = 86.0
 text = "Wins:"
 align = 1
 
 [node name="losses2" type="Label" parent="MenuPane/Info/Player/AvStats/Stats"]
-margin_top = 105.0
-margin_right = 140.0
-margin_bottom = 122.0
+margin_top = 90.0
+margin_right = 112.0
+margin_bottom = 104.0
 text = "Losses:"
 align = 1
 
@@ -161,6 +198,16 @@ margin_bottom = 18.0
 rect_min_size = Vector2( 128, 0 )
 custom_colors/font_color = Color( 0.243137, 0.835294, 0.670588, 1 )
 text = "Hickelpicklepicle"
+align = 1
+
+[node name="Premium" type="Label" parent="MenuPane/Info"]
+margin_left = 12.0
+margin_top = 148.0
+margin_right = 140.0
+margin_bottom = 165.0
+rect_min_size = Vector2( 128, 0 )
+custom_colors/font_color = Color( 0.137255, 0.713726, 0.054902, 1 )
+text = "Premium"
 align = 1
 
 [node name="Funds" type="Panel" parent="MenuPane"]
@@ -179,28 +226,28 @@ margin_bottom = 84.0
 
 [node name="Funds" type="Label" parent="MenuPane/Funds/Funds"]
 margin_right = 166.0
-margin_bottom = 17.0
+margin_bottom = 14.0
 text = "Funds"
 align = 1
 
 [node name="Label2" type="Label" parent="MenuPane/Funds/Funds"]
-margin_top = 21.0
+margin_top = 18.0
 margin_right = 166.0
-margin_bottom = 38.0
+margin_bottom = 32.0
 text = "OKRA:3434"
 align = 1
 
 [node name="Label3" type="Label" parent="MenuPane/Funds/Funds"]
-margin_top = 42.0
+margin_top = 36.0
 margin_right = 166.0
-margin_bottom = 59.0
+margin_bottom = 50.0
 text = "POTION:34"
 align = 1
 
 [node name="Label4" type="Label" parent="MenuPane/Funds/Funds"]
-margin_top = 63.0
+margin_top = 54.0
 margin_right = 166.0
-margin_bottom = 80.0
+margin_bottom = 68.0
 text = "NFT Drops:3"
 align = 1
 
@@ -220,28 +267,28 @@ margin_bottom = 85.0
 
 [node name="Funds" type="Label" parent="MenuPane/Assets/Assets"]
 margin_right = 166.0
-margin_bottom = 17.0
+margin_bottom = 14.0
 text = "Assets"
 align = 1
 
 [node name="Label2" type="Label" parent="MenuPane/Assets/Assets"]
-margin_top = 21.0
+margin_top = 18.0
 margin_right = 166.0
-margin_bottom = 38.0
+margin_bottom = 32.0
 text = "Cards: 182"
 align = 1
 
 [node name="Label3" type="Label" parent="MenuPane/Assets/Assets"]
-margin_top = 42.0
+margin_top = 36.0
 margin_right = 166.0
-margin_bottom = 59.0
+margin_bottom = 50.0
 text = "Pawn Sets: 5"
 align = 1
 
 [node name="Label4" type="Label" parent="MenuPane/Assets/Assets"]
-margin_top = 63.0
+margin_top = 54.0
 margin_right = 166.0
-margin_bottom = 80.0
+margin_bottom = 68.0
 text = "Potions:3"
 align = 1
 
@@ -254,9 +301,9 @@ custom_styles/panel = SubResource( 5 )
 
 [node name="Connected" type="Label" parent="MenuPane/Connected"]
 margin_left = 2.0
-margin_top = 7.0
+margin_top = 8.0
 margin_right = 131.0
-margin_bottom = 24.0
+margin_bottom = 22.0
 text = "Connected"
 align = 1
 
@@ -274,61 +321,59 @@ theme = ExtResource( 1 )
 custom_constants/separation = 6
 
 [node name="Queue" type="Button" parent="MenuPane/Options"]
-margin_right = 150.0
+margin_right = 152.0
 margin_bottom = 23.0
 text = "Queue Match"
 
 [node name="Builder" type="Button" parent="MenuPane/Options"]
 margin_top = 29.0
-margin_right = 150.0
+margin_right = 152.0
 margin_bottom = 52.0
 text = "Set Builder"
 
 [node name="Browse" type="Button" parent="MenuPane/Options"]
 margin_top = 58.0
-margin_right = 150.0
+margin_right = 152.0
 margin_bottom = 81.0
 text = "Browse Cards"
 
-[node name="Purchase" type="Button" parent="MenuPane/Options"]
+[node name="Potions" type="Button" parent="MenuPane/Options"]
 margin_top = 87.0
-margin_right = 150.0
+margin_right = 152.0
 margin_bottom = 110.0
-text = "Buy Potions"
+text = "Get Potions"
+
+[node name="CardPacks" type="Button" parent="MenuPane/Options"]
+margin_top = 116.0
+margin_right = 152.0
+margin_bottom = 139.0
+text = "Get Card Packs"
 
 [node name="Settings" type="Button" parent="MenuPane/Options"]
-margin_top = 116.0
-margin_right = 150.0
-margin_bottom = 139.0
+margin_top = 145.0
+margin_right = 152.0
+margin_bottom = 168.0
 text = "Settings"
 
-[node name="Premium" type="Label" parent="MenuPane"]
-margin_left = 16.0
-margin_top = 151.0
-margin_right = 144.0
-margin_bottom = 168.0
-rect_min_size = Vector2( 128, 0 )
-custom_colors/font_color = Color( 0.137255, 0.713726, 0.054902, 1 )
-text = "Premium"
-align = 1
-
 [node name="Address" type="VBoxContainer" parent="MenuPane"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -340.0
-margin_right = 340.0
-margin_bottom = 40.0
+anchor_right = 1.0
+margin_top = 5.0
+margin_bottom = 37.0
+alignment = 1
 
 [node name="XCH" type="Label" parent="MenuPane/Address"]
-margin_right = 680.0
-margin_bottom = 17.0
+margin_right = 1600.0
+margin_bottom = 14.0
 text = "XCH:xch1rdatypul5c642jkeh4yp933zu3hw8vv8tfup8ta6zfampnyhjnusxdgns6"
+align = 1
 
-[node name="XCH2" type="Label" parent="MenuPane/Address"]
-margin_top = 21.0
-margin_right = 680.0
-margin_bottom = 38.0
+[node name="DID" type="Label" parent="MenuPane/Address"]
+margin_top = 18.0
+margin_right = 1600.0
+margin_bottom = 32.0
 text = "did:chia:19qf3g9876t0rkq7tfdkc28cxfy424yzanea29rkzylq89kped9hq3q7wd2"
+align = 1
 
+[connection signal="pressed" from="MenuPane/QueueBox/Leave" to="." method="_on_Leave_pressed"]
 [connection signal="pressed" from="MenuPane/Options/Queue" to="." method="_on_Queue_pressed"]
 [connection signal="pressed" from="MenuPane/Options/Builder" to="." method="_on_Builder_pressed"]

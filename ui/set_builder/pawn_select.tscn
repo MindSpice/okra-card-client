@@ -93,7 +93,7 @@ custom_constants/separation = 20
 
 [node name="VBox" type="VBoxContainer" parent="Window/Hsplit/Card/HBox"]
 margin_right = 400.0
-margin_bottom = 582.0
+margin_bottom = 587.0
 rect_min_size = Vector2( 400, 560 )
 
 [node name="Image" type="TextureRect" parent="Window/Hsplit/Card/HBox/VBox"]
@@ -106,13 +106,13 @@ expand = true
 [node name="Select" type="Button" parent="Window/Hsplit/Card/HBox/VBox"]
 margin_top = 564.0
 margin_right = 400.0
-margin_bottom = 582.0
+margin_bottom = 587.0
 text = "Select"
 
 [node name="Info" type="VBoxContainer" parent="Window/Hsplit/Card/HBox"]
 margin_left = 420.0
 margin_right = 1020.0
-margin_bottom = 582.0
+margin_bottom = 587.0
 rect_min_size = Vector2( 0, 575 )
 custom_constants/separation = 7
 
