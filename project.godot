@@ -175,6 +175,7 @@ Game="*res://_singletons/_game.gd"
 Util="*res://_singletons/_util.gd"
 Event="*res://_singletons/_event.gd"
 Network="*res://_singletons/_network.gd"
+Market="*res://_singletons/_market.gd"
 
 [display]
 

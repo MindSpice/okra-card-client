@@ -22,7 +22,7 @@ onready var _replace := preload("res://ui/replace_set.tscn").instance()
 onready var _load := preload("res://ui/replace_set.tscn").instance()
 
 func _ready():
-
+	
 
 	# REMOVE TEST VAR
 	_net.init_wss_conn("123")

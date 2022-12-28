@@ -1,12 +1,15 @@
 extends Node
 
-const https_auth : String = "https://127.0.0.1:8443/auth"
-const https_reg : String = "https://127.0.0.1:8443/register"
-const wss_url : String = "wss://127.0.0.1:4449"
+const https_auth := "https://127.0.0.1:8443/auth"
+const https_reg  := "https://127.0.0.1:8443/register"
+const dexie_post := "https://api.dexie.space/v1/offers"
+const dexie_get := "https://dexie.space/offers/"
+const wss_url := "wss://127.0.0.1:4449"
+const market_url := ""
 var wss_client := WebSocketClient.new()
 # TODO add http request here and grab globally
-var auth_token : String
-var username : String
+var auth_token: String
+var username: String
 
 
 #TODO add http code here
@@ -142,6 +145,7 @@ enum MsgIn {
 	OWNED_CARDS,
 	PLAYER_FUNDS,
 	POTIONS_UPDATE
+	CARD_OFFER_UPDATE,
 }
 
 enum MsgOut {
@@ -179,7 +183,9 @@ const _n_msg_in = {
 	"NET_MSG"			: MsgIn.NET_MSG,
 	"OWNED_CARDS"		: MsgIn.OWNED_CARDS,
 	"PLAYER_FUNDS"		: MsgIn.PLAYER_FUNDS,
-	"POTIONS_UPDATE"	: MsgIn.POTIONS_UPDATE
+	"POTIONS_UPDATE"	: MsgIn.POTIONS_UPDATE,
+	"CARD_OFFER_UPDATE"	: MsgIn.CARD_OFFER_UPDATE,
+
 }
 
 const _n_msg_out = {
@@ -191,7 +197,6 @@ const _n_msg_out = {
 	MsgOut.FETCH_PAWN_SETS	: "FETCH_PAWN_SETS",
 	MsgOut.FETCH_CARDS		: "FETCH_CARDS",
 	MsgOut.FETCH_UPDATE		: "FETCH_UPDATE",
-	MsgOut.FETCH_OFFERS		: "FETCH_OFFERS",
 	MsgOut.DELETE_PAWN_SET	: "DELETE_PAWN_SET"
 }
 

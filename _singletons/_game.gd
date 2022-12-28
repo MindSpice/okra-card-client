@@ -60,6 +60,7 @@ enum CardSlot {
 }
 
 
+
 enum StatType{
 	HP,
 	DP,

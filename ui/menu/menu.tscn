@@ -69,8 +69,6 @@ script = ExtResource( 3 )
 [node name="Background" type="TextureRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -1.0
-margin_bottom = -1.0
 texture = ExtResource( 2 )
 expand = true
 
@@ -151,42 +149,42 @@ margin_bottom = 128.0
 
 [node name="Lifetime" type="Label" parent="MenuPane/Info/Player/AvStats/Stats"]
 margin_right = 112.0
-margin_bottom = 14.0
+margin_bottom = 15.0
 text = "Lifetime Stats"
 valign = 1
 
 [node name="Wins" type="Label" parent="MenuPane/Info/Player/AvStats/Stats"]
-margin_top = 18.0
+margin_top = 19.0
 margin_right = 112.0
-margin_bottom = 32.0
+margin_bottom = 34.0
 text = "Wins:"
 align = 1
 
 [node name="losses" type="Label" parent="MenuPane/Info/Player/AvStats/Stats"]
-margin_top = 36.0
+margin_top = 38.0
 margin_right = 112.0
-margin_bottom = 50.0
+margin_bottom = 53.0
 text = "Losses:"
 align = 1
 
 [node name="Weekly" type="Label" parent="MenuPane/Info/Player/AvStats/Stats"]
-margin_top = 54.0
+margin_top = 57.0
 margin_right = 112.0
-margin_bottom = 68.0
+margin_bottom = 72.0
 text = "Weekly Stats"
 align = 1
 
 [node name="Wins2" type="Label" parent="MenuPane/Info/Player/AvStats/Stats"]
-margin_top = 72.0
+margin_top = 76.0
 margin_right = 112.0
-margin_bottom = 86.0
+margin_bottom = 91.0
 text = "Wins:"
 align = 1
 
 [node name="losses2" type="Label" parent="MenuPane/Info/Player/AvStats/Stats"]
-margin_top = 90.0
+margin_top = 95.0
 margin_right = 112.0
-margin_bottom = 104.0
+margin_bottom = 110.0
 text = "Losses:"
 align = 1
 
@@ -226,28 +224,28 @@ margin_bottom = 84.0
 
 [node name="Funds" type="Label" parent="MenuPane/Funds/Funds"]
 margin_right = 166.0
-margin_bottom = 14.0
+margin_bottom = 15.0
 text = "Funds"
 align = 1
 
 [node name="Label2" type="Label" parent="MenuPane/Funds/Funds"]
-margin_top = 18.0
+margin_top = 19.0
 margin_right = 166.0
-margin_bottom = 32.0
+margin_bottom = 34.0
 text = "OKRA:3434"
 align = 1
 
 [node name="Label3" type="Label" parent="MenuPane/Funds/Funds"]
-margin_top = 36.0
+margin_top = 38.0
 margin_right = 166.0
-margin_bottom = 50.0
+margin_bottom = 53.0
 text = "POTION:34"
 align = 1
 
 [node name="Label4" type="Label" parent="MenuPane/Funds/Funds"]
-margin_top = 54.0
+margin_top = 57.0
 margin_right = 166.0
-margin_bottom = 68.0
+margin_bottom = 72.0
 text = "NFT Drops:3"
 align = 1
 
@@ -267,28 +265,28 @@ margin_bottom = 85.0
 
 [node name="Funds" type="Label" parent="MenuPane/Assets/Assets"]
 margin_right = 166.0
-margin_bottom = 14.0
+margin_bottom = 15.0
 text = "Assets"
 align = 1
 
 [node name="Label2" type="Label" parent="MenuPane/Assets/Assets"]
-margin_top = 18.0
+margin_top = 19.0
 margin_right = 166.0
-margin_bottom = 32.0
+margin_bottom = 34.0
 text = "Cards: 182"
 align = 1
 
 [node name="Label3" type="Label" parent="MenuPane/Assets/Assets"]
-margin_top = 36.0
+margin_top = 38.0
 margin_right = 166.0
-margin_bottom = 50.0
+margin_bottom = 53.0
 text = "Pawn Sets: 5"
 align = 1
 
 [node name="Label4" type="Label" parent="MenuPane/Assets/Assets"]
-margin_top = 54.0
+margin_top = 57.0
 margin_right = 166.0
-margin_bottom = 68.0
+margin_bottom = 72.0
 text = "Potions:3"
 align = 1
 
@@ -303,7 +301,7 @@ custom_styles/panel = SubResource( 5 )
 margin_left = 2.0
 margin_top = 8.0
 margin_right = 131.0
-margin_bottom = 22.0
+margin_bottom = 23.0
 text = "Connected"
 align = 1
 
@@ -321,38 +319,50 @@ theme = ExtResource( 1 )
 custom_constants/separation = 6
 
 [node name="Queue" type="Button" parent="MenuPane/Options"]
-margin_right = 152.0
-margin_bottom = 23.0
+margin_right = 150.0
+margin_bottom = 16.0
 text = "Queue Match"
 
 [node name="Builder" type="Button" parent="MenuPane/Options"]
-margin_top = 29.0
-margin_right = 152.0
-margin_bottom = 52.0
+margin_top = 22.0
+margin_right = 150.0
+margin_bottom = 38.0
 text = "Set Builder"
 
 [node name="Browse" type="Button" parent="MenuPane/Options"]
-margin_top = 58.0
-margin_right = 152.0
-margin_bottom = 81.0
+margin_top = 44.0
+margin_right = 150.0
+margin_bottom = 60.0
 text = "Browse Cards"
 
 [node name="Potions" type="Button" parent="MenuPane/Options"]
-margin_top = 87.0
-margin_right = 152.0
-margin_bottom = 110.0
+margin_top = 66.0
+margin_right = 150.0
+margin_bottom = 82.0
 text = "Get Potions"
 
 [node name="CardPacks" type="Button" parent="MenuPane/Options"]
-margin_top = 116.0
-margin_right = 152.0
-margin_bottom = 139.0
+margin_top = 88.0
+margin_right = 150.0
+margin_bottom = 104.0
 text = "Get Card Packs"
 
+[node name="Tokens" type="Button" parent="MenuPane/Options"]
+margin_top = 110.0
+margin_right = 150.0
+margin_bottom = 126.0
+text = "Get Tokens"
+
+[node name="PostOffer" type="Button" parent="MenuPane/Options"]
+margin_top = 132.0
+margin_right = 150.0
+margin_bottom = 148.0
+text = "Post Offer"
+
 [node name="Settings" type="Button" parent="MenuPane/Options"]
-margin_top = 145.0
-margin_right = 152.0
-margin_bottom = 168.0
+margin_top = 154.0
+margin_right = 150.0
+margin_bottom = 170.0
 text = "Settings"
 
 [node name="Address" type="VBoxContainer" parent="MenuPane"]
@@ -363,14 +373,14 @@ alignment = 1
 
 [node name="XCH" type="Label" parent="MenuPane/Address"]
 margin_right = 1600.0
-margin_bottom = 14.0
+margin_bottom = 15.0
 text = "XCH:xch1rdatypul5c642jkeh4yp933zu3hw8vv8tfup8ta6zfampnyhjnusxdgns6"
 align = 1
 
 [node name="DID" type="Label" parent="MenuPane/Address"]
-margin_top = 18.0
+margin_top = 19.0
 margin_right = 1600.0
-margin_bottom = 32.0
+margin_bottom = 34.0
 text = "did:chia:19qf3g9876t0rkq7tfdkc28cxfy424yzanea29rkzylq89kped9hq3q7wd2"
 align = 1
 
